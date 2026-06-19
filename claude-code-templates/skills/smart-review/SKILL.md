@@ -25,9 +25,10 @@ Use this decision table:
 | Auth / identity / access | `security-reviewer` + `staff-engineer` + `domain-expert` |
 | API design | `staff-engineer` + `product-reviewer` + `security-reviewer` |
 | Infrastructure / config | `staff-engineer` + `security-reviewer` + `domain-expert` |
-| Code implementation | `staff-engineer` + `security-reviewer` + (domain-expert if relevant) |
+| Code implementation | `staff-engineer` + `test-reviewer` + (`security-reviewer` or `domain-expert`, whichever is more relevant) |
 | Data model / schema | `staff-engineer` + `domain-expert` + `security-reviewer` |
 | UI / UX / frontend | `staff-engineer` + `design-reviewer` + `product-reviewer` |
+| Test suite / test-only changes | `test-reviewer` + `staff-engineer` |
 | Runbook / ops doc | `staff-engineer` + `domain-expert` |
 | General / unclear | `staff-engineer` + `security-reviewer` |
 

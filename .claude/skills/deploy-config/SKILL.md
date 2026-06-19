@@ -18,6 +18,7 @@ The one rule that matters more than any other: **never silently overwrite a file
 | `claude-code-templates/skills/*/SKILL.md` | `~/.claude/skills/*/SKILL.md` | Whole-file, ask on conflict |
 | `claude-code-templates/agents/*.md` | `~/.claude/agents/*.md` | Whole-file, ask on conflict |
 | `claude-code-templates/statusline.sh` | `~/.claude/statusline.sh` | Whole-file, ask on conflict; `chmod +x` after writing |
+| `claude-code-templates/hooks/*.sh` | `~/.claude/hooks/*.sh` | Whole-file, ask on conflict; `chmod +x` after writing |
 
 ## Step 1: Read before writing anything
 
@@ -40,7 +41,7 @@ If there are zero conflicts, skip this step. Otherwise, show the user every conf
 
 ## Step 4: Write
 
-Apply missing additions, the merges from step 2, and whatever the user decided in step 3. Create `~/.claude/skills/` and `~/.claude/agents/` directories if they don't exist yet.
+Apply missing additions, the merges from step 2, and whatever the user decided in step 3. Create `~/.claude/skills/`, `~/.claude/agents/`, and `~/.claude/hooks/` directories if they don't exist yet.
 
 ## Step 5: Report
 
