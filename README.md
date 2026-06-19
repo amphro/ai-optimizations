@@ -10,8 +10,8 @@ This repo is where that research lives, plus the config it produced, so none of 
 
 ## What's in here
 
-- **`research/`** Notes on the current AI model landscape, multi-agent orchestration patterns, prompting and context engineering best practices, and Claude Code setup specifics. Each file is dated. Treat it as a snapshot, not gospel, since this stuff moves fast.
-- **`claude-code-templates/`** The actual starting point: a `settings.json`, a `CLAUDE.md`, a handful of reviewer subagents (staff engineer, security, product, design, a Cloudflare specialist, a generic domain expert), and two skills (`smart-review` for multi-perspective review, `claudemd-conventions` for keeping CLAUDE.md files lean). These are generic on purpose, nothing in here is specific to any one project or person.
+- **`research/`** Notes on the current AI model landscape, multi-agent orchestration patterns, prompting and context engineering best practices, Claude Code setup specifics, and what's actually possible around checking usage-limit visibility. Each file is dated. Treat it as a snapshot, not gospel, since this stuff moves fast.
+- **`claude-code-templates/`** The actual starting point: a `settings.json`, a `CLAUDE.md`, a status line script (model, git branch, context %, cost, and 5-hour/weekly plan usage), a handful of reviewer subagents (staff engineer, security, product, design, a Cloudflare specialist, a generic domain expert), and two skills (`smart-review` for multi-perspective review, `claudemd-conventions` for keeping CLAUDE.md files lean). These are generic on purpose, nothing in here is specific to any one project or person.
 - **`.claude/skills/`** Three skills for maintaining this repo itself (see below).
 
 ## The three maintenance skills
@@ -34,3 +34,12 @@ These run inside this repo, not as part of your global Claude Code setup.
 ## A note on the research
 
 Everything in `research/` reflects a point in time (check the "Last updated" line at the top of each file). AI moves fast enough that specific model names, prices, and feature names will drift. Treat the patterns and reasoning as the durable part, and verify specific facts against official docs before relying on them.
+
+## See also
+
+This repo is intentionally small: research notes paired with a closed loop that keeps the deployable config honest against that research. If you want more breadth than that, a couple of other projects are worth knowing about:
+
+- [awesome-claude-code](https://github.com/hesreallyhim/awesome-claude-code) is the go-to curated directory for Claude Code resources (hooks, MCP servers, slash commands, agent collections, and more) if you want options beyond what's here.
+- [my-claude-code-setup](https://github.com/centminmod/my-claude-code-setup) has a nice multi-file CLAUDE.md "memory bank" pattern (separate files for decisions, patterns, and troubleshooting) worth a look if a single CLAUDE.md isn't enough for your project.
+
+(Side note: there's also a popular CLI tool called `claude-code-templates` by davila7 with a name very close to this repo's `claude-code-templates/` folder. Different project, just flagging the collision so you don't end up somewhere else by mistake.)

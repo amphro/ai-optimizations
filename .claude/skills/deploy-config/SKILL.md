@@ -17,6 +17,7 @@ The one rule that matters more than any other: **never silently overwrite a file
 | `claude-code-templates/user-CLAUDE.md` | `~/.claude/CLAUDE.md` | Section-by-section merge |
 | `claude-code-templates/skills/*/SKILL.md` | `~/.claude/skills/*/SKILL.md` | Whole-file, ask on conflict |
 | `claude-code-templates/agents/*.md` | `~/.claude/agents/*.md` | Whole-file, ask on conflict |
+| `claude-code-templates/statusline.sh` | `~/.claude/statusline.sh` | Whole-file, ask on conflict; `chmod +x` after writing |
 
 ## Step 1: Read before writing anything
 

@@ -7,6 +7,10 @@
   "autoDreamEnabled": true,
   "fileCheckpointingEnabled": true,
   "advisorModel": "claude-opus-4-8",
+  "statusLine": {
+    "type": "command",
+    "command": "~/.claude/statusline.sh"
+  },
   "permissions": {
     "deny": [
       "Read(.env)",
