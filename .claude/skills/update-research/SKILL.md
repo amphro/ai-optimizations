@@ -20,6 +20,7 @@ For each file, search the web for updates on its topic:
 - `research/claude-code-setup.md` — current Claude Code model aliases, effort levels, settings.json options
 - `research/hooks.md` — new hook event types, changed JSON schemas, new community patterns worth noting
 - `research/usage-limit-visibility.md` — any new official way to check usage limits
+- `research/writing-voice-personas.md` — new style/persona features from Claude, ChatGPT, or other tools; new community consensus on AI writing tells
 
 Prefer official docs and primary sources over blog posts or aggregators.
 
