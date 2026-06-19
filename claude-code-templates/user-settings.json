@@ -11,6 +11,24 @@
     "type": "command",
     "command": "~/.claude/statusline.sh"
   },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Read|Edit|Write|MultiEdit|Bash",
+        "hooks": [
+          { "type": "command", "command": "~/.claude/hooks/protect-secrets.sh" }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "matcher": "",
+        "hooks": [
+          { "type": "command", "command": "~/.claude/hooks/session-start-context.sh" }
+        ]
+      }
+    ]
+  },
   "permissions": {
     "deny": [
       "Read(.env)",

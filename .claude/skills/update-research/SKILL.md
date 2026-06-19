@@ -18,8 +18,12 @@ For each file, search the web for updates on its topic:
 - `research/orchestration-patterns.md` — new multi-agent or orchestration guidance from Anthropic
 - `research/best-practices.md` — updated prompting/context engineering guidance, new Claude-specific tips
 - `research/claude-code-setup.md` — current Claude Code model aliases, effort levels, settings.json options
+- `research/hooks.md` — new hook event types, changed JSON schemas, new community patterns worth noting
+- `research/usage-limit-visibility.md` — any new official way to check usage limits
 
 Prefer official docs and primary sources over blog posts or aggregators.
+
+`research/skill-authoring-best-practices.md` is the exception: its authoritative source is the locally bundled `skill-creator` and `plugin-dev` `skill-development` SKILL.md files (under `~/.claude/plugins/marketplaces/`), not the web. Re-read those directly and diff against what this file says, rather than web searching.
 
 ## Step 3: Diff against the file
 
