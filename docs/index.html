@@ -100,7 +100,7 @@
           <span class="emoji" aria-hidden="true">💼</span> Young Professional
         </button>
         <button class="persona-tab" id="tab-biz" data-persona="biz" onclick="switchPersona('biz')" role="tab" aria-controls="persona-biz" aria-selected="false">
-          <span class="emoji" aria-hidden="true">🏗️</span> Engineering Manager
+          <span class="emoji" aria-hidden="true">🏪</span> Small Business Owner
         </button>
         <button class="persona-tab" id="tab-eng" data-persona="eng" onclick="switchPersona('eng')" role="tab" aria-controls="persona-eng" aria-selected="false">
           <span class="emoji" aria-hidden="true">⚙️</span> Engineer
@@ -169,37 +169,31 @@
       </div>
     </div>
 
-    <!-- Engineering Manager -->
+    <!-- Small Business Owner -->
     <div id="persona-biz" class="persona-panel" role="tabpanel" aria-labelledby="tab-biz" tabindex="0">
       <div class="guide-card">
-        <p class="guide-intro">For you if you manage a software team and want to understand what your developers are using and what a good setup looks like.</p>
+        <p class="guide-intro">For you if you run your own business: an LLC, a trade, a side hustle, an online store, a personal brand. You may not write code, but AI is already relevant to you.</p>
         <div class="guide-q">
           <h3>What is AI?</h3>
-          <p>AI tools that generate code, review pull requests, write documentation, and assist with technical decisions are now a standard part of many developers' workflows. Like any tool, the value they deliver depends on how they are configured and used. The gap between a poorly configured setup and a well-tuned one shows up in code quality, review cycle length, and time spent correcting output.</p>
+          <p>AI is software that can read, write, and reason. For a business owner, the practical question is not how it works but what it can do for you. It can write product descriptions, draft customer emails in your voice, help you think through pricing, summarize a contract you received, create captions for your posts, or research a competitor. It is available any time, does not call in sick, and costs a fraction of what you would pay someone to do the same tasks.</p>
         </div>
         <div class="guide-q">
           <h3>What is Claude?</h3>
-          <p>Claude is an AI assistant made by Anthropic, widely used by software developers for coding tasks. It is strong at reasoning through complex problems, writing clear documentation, and reviewing code for issues. Many engineering teams have adopted it as a day-to-day productivity tool.</p>
+          <p>Claude is an AI assistant made by a company called Anthropic. Many business owners use it for writing, research, and thinking through decisions. A plumber can use it to write professional follow-up emails. An Amazon seller can use it to draft listing copy. An influencer can use it to brainstorm content. A consultant can use it to prep for a client meeting. It is free to try at <a href="https://claude.ai" target="_blank" rel="noopener">claude.ai</a>, no sign-up required to start.</p>
         </div>
         <div class="guide-q">
           <h3>What is Claude Code?</h3>
-          <p>Claude Code is Claude's coding interface: a command-line tool that developers run in their terminal. It can read codebases, write and fix code, run tests, and open pull requests. Used well, it meaningfully reduces the time between "problem identified" and "fix shipped." It executes multi-step tasks with minimal supervision, which is what separates it from a simple autocomplete tool.</p>
+          <p>Claude Code is a version of Claude built for software developers. If you have a developer who works on your website, app, or internal tools, this is something they might use. You do not need to use it yourself. But if a developer works for you or does work for you, a well-configured Claude Code setup means they build faster, make fewer mistakes, and have safety guardrails built in.</p>
         </div>
         <div class="guide-q">
           <h3>Why does setup matter?</h3>
-          <p>An AI tool without configuration is like a new hire without onboarding. Technically capable, but not aligned with how your team works. A well-configured Claude Code setup defines coding standards, security guardrails, and review criteria up front. It includes safety features too: a hook that blocks the AI from reading or writing sensitive files like <code>.env</code> password files. Without this, developers are responsible for catching every misstep manually.</p>
+          <p>An AI that knows your business works much better than a generic one. If Claude knows you run a landscaping company in Austin, that your customers are homeowners aged 35 to 60, and that you always respond within 24 hours, it gives you far better output than if it has to guess every time. The same principle applies to your developer: a configured Claude Code setup means the AI already knows your project's rules before the first line of code.</p>
         </div>
         <div class="guide-q">
           <h3>What does this toolkit do?</h3>
-          <p>This toolkit gives your developers a ready-made, research-backed Claude Code configuration. It includes:</p>
-          <ul>
-            <li>A configuration file that encodes team standards and behavioral guardrails</li>
-            <li>Secrets protection that blocks access to sensitive files automatically</li>
-            <li>Code review agents for quality, security, product thinking, and test coverage</li>
-            <li>A maintenance loop that keeps the setup current as AI tools evolve</li>
-          </ul>
-          <p>It can be deployed in minutes and works across all your team's projects once installed.</p>
-          <p class="panel-note">Want your team to try it? Send them the <a href="https://github.com/amphro/ai-optimizations" target="_blank" rel="noopener">GitHub link</a> and ask them to run the <code>deploy-config</code> skill.</p>
+          <p>For you personally, Claude at <a href="https://claude.ai" target="_blank" rel="noopener">claude.ai</a> is the most direct starting point. Try it free and see what it can take off your plate.</p>
+          <p>This toolkit is for developers using Claude Code. If you have a developer, sharing this page with them is a straightforward way to help them get more out of the tool they are probably already using.</p>
+          <p class="panel-note">Start here: <a href="https://claude.ai" target="_blank" rel="noopener">claude.ai</a> is free and takes about two minutes to get going. If you have a developer, pass them the <a href="https://github.com/amphro/ai-optimizations" target="_blank" rel="noopener">GitHub link</a> too.</p>
         </div>
       </div>
     </div>
