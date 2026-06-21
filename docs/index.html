@@ -169,15 +169,15 @@
         </div>
         <div class="guide-q">
           <h3>What is an LLM?</h3>
-          <p>A model trained to predict the next token given a sequence of prior tokens, scaled up until it generalizes. The training happens in two phases: first on a huge corpus of text (this builds general knowledge and language ability), then on curated examples with human feedback to shape it toward helpful, safe behavior. After that, weights are fixed. The model you talk to is a static artifact — it cannot update itself from your conversation.</p>
+          <p>A model trained to predict the next token given a sequence of prior tokens, scaled up until it generalizes. The training happens in two phases: first on a huge corpus of text (this builds general knowledge and language ability), then on curated examples with human feedback to shape it toward helpful, safe behavior. After that, weights are fixed. The model you talk to is a static artifact. It cannot update itself from your conversation.</p>
         </div>
         <div class="guide-q">
           <h3>How does it learn?</h3>
-          <p>It does not learn during use — all learning happened before deployment. Pre-training built the knowledge and language capability. A second phase (fine-tuning) shaped the behavior: how it follows instructions, how it declines requests, what tone it uses. The fine-tuning does not add new world knowledge, it just changes how the model behaves. After that the weights are frozen, and what you see is what you get.</p>
+          <p>It does not learn during use. All learning happened before deployment. Pre-training built the knowledge and language capability. A second phase (fine-tuning) shaped the behavior: how it follows instructions, how it declines requests, what tone it uses. The fine-tuning does not add new world knowledge, it just changes how the model behaves. After that the weights are frozen, and what you see is what you get.</p>
         </div>
         <div class="guide-q">
           <h3>What can you use it for?</h3>
-          <p>Code generation, review, and refactoring. Writing and running tests. Documentation. Research synthesis. Agentic automation with tool use. The practical ceiling is context window size and how reliably the model catches its own errors — not the breadth of tasks it can attempt.</p>
+          <p>Code generation, review, and refactoring. Writing and running tests. Documentation. Research synthesis. Agentic automation with tool use. The practical ceiling is context window size and how reliably the model catches its own errors, not the breadth of tasks it can attempt.</p>
         </div>
       </div>
     </div>
@@ -288,11 +288,11 @@
       <div class="terms-grid">
         <div class="term-card"><h3>Prompt</h3><p>The input passed to the model at inference time: user message, tool schemas, results, prior turns, injected context. Output quality is primarily a function of prompt quality.</p></div>
         <div class="term-card"><h3>Model</h3><p>A specific checkpoint with fixed weights. "Claude Sonnet 4.6" refers to a specific trained artifact. Selection involves capability, context window, cost-per-token, and rate limit trade-offs.</p></div>
-        <div class="term-card"><h3>Token</h3><p>The unit models use to process text — roughly ¾ of an English word on average, but it varies by language and content. Token count determines cost and whether your input fits in the context window.</p></div>
+        <div class="term-card"><h3>Token</h3><p>The unit models use to process text (roughly ¾ of an English word on average, varying by language and content). Token count determines cost and whether your input fits in the context window.</p></div>
         <div class="term-card"><h3>Context Window</h3><p>Full input sequence visible at inference: system prompt, conversation history, tool results, retrieved docs. Frontier models range from ~128k up to 1M tokens. Long-context performance can degrade for content in the middle of very long inputs, a documented tendency and not a universal guarantee.</p></div>
         <div class="term-card"><h3>System Prompt</h3><p>Privileged instruction prefix injected before the user turn. In Claude Code, composed from global CLAUDE.md, project CLAUDE.md, active skills, and hook injections. Defines persona, constraints, available tools, and workflow rules.</p></div>
         <div class="term-card"><h3>Agent</h3><p>A model in an agentic loop with tool use: perceive state → plan → act → observe → repeat. Key concerns: tool schema quality, error handling, context consumption per iteration, and human escape hatches.</p></div>
-        <div class="term-card"><h3>Fine-tuning</h3><p>Continued training on curated data to shift model behavior or specialize it for a domain. Use when prompt engineering and retrieval have both hit their ceiling. Requires data, compute, and a real evaluation setup — not worth the overhead until you have exhausted cheaper approaches.</p></div>
+        <div class="term-card"><h3>Fine-tuning</h3><p>Continued training on curated data to shift model behavior or specialize it for a domain. Use when prompt engineering and retrieval have both hit their ceiling. Requires data, compute, and a real evaluation setup. Not worth the overhead until you have exhausted cheaper approaches.</p></div>
         <div class="term-card"><h3>RAG</h3><p>Retrieval-Augmented Generation. Augmenting inference context with documents retrieved from an external store via semantic similarity or keyword search. Trade-off: relevant context vs. prompt size, retrieval latency, chunking quality.</p></div>
         <div class="term-card"><h3>API</h3><p>HTTP endpoint (or SDK wrapper) for model inference. Key parameters: model, messages array, system prompt, max_tokens, temperature, tool definitions. Batching, streaming, and tool use are first-class features. Rate limits and cost tracking matter at scale.</p></div>
       </div>
