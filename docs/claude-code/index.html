@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Claude Code — AI Toolkit</title>
+  <meta name="description" content="A researched, maintained config toolkit for Claude Code: settings, hooks, subagents, skills, and a loop to keep it all from going stale." />
+  <meta property="og:title" content="Claude Code — AI Toolkit" />
+  <meta property="og:description" content="A researched, maintained config toolkit for Claude Code: settings, hooks, subagents, skills, and a loop to keep it all from going stale." />
+  <meta property="og:url" content="https://amphro.github.io/ai-optimizations/claude-code/" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary" />
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+
+<!-- Nav -->
+<nav>
+  <div class="nav-inner">
+    <a class="nav-logo" href="../index.html">AI <span>Toolkit</span></a>
+    <div class="nav-links">
+      <a href="../index.html" class="nav-link-hide">Home</a>
+      <span class="nav-link-active nav-link-hide">Claude Code</span>
+      <a href="https://github.com/amphro/ai-optimizations" class="nav-cta" target="_blank" rel="noopener">View on GitHub</a>
+    </div>
+  </div>
+</nav>
+
+<main>
+
+<!-- Hero -->
+<section id="hero">
+  <div class="container">
+    <div class="hero-inner">
+      <div>
+        <div class="hero-badge">Claude-generated, human-verified</div>
+        <h1>A Claude Code setup that stays <em>useful over time</em></h1>
+        <p class="lead">
+          AI tools change fast. Most people either skip configuring them, or redo the research every few months. This toolkit captures what works, packages it as deployable config, and gives you a loop to keep it current.
+        </p>
+        <div class="hero-actions">
+          <a href="https://github.com/amphro/ai-optimizations" class="btn-primary" target="_blank" rel="noopener">
+            Get the Toolkit ↗
+          </a>
+          <a href="#guide" class="btn-secondary">
+            New to AI? Start here
+          </a>
+        </div>
+        <p class="hero-note">
+          Everything here is research-backed and openly available. <a href="https://github.com/amphro/ai-optimizations" target="_blank" rel="noopener">View the research on GitHub.</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Why -->
+<section id="why">
+  <div class="container">
+    <div class="section-header">
+      <span class="label">Why this exists</span>
+      <h2>The problem with most AI setups</h2>
+    </div>
+    <div class="why-grid">
+      <div class="why-card">
+        <div class="why-icon" aria-hidden="true">📉</div>
+        <h3>Config goes stale</h3>
+        <p>AI models update frequently. The best settings from six months ago may not be the best settings today. Without a maintenance loop, your setup quietly falls behind.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon" aria-hidden="true">🔁</div>
+        <h3>Research gets re-done</h3>
+        <p>Figuring out the right CLAUDE.md, which subagents to use, and how to write useful hooks takes real time. Without a record of that work, it disappears the next time you set up a machine.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon" aria-hidden="true">🎯</div>
+        <h3>Default settings under-deliver</h3>
+        <p>Out of the box, Claude Code works fine. With a well-researched configuration, it works dramatically better. The gap is not small.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Guide -->
+<section id="guide">
+  <!-- Sticky persona bar: appears when in-page picker scrolls off -->
+  <div id="learn-sticky" class="learn-persona-sticky" aria-hidden="true">
+    <div class="sticky-desktop">
+      <div class="learn-persona-inner">
+        <span class="sticky-label">Reading as:</span>
+        <select id="persona-select" class="nav-persona-select" onchange="switchPersona(this.value)" aria-label="Switch reading level">
+          <option value="7yo">🧒 7-Year-Old</option>
+          <option value="elderly">☕ New to This</option>
+          <option value="pro">💼 Professional</option>
+          <option value="biz">🏪 Business Owner</option>
+          <option value="eng">⚙️ Engineer</option>
+          <option value="ux">🎨 Product / UX</option>
+        </select>
+        <span id="sticky-description" class="sticky-description" aria-live="polite"></span>
+      </div>
+    </div>
+    <div class="sticky-mobile">
+      <div class="persona-tabs persona-tabs-scroll" role="tablist" aria-label="Switch reading level">
+        <button class="persona-tab" data-persona="7yo" role="tab" aria-selected="true" tabindex="0" onclick="switchPersona('7yo')"><span class="emoji" aria-hidden="true">🧒</span><span class="tab-label">7-Year-Old</span></button>
+        <button class="persona-tab" data-persona="elderly" role="tab" aria-selected="false" tabindex="-1" onclick="switchPersona('elderly')"><span class="emoji" aria-hidden="true">☕</span><span class="tab-label">New to This</span></button>
+        <button class="persona-tab" data-persona="pro" role="tab" aria-selected="false" tabindex="-1" onclick="switchPersona('pro')"><span class="emoji" aria-hidden="true">💼</span><span class="tab-label">Professional</span></button>
+        <button class="persona-tab" data-persona="biz" role="tab" aria-selected="false" tabindex="-1" onclick="switchPersona('biz')"><span class="emoji" aria-hidden="true">🏪</span><span class="tab-label">Business Owner</span></button>
+        <button class="persona-tab" data-persona="eng" role="tab" aria-selected="false" tabindex="-1" onclick="switchPersona('eng')"><span class="emoji" aria-hidden="true">⚙️</span><span class="tab-label">Engineer</span></button>
+        <button class="persona-tab" data-persona="ux" role="tab" aria-selected="false" tabindex="-1" onclick="switchPersona('ux')"><span class="emoji" aria-hidden="true">🎨</span><span class="tab-label">Product / UX</span></button>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="section-header">
+      <span class="label">Plain English Guide</span>
+      <h2>AI and Claude Code, explained</h2>
+    </div>
+    <!-- In-page persona picker -->
+    <div class="persona-picker" id="persona-picker">
+      <p class="picker-heading">Who's reading this?</p>
+      <div class="persona-tabs" role="tablist" aria-label="Choose your reading level">
+        <button class="persona-tab" data-persona="7yo" role="tab" aria-selected="true" tabindex="0" onclick="switchPersona('7yo')"><span class="emoji" aria-hidden="true">🧒</span><span class="tab-label">7-Year-Old</span></button>
+        <button class="persona-tab" data-persona="elderly" role="tab" aria-selected="false" tabindex="-1" onclick="switchPersona('elderly')"><span class="emoji" aria-hidden="true">☕</span><span class="tab-label">New to This</span></button>
+        <button class="persona-tab" data-persona="pro" role="tab" aria-selected="false" tabindex="-1" onclick="switchPersona('pro')"><span class="emoji" aria-hidden="true">💼</span><span class="tab-label">Professional</span></button>
+        <button class="persona-tab" data-persona="biz" role="tab" aria-selected="false" tabindex="-1" onclick="switchPersona('biz')"><span class="emoji" aria-hidden="true">🏪</span><span class="tab-label">Business Owner</span></button>
+        <button class="persona-tab" data-persona="eng" role="tab" aria-selected="false" tabindex="-1" onclick="switchPersona('eng')"><span class="emoji" aria-hidden="true">⚙️</span><span class="tab-label">Engineer</span></button>
+        <button class="persona-tab" data-persona="ux" role="tab" aria-selected="false" tabindex="-1" onclick="switchPersona('ux')"><span class="emoji" aria-hidden="true">🎨</span><span class="tab-label">Product / UX</span></button>
+      </div>
+      <p id="persona-description" class="persona-description">Big ideas in small words. No confusing stuff.</p>
+    </div>
+
+
+    <!-- 7-Year-Old -->
+    <div id="guide-7yo" class="persona-panel" data-persona="7yo" role="region" aria-label="AI guide for 7-Year-Old" tabindex="0">
+      <div class="guide-card">
+        <div class="guide-q">
+          <h3>What is AI?</h3>
+          <p>AI is like a really smart helper that lives inside your computer. You ask it a question, and it gives you an answer. It read millions of books and websites so it knows a lot of stuff.</p>
+        </div>
+        <div class="guide-q">
+          <h3>What is Claude?</h3>
+          <p>Claude is the name of one of the smartest AI helpers around. A company called Anthropic made it. Claude is really good at reading, writing, and helping people think through problems.</p>
+        </div>
+        <div class="guide-q">
+          <h3>What is Claude Code?</h3>
+          <p>Some people build apps and games on computers. Claude Code is Claude helping those people write the instructions that make the apps work. It is like having a helper sit next to you while you do your homework.</p>
+        </div>
+        <div class="guide-q">
+          <h3>Why does setup matter?</h3>
+          <p>Even a smart helper works better when you give them a list of your rules and favorite things. The list tells the helper what you like, what to watch out for, and how you want things done. Without it, the helper has to guess.</p>
+        </div>
+        <div class="guide-q">
+          <h3>What does this toolkit do?</h3>
+          <p>This toolkit is a really good instructions list that someone already made for you. You do not have to figure it out yourself. You grab it and your helper gets smarter right away. And when things change, there is a way to update the instructions so they stay good.</p>
+          <p class="panel-note">This is for grown-ups who write computer programs. If someone you know builds apps or websites, tell them about it!</p>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Professional -->
+    <div id="guide-pro" class="persona-panel" data-persona="pro" role="region" aria-label="AI guide for Professional" tabindex="0">
+      <div class="guide-card">
+        <div class="guide-q">
+          <h3>What is AI?</h3>
+          <p>AI tools like the ones you have probably used (ChatGPT, Claude, Gemini) are built on large language models: LLMs trained on massive amounts of text that let them generate coherent writing, answer questions, summarize documents, and write code. The LLM is the underlying model; the product is the interface you talk to. They are useful, but they are not magic. The quality of what you get back depends a lot on how you ask and how you have set things up.</p>
+        </div>
+        <div class="guide-q">
+          <h3>What is Claude?</h3>
+          <p>Claude is Anthropic's AI assistant. It is widely considered one of the best for writing, reasoning, and coding tasks. Anthropic is a safety-focused AI company, which means Claude is designed to be helpful without being reckless. If you have ever used Claude.ai, you have already met it.</p>
+        </div>
+        <div class="guide-q">
+          <h3>What is Claude Code?</h3>
+          <p>Claude Code is Claude's coding-specific interface, a tool you run in a terminal that can read your files, run commands, and help build software. It does more than chat. It can actually do things: write a function, fix a bug, run tests, open pull requests. Think of it as a coding assistant with hands.</p>
+        </div>
+        <div class="guide-q">
+          <h3>Why does setup matter?</h3>
+          <p>Claude Code works without any configuration. It also works dramatically better with it. A configuration file called <strong>CLAUDE.md</strong> tells Claude how to behave in your projects: what rules to follow, what style to use, what to avoid. Hooks can block bad actions (like accidentally reading a passwords file) and inject useful context at the start of each session. Without this setup, you are leaving most of the tool's capability on the table.</p>
+        </div>
+        <div class="guide-q">
+          <h3>What does this toolkit do?</h3>
+          <p>This toolkit gives you a ready-made, researched configuration for Claude Code: the CLAUDE.md, settings, safety hooks, and reviewer agents that took real time to figure out. It also includes a maintenance system: three commands that check whether anything has changed, update the config to match, and deploy it to your machine. The goal is that you do not have to redo this work every time models or tools change.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Business Owner -->
+    <div id="guide-biz" class="persona-panel" data-persona="biz" role="region" aria-label="AI guide for Business Owner" tabindex="0">
+      <div class="guide-card">
+        <div class="guide-q">
+          <h3>What is AI?</h3>
+          <p>AI is software that can read, write, and reason. For a business owner, the practical question is not how it works but what it can do for you. It can write product descriptions, draft customer emails in your voice, help you think through pricing, summarize a contract you received, create captions for your posts, or research a competitor. It is available any time, does not call in sick, and costs a fraction of what you would pay someone to do the same tasks.</p>
+        </div>
+        <div class="guide-q">
+          <h3>What is Claude?</h3>
+          <p>Claude is an AI assistant made by a company called Anthropic. Many business owners use it for writing, research, and thinking through decisions. A plumber can use it to write professional follow-up emails. An Amazon seller can use it to draft listing copy. An influencer can use it to brainstorm content. A consultant can use it to prep for a client meeting. It is free to start at <a href="https://claude.ai" target="_blank" rel="noopener">claude.ai</a> (an account is required).</p>
+        </div>
+        <div class="guide-q">
+          <h3>What is Claude Code?</h3>
+          <p>Claude Code is a version of Claude built for software developers. If you have a developer who works on your website, app, or internal tools, this is something they might use. You do not need to use it yourself. But if a developer works for you or does work for you, a well-configured Claude Code setup means they build faster, make fewer mistakes, and have safety guardrails built in.</p>
+        </div>
+        <div class="guide-q">
+          <h3>Why does setup matter?</h3>
+          <p>An AI that knows your business works much better than a generic one. If Claude knows you run a landscaping company in Austin, that your customers are homeowners aged 35 to 60, and that you always respond within 24 hours, it gives you far better output than if it has to guess every time. The same principle applies to your developer: a configured Claude Code setup means the AI already knows your project's rules before the first line of code.</p>
+        </div>
+        <div class="guide-q">
+          <h3>What does this toolkit do?</h3>
+          <p>For you personally, Claude at <a href="https://claude.ai" target="_blank" rel="noopener">claude.ai</a> is the most direct starting point. Try it free and see what it can take off your plate.</p>
+          <p>This toolkit is for developers using Claude Code. If you have a developer, sharing this page with them is a straightforward way to help them get more out of the tool they are probably already using.</p>
+          <p class="panel-note">Start here: <a href="https://claude.ai" target="_blank" rel="noopener">claude.ai</a> is free and takes about two minutes to get going. If you have a developer, pass them the <a href="https://github.com/amphro/ai-optimizations" target="_blank" rel="noopener">GitHub link</a> too.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Engineer -->
+    <div id="guide-eng" class="persona-panel" data-persona="eng" role="region" aria-label="AI guide for Engineer" tabindex="0">
+      <div class="guide-card">
+        <div class="guide-q">
+          <h3>What is AI (in this context)?</h3>
+          <p>A model trained on text, then shaped via human feedback to follow instructions helpfully and safely. For practical purposes: a stateless system with a context window, fixed weights, and no persistent memory between sessions. What you put in the context determines what you get out. Within a given model family, prompt engineering and scaffolding often matter more than raw model selection. A well-configured setup consistently outperforms a default one on real coding tasks.</p>
+        </div>
+        <div class="guide-q">
+          <h3>What is Claude?</h3>
+          <p>Anthropic's model family, currently strongest on coding benchmarks and extended reasoning tasks. Claude has a large context window, strong instruction following, and built-in tool use. The Claude 4.x family (Sonnet 4.6, Opus 4.8) is the current production line. Claude Code uses Sonnet by default with configurable model aliases (<code>opusplan</code> for planning, etc.).</p>
+        </div>
+        <div class="guide-q">
+          <h3>What is Claude Code?</h3>
+          <p>An agentic CLI built on Claude. Key primitives: <strong>CLAUDE.md</strong> (injected into system context per-project and globally), <strong>skills</strong> (on-demand loaded instruction sets, invoked by description match), <strong>hooks</strong> (shell scripts that fire on PreToolUse / PostToolUse / SessionStart), <strong>subagents</strong> (spawnable sub-Claude instances with their own tools), and <strong>MCP</strong> (tool extension protocol). The system prompt is composable and additive: global CLAUDE.md, project CLAUDE.md, skills, and session injections all layer together.</p>
+        </div>
+        <div class="guide-q">
+          <h3>Why does setup matter?</h3>
+          <p>Default Claude Code is heavily under-specified. CLAUDE.md is where you encode project conventions, non-obvious constraints, and behavioral rules that would otherwise require repeated prompting. Hooks enable deterministic guardrails (blocking reads/writes of secret files, injecting git context) that no amount of prompting can replace. Skills defer domain knowledge out of the base context until it is needed, keeping the system prompt lean. The compounding effect of these layers is significant.</p>
+        </div>
+        <div class="guide-q">
+          <h3>What does this toolkit include?</h3>
+          <ul>
+            <li><strong>settings.json:</strong> model alias, effort level, advisor model, statusline, hook wiring, permission allow/deny list</li>
+            <li><strong>CLAUDE.md:</strong> CLAUDE.md quality rules, workflow defaults, verification steps, context hygiene, writing voice</li>
+            <li><strong>protect-secrets.sh:</strong> PreToolUse hook that blocks Read/Write/Bash on .env, SSH keys, AWS credentials, .pem files</li>
+            <li><strong>session-start-context.sh:</strong> SessionStart hook that injects current git branch and working-tree status</li>
+            <li><strong>Reviewer subagents:</strong> staff-engineer, security, product, design, test-quality, cloudflare-expert, domain-expert</li>
+            <li><strong>Skills:</strong> smart-review, claudemd-conventions, audit-claudemd, mine-session-skills, writing-voice</li>
+            <li><strong>Maintenance loop:</strong> update-research (web-verified snapshot refresh), update-templates (applies research to config), deploy-config (idempotent merge to ~/.claude/)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Product / UX -->
+    <div id="guide-ux" class="persona-panel" data-persona="ux" role="region" aria-label="AI guide for Product / UX" tabindex="0">
+      <div class="guide-card">
+        <div class="guide-q">
+          <h3>What is AI?</h3>
+          <p>At a practical level, AI tools like Claude take input (a prompt, a document, a codebase) and generate useful output. They are typically non-deterministic. The same input can produce different results depending on sampling settings. That makes them powerful and unpredictable in equal measure. Good configuration is what narrows the unpredictability into something useful and consistent.</p>
+        </div>
+        <div class="guide-q">
+          <h3>What is Claude?</h3>
+          <p>Claude is Anthropic's AI assistant, one of the highest quality available right now, particularly for writing and reasoning. What sets it apart is that it tends to be thoughtful about output quality, not only output volume. It is less likely to confidently produce wrong answers, and more likely to flag uncertainty. That matters for any work where accuracy counts.</p>
+        </div>
+        <div class="guide-q">
+          <h3>What is Claude Code?</h3>
+          <p>Claude Code is the developer-facing interface: a tool that lets Claude actually interact with a codebase, run commands, and produce working software. For product teams, this means the tool your developers use has a direct impact on how fast features ship, how consistent the code quality is, and how often things break in unexpected ways. The interface shapes the output.</p>
+        </div>
+        <div class="guide-q">
+          <h3>Why does setup matter?</h3>
+          <p>An unconfigured AI tool is like an unconfigured design system. The components exist, but without documented principles and patterns, every developer uses them differently and the results are inconsistent. A well-set-up Claude Code environment defines quality standards, review criteria, and behavioral guardrails in a shared, editable file. It is opinionated by design, which is what makes it reliable.</p>
+        </div>
+        <div class="guide-q">
+          <h3>What does this toolkit do?</h3>
+          <p>Think of it as a design system for AI-assisted development. Instead of every developer figuring out how to configure Claude Code on their own, this toolkit provides a shared foundation:</p>
+          <ul>
+            <li>Behavioral rules that define what the AI should and should not do</li>
+            <li>Automated review agents for code quality, security, UX, and product thinking</li>
+            <li>Safety guardrails that prevent common errors before they happen</li>
+            <li>A process for updating the system as AI tools evolve</li>
+          </ul>
+          <p>The result is more predictable output and faster iteration, because the AI is working from a shared set of principles rather than guessing at them each time.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- One Step at a Time -->
+    <div id="guide-elderly" class="persona-panel" data-persona="elderly" role="region" aria-label="AI guide for One Step at a Time" tabindex="0">
+      <div class="guide-card">
+        <div class="guide-q">
+          <h3>What is AI?</h3>
+          <p>AI stands for "artificial intelligence." It is a type of computer program that has been trained on a huge amount of writing: books, websites, articles. It uses that training to understand questions and write helpful answers. You type something to it, and it types back. It is not a person. It does not think the way you do. But it can be very helpful for many tasks, like answering questions, helping with writing, or working through a problem step by step.</p>
+        </div>
+        <div class="guide-q">
+          <h3>What is Claude?</h3>
+          <p>Claude is the name of a particular AI assistant, made by a company called Anthropic. Many AI assistants exist. You may have heard of ChatGPT, which is a different one. Claude is known for giving careful, thoughtful answers. You can use it on a website called <a href="https://claude.ai" target="_blank" rel="noopener">claude.ai</a>, much like you would visit any other website.</p>
+        </div>
+        <div class="guide-q">
+          <h3>What is Claude Code?</h3>
+          <p>Some people use computers to write programs: the instructions that make apps, websites, and games work. Claude Code is a version of Claude that helps those people. If you write programs yourself, this toolkit is for you directly. If not, it may be useful to someone you know who does.</p>
+        </div>
+        <div class="guide-q">
+          <h3>Why does setup matter?</h3>
+          <p>Like any tool, an AI assistant works better once it is set up for how you use it. Think of it like a new phone or a new appliance: out of the box it works, but once you configure your preferences, it fits your life much better. Setting up Claude Code is like giving it that orientation: a file that explains your rules, preferences, and things to watch out for. Without it, the AI has to guess, and it will sometimes guess wrong.</p>
+        </div>
+        <div class="guide-q">
+          <h3>What does this toolkit do?</h3>
+          <p>This toolkit is a ready-made "good setup" for Claude Code. Someone spent time figuring out the best way to configure it, wrote it all down, and made it available for free. The setup includes:</p>
+          <ul>
+            <li>A file that tells Claude Code how to behave</li>
+            <li>Safety features that stop it from touching sensitive information by accident</li>
+            <li>Helper assistants that review work for quality and accuracy</li>
+            <li>A way to keep the setup current as things change</li>
+          </ul>
+          <p class="panel-note">If this is for you: the <a href="https://github.com/amphro/ai-optimizations" target="_blank" rel="noopener">GitHub page</a> has everything you need to get started. If you prefer, share it with a developer you trust and ask them to set it up.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- Toolkit -->
+<section id="toolkit">
+  <div class="container">
+    <div class="section-header">
+      <span class="label">What you get</span>
+      <h2>The full toolkit</h2>
+    </div>
+    <div class="toolkit-grid">
+      <div class="toolkit-card">
+        <div class="card-icon" aria-hidden="true">🧠</div>
+        <h3>Skills</h3>
+        <p>On-demand instruction sets Claude loads only when needed, keeping the base context lean.</p>
+        <div class="tag-list">
+          <span class="tag">smart-review</span>
+          <span class="tag">audit-claudemd</span>
+          <span class="tag">writing-voice</span>
+          <span class="tag">mine-session-skills</span>
+        </div>
+      </div>
+      <div class="toolkit-card">
+        <div class="card-icon" aria-hidden="true">🔒</div>
+        <h3>Hooks</h3>
+        <p>Shell scripts that fire automatically. One protects your secrets, one injects git context at session start.</p>
+        <div class="tag-list">
+          <span class="tag">protect-secrets</span>
+          <span class="tag">session-context</span>
+        </div>
+      </div>
+      <div class="toolkit-card">
+        <div class="card-icon" aria-hidden="true">🤖</div>
+        <h3>Subagents</h3>
+        <p>Specialist reviewers spawnable on demand. Each has a defined role and scope.</p>
+        <div class="tag-list">
+          <span class="tag">staff-engineer</span>
+          <span class="tag">security</span>
+          <span class="tag">product</span>
+          <span class="tag">design</span>
+          <span class="tag">test-quality</span>
+        </div>
+      </div>
+      <div class="toolkit-card">
+        <div class="card-icon" aria-hidden="true">🔄</div>
+        <h3>The Update Loop</h3>
+        <p>Three commands that keep the config honest: refresh research, update templates, deploy to your machine.</p>
+        <div class="tag-list">
+          <span class="tag">update-research</span>
+          <span class="tag">update-templates</span>
+          <span class="tag">deploy-config</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="get-started">
+      <div>
+        <h3>Ready to set it up?</h3>
+        <p>Clone the repo, review the templates, and ask Claude to run <code>deploy-config</code>. The whole process takes about five minutes.</p>
+      </div>
+      <a href="https://github.com/amphro/ai-optimizations" class="btn-primary" target="_blank" rel="noopener">
+        Get Started on GitHub ↗
+      </a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="container">
+    <p>Research, skills, and templates are Claude-generated, human-verified. &nbsp;|&nbsp; <a href="https://github.com/amphro/ai-optimizations" target="_blank" rel="noopener">View on GitHub</a></p>
+  </div>
+</footer>
+
+<script src="../personas.js"></script>
+</body>
+</html>

@@ -1,11 +1,11 @@
 ---
 name: deploy-config
-description: Deploys claude-code-templates/ (settings, CLAUDE.md, skills, agents) to your global ~/.claude/ directory. Asks before overwriting anything that already exists and differs. Use to set up a new machine or pick up template changes.
+description: Deploys tools/claude-code/ (settings, CLAUDE.md, skills, agents) to your global ~/.claude/ directory. Asks before overwriting anything that already exists and differs. Use to set up a new machine or pick up template changes.
 ---
 
 # Deploy Config
 
-Pushes the generic templates in `claude-code-templates/` out to your real global Claude Code config at `~/.claude/`. This only ever deploys the templates folder — never the maintenance skills in this repo's own `.claude/skills/` (including this one).
+Pushes the generic templates in `tools/claude-code/` out to your real global Claude Code config at `~/.claude/`. This only ever deploys the templates folder — never the maintenance skills in this repo's own `.claude/skills/` (including this one).
 
 The one rule that matters more than any other: **never silently overwrite a file that already exists and differs from the template.** If it's new, create it. If it's identical, skip it. If it's different, ask.
 
@@ -13,16 +13,16 @@ The one rule that matters more than any other: **never silently overwrite a file
 
 | Source | Target | Merge strategy |
 |---|---|---|
-| `claude-code-templates/user-settings.json` | `~/.claude/settings.json` | Key-by-key merge |
-| `claude-code-templates/user-CLAUDE.md` | `~/.claude/CLAUDE.md` | Section-by-section merge |
-| `claude-code-templates/skills/*/SKILL.md` | `~/.claude/skills/*/SKILL.md` | Whole-file, ask on conflict |
-| `claude-code-templates/agents/*.md` | `~/.claude/agents/*.md` | Whole-file, ask on conflict |
-| `claude-code-templates/statusline.sh` | `~/.claude/statusline.sh` | Whole-file, ask on conflict; `chmod +x` after writing |
-| `claude-code-templates/hooks/*.sh` | `~/.claude/hooks/*.sh` | Whole-file, ask on conflict; `chmod +x` after writing |
+| `tools/claude-code/user-settings.json` | `~/.claude/settings.json` | Key-by-key merge |
+| `tools/claude-code/user-CLAUDE.md` | `~/.claude/CLAUDE.md` | Section-by-section merge |
+| `tools/claude-code/skills/*/SKILL.md` | `~/.claude/skills/*/SKILL.md` | Whole-file, ask on conflict |
+| `tools/claude-code/agents/*.md` | `~/.claude/agents/*.md` | Whole-file, ask on conflict |
+| `tools/claude-code/statusline.sh` | `~/.claude/statusline.sh` | Whole-file, ask on conflict; `chmod +x` after writing |
+| `tools/claude-code/hooks/*.sh` | `~/.claude/hooks/*.sh` | Whole-file, ask on conflict; `chmod +x` after writing |
 
 ## Step 1: Read before writing anything
 
-Read every source file in `claude-code-templates/`, then read every corresponding target under `~/.claude/` that exists. Build a picture of the full diff before touching anything.
+Read every source file in `tools/claude-code/`, then read every corresponding target under `~/.claude/` that exists. Build a picture of the full diff before touching anything.
 
 ## Step 2: Classify each target
 

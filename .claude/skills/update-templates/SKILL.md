@@ -1,17 +1,17 @@
 ---
 name: update-templates
-description: Aligns claude-code-templates/ (settings, CLAUDE.md, agents, skills) with the current research/ findings. Use after update-research, or whenever you've learned something new worth baking into the starting templates.
+description: Aligns tools/claude-code/ (settings, CLAUDE.md, agents, skills) with the current research/ findings. Use after update-research, or whenever you've learned something new worth baking into the starting templates.
 ---
 
 # Update Templates
 
-`claude-code-templates/` is the local, generic starting point that the `deploy-config` skill pushes to `~/.claude/`. This skill keeps it aligned with what's in `research/` so the starting point stays good advice, not stale advice.
+`tools/claude-code/` is the local, generic starting point that the `deploy-config` skill pushes to `~/.claude/`. This skill keeps it aligned with what's in `research/` so the starting point stays good advice, not stale advice.
 
-This skill only touches files under `claude-code-templates/`. It never reads or writes anything under `~/.claude/` — that's `deploy-config`'s job, and keeping them separate means you can update the templates without touching your live setup until you're ready.
+This skill only touches files under `tools/claude-code/`. It never reads or writes anything under `~/.claude/` — that's `deploy-config`'s job, and keeping them separate means you can update the templates without touching your live setup until you're ready.
 
 ## Step 1: Read both sides
 
-Read all of `research/*.md` and all of `claude-code-templates/` (`user-settings.json`, `user-CLAUDE.md`, `skills/*/SKILL.md`, `agents/*.md`).
+Read all of `research/*.md` and all of `tools/claude-code/` (`user-settings.json`, `user-CLAUDE.md`, `skills/*/SKILL.md`, `agents/*.md`).
 
 ## Step 2: Find the gaps
 
@@ -25,7 +25,7 @@ Also check for drift the other direction: something in the templates that the re
 
 ## Step 3: Update
 
-Make the changes directly in `claude-code-templates/`. Keep these generic and instance-agnostic. No absolute paths, no specifics from any one person's setup. Keep `user-CLAUDE.md` under 50 lines, same discipline as the `claudemd-conventions` skill describes.
+Make the changes directly in `tools/claude-code/`. Keep these generic and instance-agnostic. No absolute paths, no specifics from any one person's setup. Keep `user-CLAUDE.md` under 50 lines, same discipline as the `claudemd-conventions` skill describes.
 
 ## Step 4: Report
 

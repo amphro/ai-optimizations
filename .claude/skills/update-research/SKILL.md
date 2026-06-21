@@ -21,6 +21,8 @@ For each file, search the web for updates on its topic:
 - `research/hooks.md` — new hook event types, changed JSON schemas, new community patterns worth noting
 - `research/usage-limit-visibility.md` — any new official way to check usage limits
 - `research/writing-voice-personas.md` — new style/persona features from Claude, ChatGPT, or other tools; new community consensus on AI writing tells
+- `docs/index.html` — AI/LLM definitions and term definitions (all 6 persona levels)
+- `docs/claude-code/index.html` — model version claims, feature names, Claude Code behavior descriptions
 
 Prefer official docs and primary sources over blog posts or aggregators.
 
@@ -37,8 +39,14 @@ For each fact you checked, decide: still accurate, changed, or no longer mention
 - Keep the existing tone and format (TL;DR sections, tables, sources list) rather than restructuring.
 - Add new sources to the `Sources` list if you used new ones.
 
-## Step 5: Report
+## Step 5: Update docs
 
-Summarize what changed per file, in one or two lines each: what was outdated, what it's now. If nothing changed in a file, say so rather than padding the diff.
+Check `docs/index.html` and `docs/claude-code/index.html` for any claims that your research found to be outdated: model version names, feature descriptions, term definitions, benchmark numbers. Update them in place, same as you do for `research/`. Note doc changes alongside research changes in the report.
 
-If something you found would change a recommendation in `claude-code-templates/` (a setting, an agent, a skill), mention it explicitly so the user knows to run the `update-templates` skill next. Don't touch `claude-code-templates/` yourself from this skill.
+Don't restructure or rewrite the docs, only update specific facts that have drifted.
+
+## Step 6: Report
+
+Summarize what changed per file (research and docs), in one or two lines each: what was outdated, what it's now. If nothing changed in a file, say so rather than padding the diff.
+
+If something you found would change a recommendation in `tools/claude-code/` (a setting, an agent, a skill), mention it explicitly so the user knows to run the `update-templates` skill next. Don't touch `tools/claude-code/` yourself from this skill.

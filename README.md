@@ -1,6 +1,13 @@
 # Claude Code Toolkit
 
-> Research, skills, and templates here are Claude-generated, human-curated. Treat them as a starting point, not a finished opinion.
+> Research, skills, and templates here are **Claude-generated, human-verified**. A human reviewed the claims and stands behind them, but treat everything as a starting point, not a finished opinion.
+
+**AI Attribution Scale** — used throughout this repo:
+| Label | Meaning |
+|---|---|
+| AI-generated, unreviewed | Published as the AI produced it. No human has read or modified it. |
+| AI-generated, human-checked | A human read it and may have made minor corrections. Claims not deeply verified. |
+| AI-generated, human-verified | A human verified the claims, iterated on the output, and stands behind it. |
 
 A personal config kit for Claude Code: researched settings, reusable agents and skills, and meta-skills to keep it from going stale.
 
@@ -9,7 +16,7 @@ Figuring out the best Claude Code setup takes real research, and that research h
 ## What's in here
 
 - **`research/`** Snapshots on the AI model landscape, prompting patterns, Claude Code setup, hooks, skill authoring, and usage limits. Each file is dated. Check the "Last updated" line before relying on specifics.
-- **`claude-code-templates/`** The deployable starting point: `settings.json`, `CLAUDE.md`, a statusline script, two hooks, seven reviewer subagents, and five skills. Nothing in here is project-specific. Once deployed, it's available across all your projects.
+- **`tools/claude-code/`** The deployable starting point: `settings.json`, `CLAUDE.md`, a statusline script, two hooks, seven reviewer subagents, and five skills. Nothing in here is project-specific. Once deployed, it's available across all your projects.
 - **`.claude/skills/`** Three skills for maintaining this repo itself (see below).
 
 ## Templates: what's included
@@ -38,13 +45,13 @@ Figuring out the best Claude Code setup takes real research, and that research h
 These run inside this repo only, not as part of your global setup.
 
 - **`update-research`** Re-checks research against current sources. Run this periodically; snapshots drift.
-- **`update-templates`** Brings `claude-code-templates/` in line with the research. Run after `update-research`, or any time you learn something worth baking into the starting point.
-- **`deploy-config`** Copies `claude-code-templates/` to `~/.claude/`. Safe to run more than once: missing files get created, identical files are skipped, and anything that already exists and differs gets flagged for your decision.
+- **`update-templates`** Brings `tools/claude-code/` in line with the research. Run after `update-research`, or any time you learn something worth baking into the starting point.
+- **`deploy-config`** Copies `tools/claude-code/` to `~/.claude/`. Safe to run more than once: missing files get created, identical files are skipped, and anything that already exists and differs gets flagged for your decision.
 
 ## Getting started
 
 1. Clone the repo and open it in Claude Code.
-2. Look through `claude-code-templates/` and cut what does not fit your workflow.
+2. Look through `tools/claude-code/` and cut what does not fit your workflow.
 3. Ask Claude to run the `deploy-config` skill to install everything to `~/.claude/`.
 4. Later, run `update-research` then `update-templates` to stay current.
 
@@ -53,4 +60,4 @@ These run inside this repo only, not as part of your global setup.
 - [awesome-claude-code](https://github.com/hesreallyhim/awesome-claude-code) Curated directory of Claude Code hooks, MCP servers, slash commands, and agent collections.
 - [my-claude-code-setup](https://github.com/centminmod/my-claude-code-setup) A multi-file CLAUDE.md "memory bank" pattern worth a look if a single CLAUDE.md is not enough for your project.
 
-Note: there is a CLI tool called `claude-code-templates` by davila7. Different project; the name overlaps with this repo's `claude-code-templates/` folder.
+Note: there is a CLI tool called `claude-code-templates` by davila7. Different project; the name overlaps with this repo's `tools/claude-code/` folder.
