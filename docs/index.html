@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Claude Code Toolkit</title>
-  <meta name="description" content="A researched, maintained config toolkit for Claude Code: settings, hooks, subagents, skills, and a loop to keep it all from going stale." />
-  <meta property="og:title" content="Claude Code Toolkit" />
-  <meta property="og:description" content="A researched, maintained config toolkit for Claude Code: settings, hooks, subagents, skills, and a loop to keep it all from going stale." />
+  <title>AI Toolkit</title>
+  <meta name="description" content="AI explained for everyone. Pick who you are — we explain it from there. Plus a glossary of common AI terms and a directory of AI coding tools." />
+  <meta property="og:title" content="AI Toolkit" />
+  <meta property="og:description" content="AI explained for everyone. Pick who you are — we explain it from there." />
   <meta property="og:url" content="https://amphro.github.io/ai-optimizations/" />
   <meta property="og:type" content="website" />
   <meta name="twitter:card" content="summary" />
@@ -17,11 +17,9 @@
 <!-- Nav -->
 <nav>
   <div class="nav-inner">
-    <a class="nav-logo" href="#">Claude Code <span>Toolkit</span></a>
+    <span class="nav-logo">AI <span>Toolkit</span></span>
     <div class="nav-links">
-      <a href="#why" class="nav-link-hide">Why</a>
-      <a href="#guide" class="nav-link-hide">Guide</a>
-      <a href="#toolkit" class="nav-link-hide">Toolkit</a>
+      <a href="./claude-code/index.html" class="nav-link-hide">Claude Code</a>
       <a href="https://github.com/amphro/ai-optimizations" class="nav-cta" target="_blank" rel="noopener">View on GitHub</a>
     </div>
   </div>
@@ -34,336 +32,346 @@
   <div class="container">
     <div class="hero-inner">
       <div>
-        <div class="hero-badge">Claude-generated, human-curated</div>
-        <h1>A Claude Code setup that stays <em>useful over time</em></h1>
+        <div class="hero-badge">No jargon required</div>
+        <h1>AI, explained for <em>everyone</em></h1>
         <p class="lead">
-          AI tools change fast. Most people either skip configuring them, or redo the research every few months. This toolkit captures what works, packages it as deployable config, and gives you a loop to keep it current.
-        </p>
-        <div class="hero-actions">
-          <a href="https://github.com/amphro/ai-optimizations" class="btn-primary" target="_blank" rel="noopener">
-            Get the Toolkit ↗
-          </a>
-          <a href="#guide" class="btn-secondary">
-            New to AI? Start here
-          </a>
-        </div>
-        <p class="hero-note">
-          Everything here is research-backed and openly available. <a href="https://github.com/amphro/ai-optimizations" target="_blank" rel="noopener">View the research on GitHub.</a>
+          Pick who you are. We will explain AI, LLMs, and common terms at the level that actually makes sense for you.
         </p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- Why -->
-<section id="why">
-  <div class="container">
-    <div class="section-header">
-      <span class="label">Why this exists</span>
-      <h2>The problem with most AI setups</h2>
+<!-- Guide + Terms -->
+<section id="learn">
+  <!-- Sticky persona bar: appears when in-page picker scrolls off -->
+  <div id="learn-sticky" class="learn-persona-sticky" aria-hidden="true">
+    <div class="sticky-desktop">
+      <div class="learn-persona-inner">
+        <span class="sticky-label">Reading as:</span>
+        <select id="persona-select" class="nav-persona-select" onchange="switchPersona(this.value)" aria-label="Switch reading level">
+          <option value="7yo">🧒 7-Year-Old</option>
+          <option value="elderly">☕ New to This</option>
+          <option value="pro">💼 Professional</option>
+          <option value="biz">🏪 Business Owner</option>
+          <option value="eng">⚙️ Engineer</option>
+          <option value="ux">🎨 Product / UX</option>
+        </select>
+        <span id="sticky-description" class="sticky-description" aria-live="polite"></span>
+      </div>
     </div>
-    <div class="why-grid">
-      <div class="why-card">
-        <div class="why-icon" aria-hidden="true">📉</div>
-        <h3>Config goes stale</h3>
-        <p>AI models update frequently. The best settings from six months ago may not be the best settings today. Without a maintenance loop, your setup quietly falls behind.</p>
-      </div>
-      <div class="why-card">
-        <div class="why-icon" aria-hidden="true">🔁</div>
-        <h3>Research gets re-done</h3>
-        <p>Figuring out the right CLAUDE.md, which subagents to use, and how to write useful hooks takes real time. Without a record of that work, it disappears the next time you set up a machine.</p>
-      </div>
-      <div class="why-card">
-        <div class="why-icon" aria-hidden="true">🎯</div>
-        <h3>Default settings under-deliver</h3>
-        <p>Out of the box, Claude Code works fine. With a well-researched configuration, it works dramatically better. The gap is not small.</p>
+    <div class="sticky-mobile">
+      <div class="persona-tabs persona-tabs-scroll" role="tablist" aria-label="Switch reading level">
+        <button class="persona-tab" data-persona="7yo" role="tab" aria-selected="true" tabindex="0" onclick="switchPersona('7yo')"><span class="emoji" aria-hidden="true">🧒</span><span class="tab-label">7-Year-Old</span></button>
+        <button class="persona-tab" data-persona="elderly" role="tab" aria-selected="false" tabindex="-1" onclick="switchPersona('elderly')"><span class="emoji" aria-hidden="true">☕</span><span class="tab-label">New to This</span></button>
+        <button class="persona-tab" data-persona="pro" role="tab" aria-selected="false" tabindex="-1" onclick="switchPersona('pro')"><span class="emoji" aria-hidden="true">💼</span><span class="tab-label">Professional</span></button>
+        <button class="persona-tab" data-persona="biz" role="tab" aria-selected="false" tabindex="-1" onclick="switchPersona('biz')"><span class="emoji" aria-hidden="true">🏪</span><span class="tab-label">Business Owner</span></button>
+        <button class="persona-tab" data-persona="eng" role="tab" aria-selected="false" tabindex="-1" onclick="switchPersona('eng')"><span class="emoji" aria-hidden="true">⚙️</span><span class="tab-label">Engineer</span></button>
+        <button class="persona-tab" data-persona="ux" role="tab" aria-selected="false" tabindex="-1" onclick="switchPersona('ux')"><span class="emoji" aria-hidden="true">🎨</span><span class="tab-label">Product / UX</span></button>
       </div>
     </div>
   </div>
-</section>
 
-<!-- Guide -->
-<section id="guide">
+  <div id="guide">
   <div class="container">
     <div class="section-header">
       <span class="label">Plain English Guide</span>
-      <h2>AI and Claude Code, explained</h2>
-      <p>Pick the explanation that fits you best. Same content, different lenses.</p>
+      <h2>What is AI, really?</h2>
+    </div>
+    <!-- In-page persona picker -->
+    <div class="persona-picker" id="persona-picker">
+      <p class="picker-heading">Who's reading this?</p>
+      <div class="persona-tabs" role="tablist" aria-label="Choose your reading level">
+        <button class="persona-tab" data-persona="7yo" role="tab" aria-selected="true" tabindex="0" onclick="switchPersona('7yo')"><span class="emoji" aria-hidden="true">🧒</span><span class="tab-label">7-Year-Old</span></button>
+        <button class="persona-tab" data-persona="elderly" role="tab" aria-selected="false" tabindex="-1" onclick="switchPersona('elderly')"><span class="emoji" aria-hidden="true">☕</span><span class="tab-label">New to This</span></button>
+        <button class="persona-tab" data-persona="pro" role="tab" aria-selected="false" tabindex="-1" onclick="switchPersona('pro')"><span class="emoji" aria-hidden="true">💼</span><span class="tab-label">Professional</span></button>
+        <button class="persona-tab" data-persona="biz" role="tab" aria-selected="false" tabindex="-1" onclick="switchPersona('biz')"><span class="emoji" aria-hidden="true">🏪</span><span class="tab-label">Business Owner</span></button>
+        <button class="persona-tab" data-persona="eng" role="tab" aria-selected="false" tabindex="-1" onclick="switchPersona('eng')"><span class="emoji" aria-hidden="true">⚙️</span><span class="tab-label">Engineer</span></button>
+        <button class="persona-tab" data-persona="ux" role="tab" aria-selected="false" tabindex="-1" onclick="switchPersona('ux')"><span class="emoji" aria-hidden="true">🎨</span><span class="tab-label">Product / UX</span></button>
+      </div>
+      <p id="persona-description" class="persona-description">Big ideas in small words. No confusing stuff.</p>
     </div>
 
-    <div class="persona-tabs-wrap">
-      <div class="persona-tabs" role="tablist" aria-label="Choose your persona">
-        <button class="persona-tab" id="tab-7yo" data-persona="7yo" onclick="switchPersona('7yo')" role="tab" aria-controls="persona-7yo" aria-selected="false">
-          <span class="emoji" aria-hidden="true">🧒</span> 7-Year-Old
-        </button>
-        <button class="persona-tab active" id="tab-pro" data-persona="pro" onclick="switchPersona('pro')" role="tab" aria-controls="persona-pro" aria-selected="true">
-          <span class="emoji" aria-hidden="true">💼</span> Young Professional
-        </button>
-        <button class="persona-tab" id="tab-biz" data-persona="biz" onclick="switchPersona('biz')" role="tab" aria-controls="persona-biz" aria-selected="false">
-          <span class="emoji" aria-hidden="true">🏪</span> Small Business Owner
-        </button>
-        <button class="persona-tab" id="tab-eng" data-persona="eng" onclick="switchPersona('eng')" role="tab" aria-controls="persona-eng" aria-selected="false">
-          <span class="emoji" aria-hidden="true">⚙️</span> Engineer
-        </button>
-        <button class="persona-tab" id="tab-ux" data-persona="ux" onclick="switchPersona('ux')" role="tab" aria-controls="persona-ux" aria-selected="false">
-          <span class="emoji" aria-hidden="true">🎨</span> Product / UX
-        </button>
-        <button class="persona-tab" id="tab-elderly" data-persona="elderly" onclick="switchPersona('elderly')" role="tab" aria-controls="persona-elderly" aria-selected="false">
-          <span class="emoji" aria-hidden="true">☕</span> One Step at a Time
-        </button>
-      </div>
-    </div>
 
     <!-- 7-Year-Old -->
-    <div id="persona-7yo" class="persona-panel" role="tabpanel" aria-labelledby="tab-7yo" tabindex="0">
+    <div id="guide-7yo" class="persona-panel" data-persona="7yo" role="region" aria-label="AI guide for 7-Year-Old" tabindex="0">
       <div class="guide-card">
-        <p class="guide-intro">Hey! This is for you if you want the simplest possible explanation. No tricky words.</p>
+        <p class="guide-intro">No big words. The simple version.</p>
         <div class="guide-q">
           <h3>What is AI?</h3>
-          <p>AI is like a really smart helper that lives inside your computer. You ask it a question, and it gives you an answer. It read millions of books and websites so it knows a lot of stuff.</p>
+          <p>AI is like a robot made of words. It read millions of books and websites, so it knows a lot. When you ask it a question, it uses everything it learned to give you an answer. It is not really thinking the way you are, but it is very good at finding the right words.</p>
         </div>
         <div class="guide-q">
-          <h3>What is Claude?</h3>
-          <p>Claude is the name of one of the smartest AI helpers around. A company called Anthropic made it. Claude is really good at reading, writing, and helping people think through problems.</p>
+          <h3>What is an LLM?</h3>
+          <p>LLM is the computer-science name for a word robot. "Large" means it learned from a really big pile of writing. "Language" means it works with words and sentences. "Model" means it is a pattern it learned. All the AI helpers you can talk to (like Claude or ChatGPT) use an LLM as their brain. The LLM is the brain; the helper is the tool built around it.</p>
         </div>
         <div class="guide-q">
-          <h3>What is Claude Code?</h3>
-          <p>Some people build apps and games on computers. Claude Code is Claude helping those people write the instructions that make the apps work. It is like having a helper sit next to you while you do your homework.</p>
+          <h3>How does it learn?</h3>
+          <p>The AI read so many things that it learned which words go together. It is like how you learned what sounds letters make by seeing them over and over. Nobody told it every rule. It figured them out by reading enough examples. Once it is done learning, it uses those patterns to answer your questions.</p>
         </div>
         <div class="guide-q">
-          <h3>Why does setup matter?</h3>
-          <p>Even a smart helper works better when you give them a list of your rules and favorite things. The list tells the helper what you like, what to watch out for, and how you want things done. Without it, the helper has to guess.</p>
-        </div>
-        <div class="guide-q">
-          <h3>What does this toolkit do?</h3>
-          <p>This toolkit is a really good instructions list that someone already made for you. You do not have to figure it out yourself. You grab it and your helper gets smarter right away. And when things change, there is a way to update the instructions so they stay good.</p>
-          <p class="panel-note">This is for grown-ups who write computer programs. If someone you know builds apps or websites, tell them about it!</p>
+          <h3>What can you do with it?</h3>
+          <p>You can ask it questions, have it help you write a story, explain something confusing, or figure out a hard problem. Grown-ups use it for work stuff too, like writing emails or building websites.</p>
         </div>
       </div>
     </div>
 
-    <!-- Young Professional -->
-    <div id="persona-pro" class="persona-panel active" role="tabpanel" aria-labelledby="tab-pro" tabindex="0">
+
+    <!-- Professional -->
+    <div id="guide-pro" class="persona-panel" data-persona="pro" role="region" aria-label="AI guide for Professional" tabindex="0">
       <div class="guide-card">
-        <p class="guide-intro">For you if you are tech-adjacent, use AI tools at work, but have not gone deep on configuration.</p>
+        <p class="guide-intro">Tech-adjacent, uses AI at work, but has not gone deep on how it actually works.</p>
         <div class="guide-q">
           <h3>What is AI?</h3>
-          <p>AI tools like the ones you have probably used (ChatGPT, Claude, Gemini) are large language models. They are trained on massive amounts of text, which lets them generate coherent writing, answer questions, summarize documents, and write code. They are useful, but they are not magic. The quality of what you get back depends a lot on how you ask and how you have set things up.</p>
+          <p>AI tools like the ones you probably use (ChatGPT, Claude, Gemini) are large language models: systems trained on massive amounts of text that can write, answer questions, summarize documents, and generate code. They are useful but not magic. The quality of what you get back depends a lot on how you ask and how things are configured.</p>
         </div>
         <div class="guide-q">
-          <h3>What is Claude?</h3>
-          <p>Claude is Anthropic's AI assistant. It is widely considered one of the best for writing, reasoning, and coding tasks. Anthropic is a safety-focused AI company, which means Claude is designed to be helpful without being reckless. If you have ever used Claude.ai, you have already met it.</p>
+          <h3>What is an LLM?</h3>
+          <p>An LLM (Large Language Model) is the architecture behind most AI assistants today: a neural network trained to understand and generate text. What makes them useful is not that they "know" things in a human sense. It is that pattern-matching learned from training on enormous text datasets generalizes well to new tasks. Most AI tools you use day-to-day (ChatGPT, Claude, Gemini) are built on top of LLMs. The product is the interface; the LLM is the model underneath.</p>
         </div>
         <div class="guide-q">
-          <h3>What is Claude Code?</h3>
-          <p>Claude Code is Claude's coding-specific interface, a tool you run in a terminal that can read your files, run commands, and help build software. It does more than chat. It can actually do things: write a function, fix a bug, run tests, open pull requests. Think of it as a coding assistant with hands.</p>
+          <h3>How does it learn?</h3>
+          <p>LLMs are trained in two main phases. Pre-training: the model reads massive amounts of text and learns statistical patterns in language. Fine-tuning: the model is then refined on curated examples and human feedback to make it helpful and safe. After training is done, the model's weights are frozen. It does not continue learning from your conversations.</p>
         </div>
         <div class="guide-q">
-          <h3>Why does setup matter?</h3>
-          <p>Claude Code works without any configuration. It also works dramatically better with it. A configuration file called <strong>CLAUDE.md</strong> tells Claude how to behave in your projects: what rules to follow, what style to use, what to avoid. Hooks can block bad actions (like accidentally reading a passwords file) and inject useful context at the start of each session. Without this setup, you are leaving most of the tool's capability on the table.</p>
-        </div>
-        <div class="guide-q">
-          <h3>What does this toolkit do?</h3>
-          <p>This toolkit gives you a ready-made, researched configuration for Claude Code: the CLAUDE.md, settings, safety hooks, and reviewer agents that took real time to figure out. It also includes a maintenance system: three commands that check whether anything has changed, update the config to match, and deploy it to your machine. The goal is that you do not have to redo this work every time models or tools change.</p>
+          <h3>What can you do with it?</h3>
+          <p>Drafting and editing writing, summarizing long documents, answering questions, generating code, brainstorming, translating, explaining complex topics, data analysis. The useful mental model: a capable but fallible collaborator, best used for tasks where you can review the output, not for tasks where errors are invisible and costly.</p>
         </div>
       </div>
     </div>
 
-    <!-- Small Business Owner -->
-    <div id="persona-biz" class="persona-panel" role="tabpanel" aria-labelledby="tab-biz" tabindex="0">
+    <!-- Business Owner -->
+    <div id="guide-biz" class="persona-panel" data-persona="biz" role="region" aria-label="AI guide for Business Owner" tabindex="0">
       <div class="guide-card">
-        <p class="guide-intro">For you if you run your own business: an LLC, a trade, a side hustle, an online store, a personal brand. You may not write code, but AI is already relevant to you.</p>
+        <p class="guide-intro">You run your own business. You may not write code, but AI is already relevant to you.</p>
         <div class="guide-q">
           <h3>What is AI?</h3>
-          <p>AI is software that can read, write, and reason. For a business owner, the practical question is not how it works but what it can do for you. It can write product descriptions, draft customer emails in your voice, help you think through pricing, summarize a contract you received, create captions for your posts, or research a competitor. It is available any time, does not call in sick, and costs a fraction of what you would pay someone to do the same tasks.</p>
+          <p>AI is software that can read, write, and reason. For a business owner, the practical question is not how it works but what it can do for you: write product descriptions, draft customer emails in your voice, summarize a contract, create captions for your posts, research a competitor. It is available any time, does not call in sick, and costs a fraction of hiring someone for the same tasks.</p>
         </div>
         <div class="guide-q">
-          <h3>What is Claude?</h3>
-          <p>Claude is an AI assistant made by a company called Anthropic. Many business owners use it for writing, research, and thinking through decisions. A plumber can use it to write professional follow-up emails. An Amazon seller can use it to draft listing copy. An influencer can use it to brainstorm content. A consultant can use it to prep for a client meeting. It is free to try at <a href="https://claude.ai" target="_blank" rel="noopener">claude.ai</a>, no sign-up required to start.</p>
+          <h3>What is an LLM?</h3>
+          <p>LLM is the technical name for the kind of AI that talks with you in sentences. You do not need to know how it works, only that it is what runs under the hood of tools like Claude, ChatGPT, and Gemini. When someone says "language model," they mean an AI you can have a conversation with.</p>
         </div>
         <div class="guide-q">
-          <h3>What is Claude Code?</h3>
-          <p>Claude Code is a version of Claude built for software developers. If you have a developer who works on your website, app, or internal tools, this is something they might use. You do not need to use it yourself. But if a developer works for you or does work for you, a well-configured Claude Code setup means they build faster, make fewer mistakes, and have safety guardrails built in.</p>
+          <h3>How does it learn?</h3>
+          <p>Before you ever used it, the AI was trained on a huge amount of writing: books, articles, websites. That training is done. When you talk to it, it is using what it already knows, not updating in real time from your conversation. However, many AI tools use past conversations to improve future versions by default unless you opt out. Check the privacy settings of whichever tool you use.</p>
         </div>
         <div class="guide-q">
-          <h3>Why does setup matter?</h3>
-          <p>An AI that knows your business works much better than a generic one. If Claude knows you run a landscaping company in Austin, that your customers are homeowners aged 35 to 60, and that you always respond within 24 hours, it gives you far better output than if it has to guess every time. The same principle applies to your developer: a configured Claude Code setup means the AI already knows your project's rules before the first line of code.</p>
-        </div>
-        <div class="guide-q">
-          <h3>What does this toolkit do?</h3>
-          <p>For you personally, Claude at <a href="https://claude.ai" target="_blank" rel="noopener">claude.ai</a> is the most direct starting point. Try it free and see what it can take off your plate.</p>
-          <p>This toolkit is for developers using Claude Code. If you have a developer, sharing this page with them is a straightforward way to help them get more out of the tool they are probably already using.</p>
-          <p class="panel-note">Start here: <a href="https://claude.ai" target="_blank" rel="noopener">claude.ai</a> is free and takes about two minutes to get going. If you have a developer, pass them the <a href="https://github.com/amphro/ai-optimizations" target="_blank" rel="noopener">GitHub link</a> too.</p>
+          <h3>What can you do with it?</h3>
+          <p>Try it for: customer emails in your voice, product listings, contract drafts, marketing brainstorms, social media captions, FAQ content, or thinking through a pricing decision. Start with one task you do repeatedly. If the AI saves you 30 minutes a week on it, it is already worth using. Start free at <a href="https://claude.ai" target="_blank" rel="noopener">claude.ai</a>.</p>
         </div>
       </div>
     </div>
 
     <!-- Engineer -->
-    <div id="persona-eng" class="persona-panel" role="tabpanel" aria-labelledby="tab-eng" tabindex="0">
+    <div id="guide-eng" class="persona-panel" data-persona="eng" role="region" aria-label="AI guide for Engineer" tabindex="0">
       <div class="guide-card">
-        <p class="guide-intro">For you if you want the technical specifics: what is actually happening, what levers exist, and what this toolkit does at a system level.</p>
+        <p class="guide-intro">Technical specifics: what is actually happening, what the levers are, what matters in practice.</p>
         <div class="guide-q">
-          <h3>What is AI (in this context)?</h3>
-          <p>Large language models trained on text corpora, fine-tuned for instruction following and aligned for safety via Anthropic's Constitutional AI approach. In practice, the system prompt plus conversation history determines output quality more than raw model capability does. The delta between a well-prompted and a default-prompted LLM on the same task is large and measurable on coding benchmarks like SWE-bench.</p>
+          <h3>What is AI (the relevant part)?</h3>
+          <p>For practical purposes: large language models trained on text corpora, post-trained with RLHF or Constitutional AI to align outputs. Output quality often depends as much on the system prompt and context composition as on raw model capability, particularly within a given model family. Leading models are competitive on most benchmarks; differentiation is largely in context window size, tool use, pricing, and rate limits.</p>
         </div>
         <div class="guide-q">
-          <h3>What is Claude?</h3>
-          <p>Anthropic's model family, currently strongest on coding benchmarks and extended reasoning tasks. Claude has a large context window, strong instruction following, and built-in tool use. The Claude 4.x family (Sonnet 4.6, Opus 4.8) is the current production line. Claude Code uses Sonnet by default with configurable model aliases (<code>opusplan</code> for planning, etc.).</p>
+          <h3>What is an LLM?</h3>
+          <p>A transformer-based architecture trained via next-token prediction on large text corpora. Pre-training produces general language understanding. Fine-tuning (SFT + RLHF) shapes the model toward helpful, safe behavior. Weights are frozen at inference time. The model does not learn from your inputs during a session. Emergent capabilities in larger models arise from scale, not explicit programming.</p>
         </div>
         <div class="guide-q">
-          <h3>What is Claude Code?</h3>
-          <p>An agentic CLI built on Claude. Key primitives: <strong>CLAUDE.md</strong> (injected into system context per-project and globally), <strong>skills</strong> (on-demand loaded instruction sets, invoked by description match), <strong>hooks</strong> (shell scripts that fire on PreToolUse / PostToolUse / SessionStart), <strong>subagents</strong> (spawnable sub-Claude instances with their own tools), and <strong>MCP</strong> (tool extension protocol). The system prompt is composable and additive: global CLAUDE.md, project CLAUDE.md, skills, and session injections all layer together.</p>
+          <h3>How does it learn?</h3>
+          <p>Two phases. Pre-training: train on a large text corpus with next-token prediction, building statistical representations of language and knowledge. Fine-tuning: SFT on high-quality instruction-following examples, then RLHF (or Constitutional AI) to align outputs toward helpful and safe behavior. Post-training does not add new world knowledge but significantly improves instruction-following. Weights are frozen at deployment.</p>
         </div>
         <div class="guide-q">
-          <h3>Why does setup matter?</h3>
-          <p>Default Claude Code is heavily under-specified. CLAUDE.md is where you encode project conventions, non-obvious constraints, and behavioral rules that would otherwise require repeated prompting. Hooks enable deterministic guardrails (blocking reads/writes of secret files, injecting git context) that no amount of prompting can replace. Skills defer domain knowledge out of the base context until it is needed, keeping the system prompt lean. The compounding effect of these layers is significant.</p>
-        </div>
-        <div class="guide-q">
-          <h3>What does this toolkit include?</h3>
-          <ul>
-            <li><strong>settings.json:</strong> model alias, effort level, advisor model, statusline, hook wiring, permission allow/deny list</li>
-            <li><strong>CLAUDE.md:</strong> CLAUDE.md quality rules, workflow defaults, verification steps, context hygiene, writing voice</li>
-            <li><strong>protect-secrets.sh:</strong> PreToolUse hook that blocks Read/Write/Bash on .env, SSH keys, AWS credentials, .pem files</li>
-            <li><strong>session-start-context.sh:</strong> SessionStart hook that injects current git branch and working-tree status</li>
-            <li><strong>Reviewer subagents:</strong> staff-engineer, security, product, design, test-quality, cloudflare-expert, domain-expert</li>
-            <li><strong>Skills:</strong> smart-review, claudemd-conventions, audit-claudemd, mine-session-skills, writing-voice</li>
-            <li><strong>Maintenance loop:</strong> update-research (web-verified snapshot refresh), update-templates (applies research to config), deploy-config (idempotent merge to ~/.claude/)</li>
-          </ul>
+          <h3>What can you use it for?</h3>
+          <p>Code generation, review, and refactoring. Automated test writing. Documentation generation. Research synthesis. Agentic task automation with tool use. Code search and explanation. Multi-step problem solving with chained prompts or skills. RAG-augmented retrieval over your codebase or docs. The effective limit is context window size and model self-correction reliability, not task surface area.</p>
         </div>
       </div>
     </div>
 
     <!-- Product / UX -->
-    <div id="persona-ux" class="persona-panel" role="tabpanel" aria-labelledby="tab-ux" tabindex="0">
+    <div id="guide-ux" class="persona-panel" data-persona="ux" role="region" aria-label="AI guide for Product / UX" tabindex="0">
       <div class="guide-card">
-        <p class="guide-intro">For you if you think in terms of systems, user experience, and outcomes rather than implementation details.</p>
+        <p class="guide-intro">Systems, user experience, and outcomes. Not implementation details.</p>
         <div class="guide-q">
           <h3>What is AI?</h3>
-          <p>At a practical level, AI tools like Claude take input (a prompt, a document, a codebase) and generate useful output. They are non-deterministic by nature, which means the same input can produce different results. That makes them powerful and unpredictable in equal measure. Good configuration is what narrows the unpredictability into something useful and consistent.</p>
+          <p>AI tools take input (a prompt, a document, a codebase) and generate useful output. They are typically non-deterministic. The same input can produce different results depending on sampling settings (a parameter called temperature). That makes them powerful and unpredictable in equal measure. Good configuration is what narrows the unpredictability into something useful and consistent.</p>
         </div>
         <div class="guide-q">
-          <h3>What is Claude?</h3>
-          <p>Claude is Anthropic's AI assistant, one of the highest quality available right now, particularly for writing and reasoning. What sets it apart is that it tends to be thoughtful about output quality, not just output volume. It is less likely to confidently produce wrong answers, and more likely to flag uncertainty. That matters for any work where accuracy counts.</p>
+          <h3>What is an LLM?</h3>
+          <p>An LLM (Large Language Model) is the model underneath the AI tools you use today. ChatGPT, Claude, and Gemini are products built on top of LLMs. The LLM is the actual trained model; the product is the interface around it. For product teams, what matters is the behavioral characteristics: LLMs are non-deterministic, can hallucinate confidently, have knowledge cutoffs, and perform very differently depending on how they're prompted. Designing around those properties is the real challenge.</p>
         </div>
         <div class="guide-q">
-          <h3>What is Claude Code?</h3>
-          <p>Claude Code is the developer-facing interface: a tool that lets Claude actually interact with a codebase, run commands, and produce working software. For product teams, this means the tool your developers use has a direct impact on how fast features ship, how consistent the code quality is, and how often things break in unexpected ways. The interface shapes the output.</p>
+          <h3>How does it learn?</h3>
+          <p>LLMs are trained before you use them, then fine-tuned to behave helpfully and safely. The training is done once per model version. It does not learn from your individual conversations. This matters for product design: you are not training the model through usage, you are composing a prompt that shapes its behavior within a session. Good system prompts act like product specs.</p>
         </div>
         <div class="guide-q">
-          <h3>Why does setup matter?</h3>
-          <p>An unconfigured AI tool is like an unconfigured design system. The components exist, but without documented principles and patterns, every developer uses them differently and the results are inconsistent. A well-set-up Claude Code environment defines quality standards, review criteria, and behavioral guardrails in a shared, editable file. It is opinionated by design, which is what makes it reliable.</p>
-        </div>
-        <div class="guide-q">
-          <h3>What does this toolkit do?</h3>
-          <p>Think of it as a design system for AI-assisted development. Instead of every developer figuring out how to configure Claude Code on their own, this toolkit provides a shared foundation:</p>
-          <ul>
-            <li>Behavioral rules that define what the AI should and should not do</li>
-            <li>Automated review agents for code quality, security, UX, and product thinking</li>
-            <li>Safety guardrails that prevent common errors before they happen</li>
-            <li>A process for updating the system as AI tools evolve</li>
-          </ul>
-          <p>The result is more predictable output and faster iteration, because the AI is working from a shared set of principles rather than guessing at them each time.</p>
+          <h3>What can you use it for?</h3>
+          <p>Synthesizing user research, generating draft copy, brainstorming feature names, writing acceptance criteria, explaining technical concepts in plain language, reviewing designs for accessibility or consistency, generating test cases. Most effective as a structured collaborator: give the AI specific context and a defined output format, then review and iterate. Treat it as a fast first-draft generator that needs an editor, not an oracle.</p>
         </div>
       </div>
     </div>
 
     <!-- One Step at a Time -->
-    <div id="persona-elderly" class="persona-panel" role="tabpanel" aria-labelledby="tab-elderly" tabindex="0">
+    <div id="guide-elderly" class="persona-panel" data-persona="elderly" role="region" aria-label="AI guide for One Step at a Time" tabindex="0">
       <div class="guide-card">
-        <p class="guide-intro">No hurry, no jargon. This explanation takes it one step at a time.</p>
+        <p class="guide-intro">No hurry, no jargon. One step at a time.</p>
         <div class="guide-q">
           <h3>What is AI?</h3>
-          <p>AI stands for "artificial intelligence." It is a type of computer program that has been trained on a huge amount of writing: books, websites, articles. It uses that training to understand questions and write helpful answers. You type something to it, and it types back. It is not a person. It does not think the way you do. But it can be very helpful for many tasks, like answering questions, helping with writing, or working through a problem step by step.</p>
+          <p>AI stands for "artificial intelligence." The simplest way to think of it: someone fed an enormous amount of written text to a computer, and the computer found patterns in that text. Now when you type a question, the computer uses those patterns to write back an answer. It does not understand your question the way a person would. But it has seen so much writing that its answers are often very helpful. It is a tool, like a calculator or a search engine, one that works with whole sentences and ideas.</p>
         </div>
         <div class="guide-q">
-          <h3>What is Claude?</h3>
-          <p>Claude is the name of a particular AI assistant, made by a company called Anthropic. Many AI assistants exist. You may have heard of ChatGPT, which is a different one. Claude is known for giving careful, thoughtful answers. You can use it on a website called <a href="https://claude.ai" target="_blank" rel="noopener">claude.ai</a>, much like you would visit any other website.</p>
+          <h3>What is an LLM?</h3>
+          <p>LLM stands for "Large Language Model." That is the technical name for the kind of AI that talks with you in sentences. You do not need to know what those words mean to use it. When you see it mentioned, it points to the same thing: an AI assistant that works with text. Claude, ChatGPT, and Gemini are all products built on top of LLMs. The LLM is the brain, and those are the tools built around it that you actually talk to. They work the same basic way: trained on a lot of text, and they use what they learned to have a conversation with you.</p>
         </div>
         <div class="guide-q">
-          <h3>What is Claude Code?</h3>
-          <p>Some people use computers to write programs: the instructions that make apps, websites, and games work. Claude Code is a version of Claude that helps those people. If you write programs yourself, this toolkit is for you directly. If not, it may be useful to someone you know who does.</p>
+          <h3>How does it learn?</h3>
+          <p>Before you ever used it, the AI was trained on a huge amount of writing: books, articles, websites. It went through all of that and found patterns in how words and ideas fit together. When training was done, those patterns were locked in. When you ask it a question now, it draws on what it learned then. It is not updating its knowledge in real time from your conversation. However, many tools use past conversations to improve future versions by default. You usually have to opt out in settings. Check the privacy settings of whichever tool you use.</p>
         </div>
         <div class="guide-q">
-          <h3>Why does setup matter?</h3>
-          <p>Just like any tool, an AI assistant works better once it is set up for how you use it. Think of it like a new phone or a new appliance: out of the box it works, but once you configure your preferences, it fits your life much better. Setting up Claude Code is like giving it that orientation: a file that explains your rules, preferences, and things to watch out for. Without it, the AI has to guess, and it will sometimes guess wrong.</p>
-        </div>
-        <div class="guide-q">
-          <h3>What does this toolkit do?</h3>
-          <p>This toolkit is a ready-made "good setup" for Claude Code. Someone spent time figuring out the best way to configure it, wrote it all down, and made it available for free. The setup includes:</p>
-          <ul>
-            <li>A file that tells Claude Code how to behave</li>
-            <li>Safety features that stop it from touching sensitive information by accident</li>
-            <li>Helper assistants that review work for quality and accuracy</li>
-            <li>A way to keep the setup current as things change</li>
-          </ul>
-          <p class="panel-note">If this is for you: the <a href="https://github.com/amphro/ai-optimizations" target="_blank" rel="noopener">GitHub page</a> has everything you need to get started. If you prefer, share it with a developer you trust and ask them to set it up.</p>
+          <h3>What can you do with it?</h3>
+          <p>Ask it questions, have it explain something in plain language, help you write or improve a piece of writing, draft an email or letter, summarize a long document, or think through a problem together. Start with something small, something you would normally spend ten minutes figuring out. Ask the AI, see what comes back, and adjust from there. The best way to learn what it can do is to try it on a real task you actually have.</p>
         </div>
       </div>
     </div>
 
   </div>
-</section>
+  </div>
 
-<!-- Toolkit -->
-<section id="toolkit">
+  <!-- Terms -->
+  <div id="terms">
   <div class="container">
     <div class="section-header">
-      <span class="label">What you get</span>
-      <h2>The full toolkit</h2>
+      <span class="label">Glossary</span>
+      <h2>Common AI terms</h2>
+      <p>The same words, explained at the level that works for you. These match your persona selection above.</p>
     </div>
-    <div class="toolkit-grid">
-      <div class="toolkit-card">
-        <div class="card-icon" aria-hidden="true">🧠</div>
-        <h3>Skills</h3>
-        <p>On-demand instruction sets Claude loads only when needed, keeping the base context lean.</p>
-        <div class="tag-list">
-          <span class="tag">smart-review</span>
-          <span class="tag">audit-claudemd</span>
-          <span class="tag">writing-voice</span>
-          <span class="tag">mine-session-skills</span>
-        </div>
-      </div>
-      <div class="toolkit-card">
-        <div class="card-icon" aria-hidden="true">🔒</div>
-        <h3>Hooks</h3>
-        <p>Shell scripts that fire automatically. One protects your secrets, one injects git context at session start.</p>
-        <div class="tag-list">
-          <span class="tag">protect-secrets</span>
-          <span class="tag">session-context</span>
-        </div>
-      </div>
-      <div class="toolkit-card">
-        <div class="card-icon" aria-hidden="true">🤖</div>
-        <h3>Subagents</h3>
-        <p>Specialist reviewers spawnable on demand. Each has a defined role and scope.</p>
-        <div class="tag-list">
-          <span class="tag">staff-engineer</span>
-          <span class="tag">security</span>
-          <span class="tag">product</span>
-          <span class="tag">design</span>
-          <span class="tag">test-quality</span>
-        </div>
-      </div>
-      <div class="toolkit-card">
-        <div class="card-icon" aria-hidden="true">🔄</div>
-        <h3>The Update Loop</h3>
-        <p>Three commands that keep the config honest: refresh research, update templates, deploy to your machine.</p>
-        <div class="tag-list">
-          <span class="tag">update-research</span>
-          <span class="tag">update-templates</span>
-          <span class="tag">deploy-config</span>
-        </div>
+
+    <!-- 7-Year-Old -->
+    <div class="persona-panel" data-persona="7yo" role="region" aria-label="Terms for 7-Year-Old">
+      <div class="terms-grid">
+        <div class="term-card"><h3>Prompt</h3><p>What you type to the AI. Like asking a question, but to a computer.</p></div>
+        <div class="term-card"><h3>Model</h3><p>The AI's brain. It learned from reading millions of things.</p></div>
+        <div class="term-card"><h3>Token</h3><p>A tiny piece of a word. The AI breaks everything into tiny pieces to read it. "Hello" might be one token.</p></div>
+        <div class="term-card"><h3>Context Window</h3><p>How many pieces the AI can hold in its memory at once (like short-term memory). If you talk too long, it forgets the beginning.</p></div>
+        <div class="term-card"><h3>System Prompt</h3><p>A secret set of rules someone gives the AI before you start talking. You usually cannot see it. It is like a teacher giving the AI instructions before class.</p></div>
+        <div class="term-card"><h3>Agent</h3><p>An AI that can do things by itself (like clicking buttons or sending messages), not only answer questions.</p></div>
+        <div class="term-card"><h3>Fine-tuning</h3><p>Teaching an AI to get really good at one specific thing, like cooking or math, by giving it lots of examples about that topic.</p></div>
+        <div class="term-card"><h3>RAG</h3><p>Giving an AI a book to look things up in while it talks to you, so it knows about things it wasn't taught originally.</p></div>
+        <div class="term-card"><h3>API</h3><p>A special door that lets one computer program talk to another. It's how apps use AI without you seeing how it works behind the scenes.</p></div>
       </div>
     </div>
 
-    <div class="get-started">
-      <div>
-        <h3>Ready to set it up?</h3>
-        <p>Clone the repo, review the templates, and ask Claude to run <code>deploy-config</code>. The whole process takes about five minutes.</p>
+    <!-- Professional -->
+    <div class="persona-panel" data-persona="pro" role="region" aria-label="Terms for Professional">
+      <div class="terms-grid">
+        <div class="term-card"><h3>Prompt</h3><p>The input you send to an AI: a question, a task, or structured instructions. Better prompts get better results; it's worth learning what "better" means for your tool.</p></div>
+        <div class="term-card"><h3>Model</h3><p>The trained AI system itself. Different models (like Claude Sonnet vs. Opus) have different capability and cost trade-offs. Knowing which model you're using matters.</p></div>
+        <div class="term-card"><h3>Token</h3><p>The unit AI models use to process text, roughly ¾ of a word. Models have context limits in tokens. Longer conversations cost more tokens and eventually hit a ceiling.</p></div>
+        <div class="term-card"><h3>Context Window</h3><p>Everything the AI can "see" in a given conversation, including previous messages. Models range from ~128k up to 1M tokens in the largest. When full, earlier parts get cut off or summarized.</p></div>
+        <div class="term-card"><h3>System Prompt</h3><p>Instructions injected before the conversation starts. Tools use these to define the AI's behavior, rules, and persona. You usually don't see it, but it shapes how the AI responds.</p></div>
+        <div class="term-card"><h3>Agent</h3><p>An AI that takes actions, not only generates text. An agentic AI can call tools, run code, browse the web, or trigger workflows. Claude Code is an example.</p></div>
+        <div class="term-card"><h3>Fine-tuning</h3><p>Adjusting an already-trained model on specific data to improve performance in a narrow domain. Makes sense when prompt engineering isn't enough. Requires data and infrastructure to do well.</p></div>
+        <div class="term-card"><h3>RAG</h3><p>Retrieval-Augmented Generation. Rather than relying only on training data, RAG pulls relevant documents at query time and includes them in the prompt. Common for knowledge-base Q&amp;A.</p></div>
+        <div class="term-card"><h3>API</h3><p>The interface through which you call AI models programmatically. Most AI tools expose an API so developers can integrate AI into their apps.</p></div>
       </div>
-      <a href="https://github.com/amphro/ai-optimizations" class="btn-primary" target="_blank" rel="noopener">
-        Get Started on GitHub ↗
+    </div>
+
+    <!-- Business Owner -->
+    <div class="persona-panel" data-persona="biz" role="region" aria-label="Terms for Business Owner">
+      <div class="terms-grid">
+        <div class="term-card"><h3>Prompt</h3><p>What you type into the AI. The more specific you are, the better the answer. Instead of "write a customer email," try describing exactly who it's for and what it should say.</p></div>
+        <div class="term-card"><h3>Model</h3><p>The version of the AI you're talking to. Think of it like tiers of a service. A more powerful model may give better answers but cost a bit more. For everyday tasks, the standard model is usually fine.</p></div>
+        <div class="term-card"><h3>Token</h3><p>The way the AI measures conversation length. You don't need to worry about this much. It's why very long conversations can cost more or hit a limit.</p></div>
+        <div class="term-card"><h3>Context Window</h3><p>How much the AI can hold in one conversation before it starts forgetting earlier parts. Think of it like a whiteboard: once it's full, something has to be erased. Keep conversations focused.</p></div>
+        <div class="term-card"><h3>System Prompt</h3><p>Background instructions given to the AI before your conversation starts. You usually don't see them. They're how a tool shapes the AI's behavior. A customer service chatbot uses one to stay on-topic.</p></div>
+        <div class="term-card"><h3>Agent</h3><p>An AI that can take actions on your behalf rather than only answering questions, like booking an appointment, sending an email, or updating inventory. These are newer and more powerful.</p></div>
+        <div class="term-card"><h3>Fine-tuning</h3><p>Adjusting an already-trained AI to be especially good at your specific type of business or content. Usually done by larger companies. For most small businesses, the off-the-shelf tools give plenty of value without this.</p></div>
+        <div class="term-card"><h3>RAG</h3><p>A way of giving the AI access to your specific documents or knowledge so it can answer questions using your real information (like a chatbot that knows your exact products and policies). Accuracy depends on retrieving the right document, so always verify important answers.</p></div>
+        <div class="term-card"><h3>API</h3><p>The technical connection that lets one piece of software talk to another. Relevant if you want to integrate AI into your website or booking system. Usually something a developer sets up.</p></div>
+      </div>
+    </div>
+
+    <!-- Engineer -->
+    <div class="persona-panel" data-persona="eng" role="region" aria-label="Terms for Engineer">
+      <div class="terms-grid">
+        <div class="term-card"><h3>Prompt</h3><p>The input passed to the model at inference time: user message, tool schemas, results, prior turns, injected context. Output quality is primarily a function of prompt quality.</p></div>
+        <div class="term-card"><h3>Model</h3><p>A specific checkpoint with fixed weights. "Claude Sonnet 4.6" refers to a specific trained artifact. Selection involves capability, context window, cost-per-token, and rate limit trade-offs.</p></div>
+        <div class="term-card"><h3>Token</h3><p>Atomic unit of text for LLMs. Sub-word tokenization (BPE/SentencePiece). 1 token ≈ 0.75 English words, varies by language. Token count determines cost and context window fit.</p></div>
+        <div class="term-card"><h3>Context Window</h3><p>Full input sequence visible at inference: system prompt, conversation history, tool results, retrieved docs. Frontier models range from ~128k up to 1M tokens. Long-context performance can degrade for content in the middle of very long inputs, a documented tendency and not a universal guarantee.</p></div>
+        <div class="term-card"><h3>System Prompt</h3><p>Privileged instruction prefix injected before the user turn. In Claude Code, composed from global CLAUDE.md, project CLAUDE.md, active skills, and hook injections. Defines persona, constraints, available tools, and workflow rules.</p></div>
+        <div class="term-card"><h3>Agent</h3><p>A model in an agentic loop with tool use: perceive state → plan → act → observe → repeat. Key concerns: tool schema quality, error handling, context consumption per iteration, and human escape hatches.</p></div>
+        <div class="term-card"><h3>Fine-tuning</h3><p>Continued training on curated data to shift model behavior or add domain knowledge. SFT vs. LoRA vs. RLHF. Use when prompt engineering hits a ceiling. Not the right tool until you've exhausted prompt and retrieval approaches.</p></div>
+        <div class="term-card"><h3>RAG</h3><p>Retrieval-Augmented Generation. Augmenting inference context with documents retrieved from an external store via semantic similarity or keyword search. Trade-off: relevant context vs. prompt size, retrieval latency, chunking quality.</p></div>
+        <div class="term-card"><h3>API</h3><p>HTTP endpoint (or SDK wrapper) for model inference. Key parameters: model, messages array, system prompt, max_tokens, temperature, tool definitions. Batching, streaming, and tool use are first-class features. Rate limits and cost tracking matter at scale.</p></div>
+      </div>
+    </div>
+
+    <!-- Product / UX -->
+    <div class="persona-panel" data-persona="ux" role="region" aria-label="Terms for Product / UX">
+      <div class="terms-grid">
+        <div class="term-card"><h3>Prompt</h3><p>What a user types or sends to an AI. In product design, prompts are where user intent meets AI capability. Designing AI-powered features often means designing how the user prompts: structured inputs, suggested starters, or open fields.</p></div>
+        <div class="term-card"><h3>Model</h3><p>The AI system itself. Different models have different strengths, speeds, and costs. For product decisions: fast and cheap for high-volume low-stakes tasks, slower and more capable for complex reasoning.</p></div>
+        <div class="term-card"><h3>Token</h3><p>How AI models measure the length of text they process. Longer content costs more and every model has a limit. Designing around token limits means thinking carefully about what context the AI actually needs.</p></div>
+        <div class="term-card"><h3>Context Window</h3><p>Everything the AI can see at once in a session: the system prompt, conversation history, any documents fed to it. Think of it as working memory. What goes into the context window is a product decision as much as a technical one.</p></div>
+        <div class="term-card"><h3>System Prompt</h3><p>Hidden instructions that shape how the AI behaves before a user sees it. This is where product teams define the AI's role, tone, constraints, and capabilities. A well-designed system prompt is like a job description for the AI.</p></div>
+        <div class="term-card"><h3>Agent</h3><p>An AI that takes actions, not only generates text. For product thinking, an agent changes the design question from "what should the AI say?" to "what should the AI do, and when should it ask a human first?"</p></div>
+        <div class="term-card"><h3>Fine-tuning</h3><p>Customizing a model's behavior by training it on specific data. Relevant when the base model doesn't behave right in a specific domain or tone. Usually a later-stage investment, not a starting point.</p></div>
+        <div class="term-card"><h3>RAG</h3><p>A technique for grounding AI responses in specific content: documentation, knowledge bases, product catalogs. Instead of relying on training data, RAG retrieves relevant content and puts it into context. Useful when accuracy and currency matter.</p></div>
+        <div class="term-card"><h3>API</h3><p>The programmatic interface to an AI model. For product teams, the API is what makes AI a platform: developers can call it from any surface. API design and rate limits affect what's feasible to build and at what scale.</p></div>
+      </div>
+    </div>
+
+    <!-- One Step at a Time -->
+    <div class="persona-panel" data-persona="elderly" role="region" aria-label="Terms for One Step at a Time">
+      <div class="terms-grid">
+        <div class="term-card"><h3>Prompt</h3><p>What you type to the AI. The more clearly you explain what you need, the better the answer tends to be. If the first answer isn't quite right, try saying the same thing differently.</p></div>
+        <div class="term-card"><h3>Model</h3><p>The specific version of the AI you are talking to. Different models are better or worse at different tasks. You usually do not have to choose. The tool picks for you. If you see a choice, a description is usually nearby to help.</p></div>
+        <div class="term-card"><h3>Token</h3><p>A small piece of text that the AI uses to measure how much it is processing. You do not need to know how to count tokens. Know that very long conversations can sometimes hit a limit. If that happens, starting a new conversation usually helps.</p></div>
+        <div class="term-card"><h3>Context Window</h3><p>How much of the current conversation the AI can hold in mind at once. It is like short-term memory. If a conversation goes on long enough, the AI may lose track of things said early on. Keeping conversations focused on one topic at a time helps.</p></div>
+        <div class="term-card"><h3>System Prompt</h3><p>Instructions given to the AI before you ever type anything. You typically do not see them. They are set up by the tool or the person who built the product you are using. They shape how the AI behaves and what it will or will not do.</p></div>
+        <div class="term-card"><h3>Agent</h3><p>An AI that takes actions, not only answers questions. Instead of saying "here is how to send that email," an agent AI can send the email itself. These are newer and more powerful. They usually ask you to confirm before doing something important.</p></div>
+        <div class="term-card"><h3>Fine-tuning</h3><p>Teaching an AI to be especially good at something specific by training it on extra examples. You would not do this yourself. It is something AI companies or larger businesses do to make a tool behave well in a particular area.</p></div>
+        <div class="term-card"><h3>RAG</h3><p>A way of giving the AI access to specific documents or information so it can answer questions using that material, though it depends on finding the right document, so answers are not guaranteed to be perfect. An example: a customer support tool that knows your exact policies, not only general knowledge.</p></div>
+        <div class="term-card"><h3>API</h3><p>A technical connection that lets different software programs talk to each other. You will not interact with it directly as a user. It is what lets developers add AI features to apps and tools you already use.</p></div>
+      </div>
+    </div>
+
+  </div>
+  </div>
+
+</section>
+
+<!-- Tools -->
+<section id="tools">
+  <div class="container">
+    <div class="section-header">
+      <span class="label">AI Coding Tools</span>
+      <h2>Tools for building with AI</h2>
+      <p>Research, templates, and configs for each, built up over time.</p>
+    </div>
+    <div class="tools-grid">
+      <a href="./claude-code/index.html" class="tool-card tool-card-live">
+        <div class="tool-icon" aria-hidden="true">🤖</div>
+        <h3>Claude Code</h3>
+        <p>Anthropic's agentic CLI. Settings, hooks, subagents, skills, and a maintenance loop to keep it current.</p>
+        <span class="tool-badge">Available now</span>
       </a>
+      <div class="tool-card tool-card-coming">
+        <div class="tool-icon" aria-hidden="true">🐙</div>
+        <h3>GitHub Copilot</h3>
+        <p>GitHub's AI coding assistant. Research and config templates coming.</p>
+        <span class="tool-badge-soon">Coming soon</span>
+      </div>
+      <div class="tool-card tool-card-coming">
+        <div class="tool-icon" aria-hidden="true">💎</div>
+        <h3>Gemini Code Assist</h3>
+        <p>Google's AI coding tool. Research and config templates coming.</p>
+        <span class="tool-badge-soon">Coming soon</span>
+      </div>
+      <div class="tool-card tool-card-coming">
+        <div class="tool-icon" aria-hidden="true">💬</div>
+        <h3>ChatGPT / Codex</h3>
+        <p>OpenAI's models for coding. Research and config templates coming.</p>
+        <span class="tool-badge-soon">Coming soon</span>
+      </div>
     </div>
   </div>
 </section>
@@ -372,7 +380,7 @@
 
 <footer>
   <div class="container">
-    <p>Research, skills, and templates are Claude-generated, human-curated. &nbsp;|&nbsp; <a href="https://github.com/amphro/ai-optimizations" target="_blank" rel="noopener">View on GitHub</a></p>
+    <p>Research, skills, and templates are Claude-generated, human-verified. &nbsp;|&nbsp; <a href="https://github.com/amphro/ai-optimizations" target="_blank" rel="noopener">View on GitHub</a></p>
   </div>
 </footer>
 

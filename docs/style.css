@@ -170,15 +170,106 @@ strong { color: var(--text); }
 .why-card p { font-size: 15px; line-height: 1.65; }
 
 /* ── Guide ── */
-#guide { padding-top: 72px; }
+#guide { padding: 72px 0; }
 #guide .section-header { margin-bottom: 36px; }
 #guide .section-header p { font-size: 1.05rem; margin-top: 12px; max-width: 560px; }
 
-.persona-tabs-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 4px; margin-bottom: 32px; }
+/* ── Learn section (home page: guide + terms merged) ── */
+section#learn { padding: 0; background: var(--surface-2); }
+section#guide { padding: 0; }
+section#guide > .container { padding: 72px 24px; }
+
+/* Sticky bar — hidden until in-page picker scrolls off */
+.learn-persona-sticky {
+  position: sticky;
+  top: 56px;
+  z-index: 50;
+  background: var(--surface-2);
+  border-bottom: 1px solid var(--border);
+  display: none;
+}
+.learn-persona-sticky.visible { display: block; }
+.sticky-desktop { padding: 10px 24px; }
+.learn-persona-inner {
+  max-width: 1000px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.sticky-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+.sticky-description {
+  font-size: 13px;
+  color: var(--accent);
+  font-weight: 600;
+  font-style: italic;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.sticky-mobile { display: none; }
+
+/* In-page persona picker */
+.persona-picker {
+  text-align: center;
+  margin-bottom: 40px;
+}
+.picker-heading {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 16px;
+}
+.persona-picker .persona-tabs { justify-content: center; margin-bottom: 14px; }
+.persona-description {
+  font-size: 15px;
+  color: var(--accent);
+  font-weight: 600;
+  font-style: italic;
+  min-height: 1.5em;
+}
+
+/* Horizontal scroll pill row */
+.persona-tabs-scroll {
+  flex-wrap: nowrap !important;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  justify-content: flex-start !important;
+  padding: 8px 20px;
+  mask-image: linear-gradient(to right, black 80%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, black 80%, transparent 100%);
+}
+.persona-tabs-scroll::-webkit-scrollbar { display: none; }
+
 .persona-tabs {
   display: flex;
+  flex-wrap: wrap;
   gap: 8px;
-  width: max-content;
+}
+.nav-persona-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+.nav-persona-select {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  padding: 5px 10px;
+  cursor: pointer;
+  max-width: 180px;
 }
 .persona-tab {
   display: flex;
@@ -187,7 +278,8 @@ strong { color: var(--text); }
   background: var(--surface);
   border: 1.5px solid var(--border);
   border-radius: 999px;
-  padding: 9px 18px;
+  padding: 11px 18px;
+  min-height: 44px;
   font-size: 14px;
   font-weight: 600;
   color: var(--text-muted);
@@ -298,10 +390,117 @@ footer {
 footer p { font-size: 14px; color: var(--text-muted); }
 footer a { color: var(--accent); text-decoration: none; }
 
+/* ── Nav active state ── */
+.nav-link-active {
+  font-size: 14px;
+  color: var(--text);
+  font-weight: 600;
+}
+
+/* ── Terms ── */
+#terms { padding: 72px 0; border-top: 1px solid var(--border); }
+#terms .section-header { margin-bottom: 12px; }
+#terms .section-header p { font-size: 1.05rem; margin-top: 12px; max-width: 560px; }
+.persona-note {
+  font-size: 13px;
+  color: var(--accent);
+  font-weight: 600;
+  margin-bottom: 28px;
+}
+.terms-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+}
+.term-card {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 20px 22px;
+  box-shadow: var(--shadow);
+}
+.term-card h3 {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 8px;
+}
+.term-card p { font-size: 15px; line-height: 1.65; color: var(--text); }
+.term-card a { color: var(--accent); text-decoration: none; }
+.term-card a:hover { text-decoration: underline; }
+
+/* ── Tools ── */
+#tools { background: var(--surface-2); }
+#tools .section-header { margin-bottom: 40px; }
+.tools-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
+.tool-card {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px 24px;
+  box-shadow: var(--shadow);
+}
+.tool-card-live {
+  transition: transform 0.15s, box-shadow 0.15s;
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+.tool-card-live:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+.tool-card-coming { opacity: 0.55; }
+.tool-icon { font-size: 28px; margin-bottom: 14px; }
+.tool-card h3 { color: var(--text); margin-bottom: 8px; font-size: 1.1rem; }
+.tool-card p { font-size: 14px; line-height: 1.6; }
+.tool-badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  background: var(--accent);
+  color: #fff;
+  padding: 2px 9px;
+  border-radius: 999px;
+  margin-top: 14px;
+}
+.tool-badge-soon {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  background: var(--surface-2);
+  color: var(--text-muted);
+  padding: 2px 9px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  margin-top: 14px;
+}
+
 /* ── Responsive ── */
 @media (max-width: 640px) {
   section { padding: 52px 0; }
   .guide-card { padding: 24px 20px; }
   .get-started { flex-direction: column; }
   .nav-links .nav-link-hide { display: none; }
+  .terms-grid { grid-template-columns: 1fr; }
+  .tools-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 640px) {
+  .sticky-desktop { display: none; }
+  .sticky-mobile { display: block; }
+  .persona-picker .persona-tabs {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    justify-content: flex-start;
+    padding: 0 0 4px;
+    scrollbar-width: none;
+    margin: 0 -24px 14px;
+    mask-image: linear-gradient(to right, black 80%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, black 80%, transparent 100%);
+  }
+  .persona-picker .persona-tabs::-webkit-scrollbar { display: none; }
+}
+@media (max-width: 480px) {
+  .nav-persona-label { display: none; }
+  .nav-persona-select { max-width: 140px; }
 }
