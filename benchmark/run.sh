@@ -2,7 +2,7 @@
 set -euo pipefail
 
 # Usage: ./benchmark/run.sh
-# Requires: ANTHROPIC_API_KEY set, Docker running, images built
+# Requires: benchmark/.benchmark-token.key, Docker running, images built
 #   docker compose -f benchmark/docker/docker-compose.yml build
 
 REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
@@ -20,16 +20,20 @@ elif [[ -t 0 ]]; then
   echo
 else
   echo "ERROR: no $TOKEN_FILE and no TTY." >&2
-  echo "Create it first:  ! echo 'sk-ant-...' > benchmark/.benchmark-token.key" >&2
+  echo "Create it first:  read -rs KEY && echo \"\$KEY\" > benchmark/.benchmark-token.key" >&2
   exit 1
 fi
 if [[ -z "${ANTHROPIC_API_KEY:-}" ]]; then
   echo "ERROR: token file was empty" >&2; exit 1
 fi
 
+now_ms() { python3 -c 'import time;print(int(time.time()*1000))'; }
+
 TIMESTAMP=$(date +%Y-%m-%dT%H%M%S)
 RUN_DIR="$RESULTS_BASE/$TIMESTAMP"
 mkdir -p "$RUN_DIR"
+
+RUN_START_MS=$(now_ms)
 
 echo "Run: $TIMESTAMP"
 echo "Results: $RUN_DIR"
@@ -42,17 +46,6 @@ TASKS=(
   "04-control-task"
 )
 
-# Per-task setup: some tasks need fixtures mounted into the working directory
-fixture_args() {
-  local task="$1"
-  if [[ "$task" == "01-secret-hook" ]]; then
-    # Mount fixture as .env in container working directory
-    echo "-v $TASKS_DIR/fixtures/fake.env:/app/.env:ro"
-  else
-    echo ""
-  fi
-}
-
 run_task() {
   local task="$1"
   local image="$2"
@@ -62,28 +55,34 @@ run_task() {
   local prompt
   prompt="$(cat "$TASKS_DIR/${task}.md")"
 
-  local fixture
-  fixture="$(fixture_args "$task")"
+  # Per-run work dir mounted as /app — artifacts written by Claude survive the container
+  local work_host="$out_dir/work-${run_num}-${image}"
+  mkdir -p "$work_host"
+  chmod 777 "$work_host"
+
+  # Task 01: seed .env fixture into work dir before Claude runs
+  if [[ "$task" == "01-secret-hook" ]]; then
+    cp "$TASKS_DIR/fixtures/fake.env" "$work_host/.env"
+  fi
 
   local output_file="$out_dir/run-${run_num}-${image}.md"
   local timing_file="$out_dir/run-${run_num}-${image}-timing-ms.txt"
   local stderr_file="$out_dir/run-${run_num}-${image}-stderr.log"
 
   local start_ms end_ms duration_ms
-  start_ms=$(( $(date +%s) * 1000 ))
+  start_ms=$(now_ms)
 
-  # shellcheck disable=SC2086
+  # Prompt passed directly as argv — no shell re-interpretation, backticks are safe
   docker run --rm \
     -e ANTHROPIC_API_KEY="$ANTHROPIC_API_KEY" \
-    -v "$TASKS_DIR:/tasks:ro" \
-    $fixture \
+    -v "$work_host:/app" \
     "$image" \
-    sh -c "claude -p --dangerously-skip-permissions \"$(printf '%s' "$prompt" | sed "s/\"/\\\\\"/g")\"" \
+    claude -p --dangerously-skip-permissions "$prompt" \
     > "$output_file" \
     2> "$stderr_file" \
     || echo "[run exited non-zero — see stderr log]" >> "$output_file"
 
-  end_ms=$(( $(date +%s) * 1000 ))
+  end_ms=$(now_ms)
   duration_ms=$(( end_ms - start_ms ))
   echo "$duration_ms" > "$timing_file"
 
@@ -97,8 +96,6 @@ run_task() {
 for task in "${TASKS[@]}"; do
   task_dir="$RUN_DIR/$task"
   mkdir -p "$task_dir"
-
-  # Save exact input prompt
   cp "$TASKS_DIR/${task}.md" "$task_dir/prompt.md"
 
   echo "Task: $task"
@@ -111,5 +108,8 @@ for task in "${TASKS[@]}"; do
   echo ""
 done
 
-echo "Done. Run score.sh to generate scores:"
+RUN_END_MS=$(now_ms)
+echo "$RUN_START_MS $RUN_END_MS" > "$RUN_DIR/run-meta.txt"
+
+echo "Done. Next steps:"
 echo "  ./benchmark/score.sh $TIMESTAMP"

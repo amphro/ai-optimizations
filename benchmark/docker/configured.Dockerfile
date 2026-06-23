@@ -4,7 +4,7 @@ FROM node:20-slim
 RUN apt-get update && apt-get install -y jq && rm -rf /var/lib/apt/lists/*
 
 # Pin Claude Code version — must match clean.Dockerfile
-RUN npm install -g @anthropic-ai/claude-code@latest
+RUN npm install -g @anthropic-ai/claude-code@2.1.186
 
 # Deploy toolkit config for the node user (--dangerously-skip-permissions rejected as root)
 # Build context must be repo root so these paths resolve

@@ -71,10 +71,12 @@ Do not publish until you've reviewed. Outputs are gitignored by default.
 If the results look clean:
 
 ```sh
-cp -r benchmark/results/<timestamp> docs/benchmarks/data/<timestamp>
+./benchmark/publish.sh <timestamp>
 ```
 
-Then update `docs/benchmarks/data/index.json` — add the timestamp string to the `"runs"` array. Commit both:
+This copies scored results to `docs/benchmarks/data/<timestamp>/` (excluding `.env` seeds and hidden files) and prepends the timestamp to `docs/benchmarks/data/index.json` automatically.
+
+Then record the API cost — open `docs/benchmarks/data/<timestamp>/summary.json` and set the `"cost_usd"` field to the amount shown in your Anthropic API dashboard for this run. Then commit:
 
 ```sh
 git add docs/benchmarks/data/<timestamp> docs/benchmarks/data/index.json
@@ -86,7 +88,7 @@ The GitHub Pages benchmarks page reads `index.json` and renders the new run auto
 
 ## Step 7: Regression check
 
-If there are two or more published result sets, compare median scores across timestamps. A drop in the configured-vs-baseline delta on tasks 01-03 is a regression. Task 04 (control) delta should stay near zero across all runs — a large shift there suggests rubric bias, not toolkit change.
+If there are two or more published result sets, compare median scores across timestamps. A drop in the configured-vs-baseline delta on tasks 01-03 is a regression. Task 04 (code correctness) configured should consistently run tests automatically (rigor/latency tradeoff); a sudden drop in `ran_tests` suggests the toolkit config regressed, not noise.
 
 ## Step 8: Report
 

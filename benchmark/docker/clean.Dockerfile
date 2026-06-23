@@ -1,7 +1,7 @@
 FROM node:20-slim
 
-# Pin Claude Code version — update digest here when upgrading
-RUN npm install -g @anthropic-ai/claude-code@latest
+# Pin Claude Code version — bump this intentionally when upgrading
+RUN npm install -g @anthropic-ai/claude-code@2.1.186
 
 # --dangerously-skip-permissions is rejected when running as root (Claude Code security restriction)
 RUN mkdir -p /app && chown node:node /app
