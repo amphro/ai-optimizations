@@ -11,9 +11,20 @@ TASKS_DIR="$BENCHMARK_DIR/tasks"
 RESULTS_BASE="$BENCHMARK_DIR/results"
 RUNS=5
 
-if [[ -z "${ANTHROPIC_API_KEY:-}" ]]; then
-  echo "ERROR: ANTHROPIC_API_KEY is not set" >&2
+TOKEN_FILE="$BENCHMARK_DIR/.benchmark-token.key"
+trap 'rm -f "$TOKEN_FILE"' EXIT
+if [[ -f "$TOKEN_FILE" ]]; then
+  ANTHROPIC_API_KEY="$(cat "$TOKEN_FILE")"
+elif [[ -t 0 ]]; then
+  read -rsp "Paste ANTHROPIC_API_KEY (one-time, not stored): " ANTHROPIC_API_KEY
+  echo
+else
+  echo "ERROR: no $TOKEN_FILE and no TTY." >&2
+  echo "Create it first:  ! echo 'sk-ant-...' > benchmark/.benchmark-token.key" >&2
   exit 1
+fi
+if [[ -z "${ANTHROPIC_API_KEY:-}" ]]; then
+  echo "ERROR: token file was empty" >&2; exit 1
 fi
 
 TIMESTAMP=$(date +%Y-%m-%dT%H%M%S)
@@ -59,7 +70,7 @@ run_task() {
   local stderr_file="$out_dir/run-${run_num}-${image}-stderr.log"
 
   local start_ms end_ms duration_ms
-  start_ms=$(date +%s%N | cut -c1-13)
+  start_ms=$(( $(date +%s) * 1000 ))
 
   # shellcheck disable=SC2086
   docker run --rm \
@@ -72,7 +83,7 @@ run_task() {
     2> "$stderr_file" \
     || echo "[run exited non-zero — see stderr log]" >> "$output_file"
 
-  end_ms=$(date +%s%N | cut -c1-13)
+  end_ms=$(( $(date +%s) * 1000 ))
   duration_ms=$(( end_ms - start_ms ))
   echo "$duration_ms" > "$timing_file"
 
