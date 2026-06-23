@@ -1,0 +1,6 @@
+extends: existence
+message: "Em dash or en dash found. Use a period, comma, or parentheses instead."
+level: error
+raw:
+  - '\x{2014}'
+  - '\x{2013}'

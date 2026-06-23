@@ -1,0 +1,8 @@
+extends: existence
+message: "Transition-word spam '%s'. Cut it or restructure the sentence."
+level: warning
+ignorecase: true
+tokens:
+  - '^Additionally[,\s]'
+  - '^Furthermore[,\s]'
+  - '^Moreover[,\s]'

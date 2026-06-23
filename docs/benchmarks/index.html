@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Benchmarks — AI Toolkit</title>
+  <meta name="description" content="Claude Code configuration benchmark results: baseline vs. configured, task by task." />
+  <link rel="stylesheet" href="../style.css" />
+  <style>
+    .benchmark-hero { padding: 60px 0 40px; }
+    .benchmark-hero h1 { font-size: clamp(1.6rem, 4vw, 2.4rem); margin-bottom: 12px; }
+    .benchmark-hero p { color: var(--text-muted); max-width: 640px; }
+
+    .run-selector { margin-bottom: 40px; }
+    .run-selector label { font-size: 13px; font-weight: 600; color: var(--text-muted); margin-right: 8px; }
+    .run-selector select { font-size: 14px; padding: 6px 10px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--surface); }
+
+    .task-grid { display: flex; flex-direction: column; gap: 32px; }
+
+    .task-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .task-header {
+      padding: 20px 24px 16px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .task-header h3 { font-size: 1rem; margin-bottom: 4px; }
+    .task-prompt { font-size: 13px; color: var(--text-muted); font-style: italic; }
+
+    .score-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+    .score-chip {
+      font-size: 12px;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+    .score-chip.baseline { background: var(--surface-2); color: var(--text-muted); border: 1px solid var(--border); }
+    .score-chip.configured { background: var(--accent-light); color: var(--accent); border: 1px solid var(--accent); }
+    .score-chip.delta { background: #e8f5e9; color: #2e7d32; border: 1px solid #a5d6a7; }
+    .score-chip.delta.negative { background: #fce4e4; color: #c62828; border: 1px solid #ef9a9a; }
+
+    .output-tabs { display: flex; border-bottom: 1px solid var(--border); background: var(--surface-2); }
+    .output-tab {
+      padding: 10px 20px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      background: none;
+      color: var(--text-muted);
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+    }
+    .output-tab.active { color: var(--accent); border-bottom-color: var(--accent); background: var(--surface); }
+
+    .output-pane { display: none; padding: 20px 24px; }
+    .output-pane.active { display: block; }
+
+    .output-content {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 12.5px;
+      line-height: 1.6;
+      white-space: pre-wrap;
+      word-break: break-word;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+      max-height: 400px;
+      overflow-y: auto;
+    }
+
+    .run-pills { display: flex; gap: 6px; padding: 12px 24px; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
+    .run-pill {
+      font-size: 12px;
+      padding: 3px 10px;
+      border-radius: 999px;
+      cursor: pointer;
+      border: 1px solid var(--border);
+      background: var(--surface-2);
+      color: var(--text-muted);
+    }
+    .run-pill.active { background: var(--text); color: var(--surface); border-color: var(--text); }
+    .timing { font-size: 11px; color: var(--text-muted); margin-top: 6px; }
+
+    .disclaimer {
+      margin-top: 48px;
+      padding: 16px 20px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      color: var(--text-muted);
+      background: var(--surface-2);
+    }
+
+    .no-data { text-align: center; padding: 80px 24px; color: var(--text-muted); }
+
+    @media (max-width: 640px) {
+      .task-header { flex-direction: column; }
+      .score-bar { flex-wrap: wrap; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a class="nav-logo" href="../index.html">AI <span>Toolkit</span></a>
+    <div class="nav-links">
+      <a href="../index.html" class="nav-link-hide">Home</a>
+      <a href="../claude-code/index.html" class="nav-link-hide">Claude Code</a>
+      <span class="nav-link-active nav-link-hide">Benchmarks</span>
+      <a href="https://github.com/amphro/ai-optimizations" class="nav-cta" target="_blank" rel="noopener">View on GitHub</a>
+    </div>
+  </div>
+</nav>
+
+<main>
+<section class="benchmark-hero">
+  <div class="container">
+    <div class="hero-badge">Claude-generated, human-verified</div>
+    <h1>Benchmark Results</h1>
+    <p>Each task runs 5 times against two environments: bare Claude Code with no configuration, and Claude Code with this toolkit deployed. Results are committed after human review.</p>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="run-selector">
+      <label for="run-select">Result set:</label>
+      <select id="run-select"></select>
+    </div>
+    <div id="results-root">
+      <div class="no-data">Loading results...</div>
+    </div>
+    <div class="disclaimer">
+      Tasks were designed to demonstrate behaviors the toolkit implements. The rubrics were written by the toolkit author. The control task (04) should score similarly in both environments; a large delta there suggests rubric bias. Vale writing checks are deterministic; secret hook results are binary pass/fail.
+    </div>
+  </div>
+</section>
+</main>
+
+<script>
+(function () {
+  const root = document.getElementById('results-root');
+  const sel = document.getElementById('run-select');
+
+  const DATA_BASE = './data/';
+
+  function taskLabel(id) {
+    return {
+      '01-secret-hook': 'Secret Hook',
+      '02-claudemd-quality': 'CLAUDE.md Quality',
+      '03-writing-style': 'Writing Style',
+      '04-control-task': 'Control Task',
+    }[id] || id;
+  }
+
+  function taskDesc(id) {
+    return {
+      '01-secret-hook': 'Ask Claude to read .env. Baseline leaks the values; configured hook blocks the read.',
+      '02-claudemd-quality': 'Ask Claude to write a CLAUDE.md. Scored on line count and absence of banned patterns.',
+      '03-writing-style': 'Ask Claude to write a README. Scored by Vale against the writing-voice rules.',
+      '04-control-task': 'Ask Claude to write a function with tests. Neither environment has an advantage.',
+    }[id] || '';
+  }
+
+  function buildScoreChips(data) {
+    if (!data || !data.runs || !data.runs.length) return '';
+    const task = data.task;
+    let baselineScore = null, configuredScore = null;
+
+    if (task === '01-secret-hook') {
+      const lastRun = data.runs[data.runs.length - 1];
+      const blocked = data.runs.filter(r => r.hook && r.hook.configured_blocked).length;
+      return `<span class="score-chip baseline">baseline: leaks</span>
+              <span class="score-chip configured">configured: ${blocked}/${data.runs.length} blocked</span>`;
+    }
+    if (task === '03-writing-style') {
+      const baselineViols = data.runs.reduce((a, r) => a + (r.baseline_style && r.baseline_style.violations != null ? r.baseline_style.violations : 0), 0) / data.runs.length;
+      const configViols = data.runs.reduce((a, r) => a + (r.configured_style && r.configured_style.violations != null ? r.configured_style.violations : 0), 0) / data.runs.length;
+      const delta = Math.round(baselineViols - configViols);
+      return `<span class="score-chip baseline">baseline: ${baselineViols.toFixed(1)} violations</span>
+              <span class="score-chip configured">configured: ${configViols.toFixed(1)} violations</span>
+              <span class="score-chip delta ${delta < 0 ? 'negative' : ''}">delta: ${delta > 0 ? '-' + delta : delta}</span>`;
+    }
+    return '';
+  }
+
+  function renderRunOutput(taskData, runIdx) {
+    const run = taskData.runs[runIdx];
+    if (!run) return '<p>No data for this run.</p>';
+    const bMs = run.baseline_ms != null ? run.baseline_ms + 'ms' : 'n/a';
+    const cMs = run.configured_ms != null ? run.configured_ms + 'ms' : 'n/a';
+    return `<p class="timing">Baseline: ${bMs} &nbsp;|&nbsp; Configured: ${cMs}</p>`;
+  }
+
+  function renderTask(taskId, scoreJson, allOutputs) {
+    const runs = scoreJson.runs || [];
+    const label = taskLabel(taskId);
+    const desc = taskDesc(taskId);
+    const chips = buildScoreChips(scoreJson);
+
+    const runPills = runs.map((r, i) =>
+      `<button class="run-pill${i === 0 ? ' active' : ''}" data-run="${i}">${r.run}</button>`
+    ).join('');
+
+    const runPanes = runs.map((r, i) => {
+      const bKey = `run-${r.run}-benchmark-clean`;
+      const cKey = `run-${r.run}-benchmark-configured`;
+      const bOut = allOutputs[bKey] || '(output not found)';
+      const cOut = allOutputs[cKey] || '(output not found)';
+      const timing = renderRunOutput(scoreJson, i);
+      return `<div class="run-content${i === 0 ? ' active' : ''}" data-run="${i}">
+        ${timing}
+        <div class="output-tabs">
+          <button class="output-tab active" data-pane="baseline">Baseline</button>
+          <button class="output-tab" data-pane="configured">Configured</button>
+          <button class="output-tab" data-pane="prompt">Prompt</button>
+        </div>
+        <div class="output-pane active" data-pane="baseline"><pre class="output-content">${escHtml(bOut)}</pre></div>
+        <div class="output-pane" data-pane="configured"><pre class="output-content">${escHtml(cOut)}</pre></div>
+        <div class="output-pane" data-pane="prompt"><pre class="output-content">${escHtml(allOutputs['prompt'] || '')}</pre></div>
+      </div>`;
+    }).join('');
+
+    return `<div class="task-card" data-task="${taskId}">
+      <div class="task-header">
+        <div>
+          <h3>${label}</h3>
+          <p class="task-prompt">${escHtml(desc)}</p>
+        </div>
+        <div class="score-bar">${chips}</div>
+      </div>
+      <div class="run-pills">${runPills}</div>
+      ${runPanes}
+    </div>`;
+  }
+
+  function escHtml(s) {
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  async function loadRun(timestamp) {
+    const tasks = ['01-secret-hook','02-claudemd-quality','03-writing-style','04-control-task'];
+    const cards = [];
+
+    for (const task of tasks) {
+      try {
+        const scoreResp = await fetch(`${DATA_BASE}${timestamp}/${task}/score.json`);
+        if (!scoreResp.ok) continue;
+        const score = await scoreResp.json();
+
+        // Load all output files for this task
+        const outputs = {};
+        const promptResp = await fetch(`${DATA_BASE}${timestamp}/${task}/prompt.md`);
+        if (promptResp.ok) outputs['prompt'] = await promptResp.text();
+
+        for (let r = 1; r <= (score.runs || []).length; r++) {
+          for (const env of ['benchmark-clean', 'benchmark-configured']) {
+            const key = `run-${r}-${env}`;
+            const resp = await fetch(`${DATA_BASE}${timestamp}/${task}/${key}.md`);
+            if (resp.ok) outputs[key] = await resp.text();
+          }
+        }
+
+        cards.push(renderTask(task, score, outputs));
+      } catch (e) {
+        console.warn('Failed to load', task, e);
+      }
+    }
+
+    if (cards.length === 0) {
+      root.innerHTML = '<div class="no-data">No results found for this run.</div>';
+    } else {
+      root.innerHTML = `<div class="task-grid">${cards.join('')}</div>`;
+      wireInteractions();
+    }
+  }
+
+  function wireInteractions() {
+    // Run pill switching
+    root.querySelectorAll('.task-card').forEach(card => {
+      const pills = card.querySelectorAll('.run-pill');
+      const contents = card.querySelectorAll('.run-content');
+      pills.forEach(pill => {
+        pill.addEventListener('click', () => {
+          const idx = pill.dataset.run;
+          pills.forEach(p => p.classList.remove('active'));
+          contents.forEach(c => c.classList.remove('active'));
+          pill.classList.add('active');
+          card.querySelector(`.run-content[data-run="${idx}"]`).classList.add('active');
+        });
+      });
+
+      // Output tab switching within each run
+      card.querySelectorAll('.run-content').forEach(rc => {
+        const tabs = rc.querySelectorAll('.output-tab');
+        const panes = rc.querySelectorAll('.output-pane');
+        tabs.forEach(tab => {
+          tab.addEventListener('click', () => {
+            const pane = tab.dataset.pane;
+            tabs.forEach(t => t.classList.remove('active'));
+            panes.forEach(p => p.classList.remove('active'));
+            tab.classList.add('active');
+            rc.querySelector(`.output-pane[data-pane="${pane}"]`).classList.add('active');
+          });
+        });
+      });
+    });
+  }
+
+  async function init() {
+    // Fetch index of available runs
+    try {
+      const resp = await fetch(`${DATA_BASE}index.json`);
+      if (!resp.ok) throw new Error('no index');
+      const index = await resp.json();
+      const runs = index.runs || [];
+      if (runs.length === 0) throw new Error('empty');
+      runs.forEach((ts, i) => {
+        const opt = document.createElement('option');
+        opt.value = ts;
+        opt.textContent = ts;
+        if (i === 0) opt.selected = true;
+        sel.appendChild(opt);
+      });
+      sel.addEventListener('change', () => loadRun(sel.value));
+      loadRun(runs[0]);
+    } catch (e) {
+      root.innerHTML = '<div class="no-data">No benchmark results published yet. Run <code>./benchmark/run.sh</code> and follow the instructions to publish.</div>';
+      sel.parentElement.style.display = 'none';
+    }
+  }
+
+  init();
+}());
+</script>
+</body>
+</html>
