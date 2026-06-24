@@ -1,0 +1,12 @@
+{
+  "name": "sum-even",
+  "version": "1.0.0",
+  "description": "A function to sum even numbers in an array",
+  "main": "sumEven.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "devDependencies": {
+    "jest": "^29.0.0"
+  }
+}

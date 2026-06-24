@@ -1,0 +1,93 @@
+{
+  "task": "02-claudemd-quality",
+  "timestamp": "2026-06-24T091907",
+  "timing": {
+    "baseline": {
+      "mean": 22669,
+      "median": 24019,
+      "min": 13190,
+      "max": 29470
+    },
+    "configured": {
+      "mean": 18721,
+      "median": 18409,
+      "min": 16984,
+      "max": 21317
+    }
+  },
+  "runs": [
+    {
+      "run": 1,
+      "baseline_ms": 13190,
+      "configured_ms": 19776,
+      "baseline_quality": {
+        "error": "artifact missing"
+      },
+      "configured_quality": {
+        "line_count": 37,
+        "heading_count": 6,
+        "violation_count": 0
+      }
+    },
+    {
+      "run": 2,
+      "baseline_ms": 24019,
+      "configured_ms": 16984,
+      "baseline_quality": {
+        "line_count": 103,
+        "heading_count": 8,
+        "violation_count": 0
+      },
+      "configured_quality": {
+        "line_count": 35,
+        "heading_count": 6,
+        "violation_count": 0
+      }
+    },
+    {
+      "run": 3,
+      "baseline_ms": 17396,
+      "configured_ms": 17118,
+      "baseline_quality": {
+        "line_count": 184,
+        "heading_count": 12,
+        "violation_count": 1
+      },
+      "configured_quality": {
+        "line_count": 19,
+        "heading_count": 4,
+        "violation_count": 0
+      }
+    },
+    {
+      "run": 4,
+      "baseline_ms": 29470,
+      "configured_ms": 21317,
+      "baseline_quality": {
+        "line_count": 177,
+        "heading_count": 8,
+        "violation_count": 0
+      },
+      "configured_quality": {
+        "line_count": 27,
+        "heading_count": 5,
+        "violation_count": 0
+      }
+    },
+    {
+      "run": 5,
+      "baseline_ms": 29271,
+      "configured_ms": 18409,
+      "baseline_quality": {
+        "line_count": 268,
+        "heading_count": 12,
+        "violation_count": 1
+      },
+      "configured_quality": {
+        "line_count": 25,
+        "heading_count": 5,
+        "violation_count": 0
+      }
+    }
+  ]
+}
