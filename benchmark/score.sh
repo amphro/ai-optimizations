@@ -188,16 +188,17 @@ for task in "${TASKS[@]}"; do
   b_stats=$(timing_stats "${baseline_times[@]+"${baseline_times[@]}"}")
   c_stats=$(timing_stats "${configured_times[@]+"${configured_times[@]}"}")
 
-  python3 -c "
-import json
+  python3 - "$task" "$TIMESTAMP" "$b_stats" "$c_stats" "$runs_json" <<'PYEOF' > "$task_dir/score.json"
+import json, sys
+task, timestamp, b_raw, c_raw, runs_raw = sys.argv[1:6]
 obj = {
-  'task': '$task',
-  'timestamp': '$TIMESTAMP',
-  'timing': {'baseline': $b_stats, 'configured': $c_stats},
-  'runs': $runs_json
+    'task': task,
+    'timestamp': timestamp,
+    'timing': {'baseline': json.loads(b_raw), 'configured': json.loads(c_raw)},
+    'runs': json.loads(runs_raw),
 }
 print(json.dumps(obj, indent=2))
-" > "$task_dir/score.json"
+PYEOF
   echo "  -> $task_dir/score.json"
 done
 
