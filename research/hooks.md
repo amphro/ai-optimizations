@@ -1,5 +1,7 @@
 # Claude Code Hooks
 
+> ***🤖 Claude generated, human reviewed***
+
 **Last updated:** 2026-06-19
 **Source:** Official Claude Code docs (hooks reference, hooks guide), verified GitHub repos (existence and stars/activity checked via `gh api`), awesome-claude-code's curated Hooks category
 **Reliability:** High for mechanics and official use cases (verified directly against docs). Mixed for community patterns and third-party repos, code snippets below were pulled verbatim from real repos, but quality and maintenance varies repo to repo (noted inline).

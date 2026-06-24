@@ -1,5 +1,7 @@
 # AI Model Landscape (June 2026)
 
+> ***🤖 Claude generated, human reviewed***
+
 **Last updated:** 2026-06-18  
 **Reliability:** High — sourced from official docs and recent benchmarks  
 **Next review:** 2026-09-18
