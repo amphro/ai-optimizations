@@ -2,6 +2,14 @@
 
 > ***🤖 Claude generated, human verified***
 
+**AI Attribution Scale** — used throughout this repo:
+
+| Badge | Meaning |
+|---|---|
+| 🤖 Claude generated, unverified | Published as Claude produced it. No human has read or checked it. |
+| 🤖 Claude generated, human reviewed | A human read it and may have made minor corrections. Claims not deeply verified. |
+| 🤖 Claude generated, human verified | A human verified the claims, iterated on the output, and stands behind it. |
+
 A personal config kit for Claude Code: researched settings, reusable agents and skills, and meta-skills to keep it from going stale.
 
 Figuring out the best Claude Code setup takes real research, and that research has a shelf life. This repo is where it lives, along with the config it produced, so nothing has to be re-derived from scratch.
