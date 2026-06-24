@@ -1,5 +1,7 @@
 # Prose Linting Tools
 
+> ***🤖 Claude generated, human reviewed***
+
 ## Vale
 
 Vale is a standalone Go binary that applies YAML-defined style rules to prose in Markdown, AsciiDoc, HTML, reStructuredText, and other formats. It is markup-aware: code blocks, inline code, and front matter are excluded from checks by default.

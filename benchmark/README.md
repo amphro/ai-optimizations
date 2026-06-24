@@ -1,5 +1,7 @@
 # Claude Code Configuration Benchmark
 
+> ***🤖 Claude generated, human reviewed***
+
 Headless evaluation comparing bare Claude Code vs Claude Code with this toolkit deployed. Two Docker images, 4 tasks, 5 runs each, scored automatically.
 
 > **Work in progress.** Task 03 requires Sonnet to show meaningful signal (Haiku doesn't follow writing-voice instructions reliably). The LLM judge for Task 02 is new and not yet validated on a full run. See status table below.

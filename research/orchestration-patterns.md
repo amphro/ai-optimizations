@@ -1,5 +1,7 @@
 # Multi-Agent Orchestration Patterns (June 2026)
 
+> ***🤖 Claude generated, human reviewed***
+
 **Last updated:** 2026-06-18  
 **Key question:** Opus orchestrator + Sonnet workers vs. all-Sonnet + Opus review at end?  
 **Answer:** Neither — use the Advisor Strategy (Sonnet runs everything, Opus on-demand)

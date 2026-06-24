@@ -1,5 +1,7 @@
 # Claude Code Setup for Complex Arch Docs & Implementation
 
+> ***🤖 Claude generated, human reviewed***
+
 **Last updated:** 2026-06-18  
 **Source:** [Claude Code model config docs](https://code.claude.com/docs/en/model-config), [Best practices](https://code.claude.com/docs/en/best-practices)  
 **Reliability:** High — official docs
