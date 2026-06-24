@@ -127,7 +127,7 @@ score_code_task() {
         -v "$work_dir:/app:ro" \
         -v "$BENCHMARK_DIR/checks:/checks:ro" \
         node:20-slim \
-        node /checks/sumEven.check.js 2>/dev/null; then
+        node /checks/sumEven.check.js >/dev/null 2>&1; then
       correctness="pass"
     fi
   fi
