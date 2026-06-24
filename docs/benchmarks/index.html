@@ -115,9 +115,10 @@
 <main>
 <section class="benchmark-hero">
   <div class="container">
-    <div class="hero-badge">Claude-generated, human-verified</div>
+    <div class="hero-badge">Work in progress</div>
     <h1>Benchmark Results</h1>
     <p>Each task runs 5 times against two environments: bare Claude Code with no configuration, and Claude Code with this toolkit deployed. Results are committed after human review.</p>
+    <p style="margin-top:10px;font-size:13px;background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 14px;">This benchmark system is actively being developed. Tasks 01 and 02 have reliable signal. Task 03 (writing style) shows meaningful differences only with Sonnet-class models — Haiku results are inconclusive. Task 04 (code correctness) is a deliberate null result: both environments pass, but configured self-verifies. See <a href="https://github.com/amphro/ai-optimizations/blob/main/benchmark/README.md" target="_blank" rel="noopener">benchmark/README.md</a> for full status.</p>
   </div>
 </section>
 
@@ -199,14 +200,14 @@
     if (task === '02-claudemd-quality') {
       const bLines = avg(runs.map(r=>r.baseline_quality?.line_count));
       const cLines = avg(runs.map(r=>r.configured_quality?.line_count));
-      const bViols = runs.reduce((a,r)=>a+(r.baseline_quality?.violation_count??0),0);
-      const cViols = runs.reduce((a,r)=>a+(r.configured_quality?.violation_count??0),0);
-      const lineDelta = bLines != null && cLines != null ? bLines - cLines : null;
+      const lineDelta = bLines != null && cLines != null ? Math.round(bLines - cLines) : null;
+      const bJudge = avg(runs.map(r=>r.judge?.baseline?.quality).filter(v=>v!=null));
+      const cJudge = avg(runs.map(r=>r.judge?.configured?.quality).filter(v=>v!=null));
       return [
         chip(`baseline: ~${bLines ?? '?'} lines`, 'chip-baseline'),
         chip(`configured: ~${cLines ?? '?'} lines`, 'chip-neutral'),
-        lineDelta != null ? chip(`${lineDelta > 0 ? '−'+lineDelta : '+'+Math.abs(lineDelta)} lines`, lineDelta > 0 ? 'chip-delta-neg' : 'chip-delta-pos') : '',
-        cViols < bViols ? chip(`−${bViols-cViols} violations`, 'chip-delta-neg') : '',
+        lineDelta != null ? chip(`−${lineDelta} lines`, lineDelta > 0 ? 'chip-delta-neg' : 'chip-delta-pos') : '',
+        bJudge != null ? chip(`judge quality: ${bJudge.toFixed(1)} → ${cJudge?.toFixed(1)}`, cJudge > bJudge ? 'chip-good' : cJudge < bJudge ? 'chip-bad' : 'chip-neutral') : '',
       ].filter(Boolean).join('');
     }
 
@@ -254,8 +255,15 @@
     if (task === '02-claudemd-quality') {
       const bL = run.baseline_quality?.line_count;
       const cL = run.configured_quality?.line_count;
+      const bQ = run.judge?.baseline?.quality;
+      const cQ = run.judge?.configured?.quality;
+      const bC = run.judge?.baseline?.completeness;
+      const cC = run.judge?.configured?.completeness;
       if (bL != null) chips.push(chip(`baseline: ${bL} lines`, 'chip-baseline'));
       if (cL != null) chips.push(chip(`configured: ${cL} lines`, 'chip-neutral'));
+      if (bQ != null) chips.push(chip(`judge: quality ${bQ}→${cQ}  completeness ${bC}→${cC}`, cQ > bQ ? 'chip-good' : 'chip-neutral'));
+      const note = run.judge?.configured?.note;
+      if (note) chips.push(chip(note, 'chip-baseline'));
     }
     if (task === '03-writing-style') {
       const bW = run.baseline_style?.weighted_score;
@@ -493,6 +501,10 @@
         opt.value = ts; opt.textContent = ts;
         if (i === 0) opt.selected = true;
         sel.appendChild(opt);
+        // Async-update label with model name once summary loads
+        fetch(`${DATA}${ts}/summary.json`).then(r=>r.ok?r.json():null).then(s=>{
+          if (s?.model) opt.textContent = `${ts}  (${s.model})`;
+        }).catch(()=>{});
       });
       sel.addEventListener('change', () => loadRun(sel.value));
       loadRun(runs[0]);

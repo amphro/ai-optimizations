@@ -83,6 +83,58 @@ score_claudemd_quality() {
   echo "{\"line_count\":$line_count,\"heading_count\":$heading_count,\"violation_count\":$violation_count}"
 }
 
+score_claudemd_judge() {
+  local baseline_file="$1"
+  local configured_file="$2"
+
+  if [[ ! -f "$baseline_file" || ! -f "$configured_file" ]]; then
+    echo '{"error":"artifact missing"}'
+    return
+  fi
+
+  local b_content c_content prompt result json
+  b_content=$(cat "$baseline_file")
+  c_content=$(cat "$configured_file")
+
+  prompt="You are evaluating two CLAUDE.md files — project instruction files for Claude Code (an AI coding assistant).
+
+A high-quality CLAUDE.md:
+- Contains only implicit project context Claude cannot derive from reading the code itself
+- Is concise (ideally under 50 lines)
+- Avoids tutorial content, setup instructions, or generic advice
+- References skills or other docs for domain knowledge rather than inlining everything
+
+Rate each file on two dimensions (0-10 each):
+- quality: overall fitness as a CLAUDE.md (conciseness, relevance, avoidance of boilerplate)
+- completeness: does it preserve necessary context (nothing critical appears missing or lost)?
+
+Respond with ONLY valid JSON, no markdown fences:
+{\"baseline\":{\"quality\":N,\"completeness\":N,\"note\":\"one sentence\"},\"configured\":{\"quality\":N,\"completeness\":N,\"note\":\"one sentence\"}}
+
+BASELINE CLAUDE.md:
+$b_content
+
+CONFIGURED CLAUDE.md:
+$c_content"
+
+  result=$(claude -p "$prompt" 2>/dev/null) || true
+
+  json=$(printf '%s' "$result" | python3 -c "
+import sys, re, json
+text = sys.stdin.read()
+m = re.search(r'\{.*\}', text, re.DOTALL)
+if m:
+    try:
+        print(json.dumps(json.loads(m.group())))
+    except:
+        print('{\"error\":\"parse failed\"}')
+else:
+    print('{\"error\":\"no json in response\"}')
+" 2>/dev/null) || json='{"error":"scorer failed"}'
+
+  echo "$json"
+}
+
 score_writing_style() {
   local dir="$1" run="$2" image="$3"
   local work_dir="$dir/work-${run}-${image}"
@@ -175,7 +227,10 @@ for task in "${TASKS[@]}"; do
       02-claudemd-quality)
         baseline_q=$(score_claudemd_quality "$task_dir" "$run" "benchmark-clean")
         configured_q=$(score_claudemd_quality "$task_dir" "$run" "benchmark-configured")
-        run_json="{\"run\":$run,\"baseline_ms\":$baseline_ms,\"configured_ms\":$configured_ms,\"baseline_quality\":$baseline_q,\"configured_quality\":$configured_q}"
+        judge=$(score_claudemd_judge \
+          "$task_dir/work-${run}-benchmark-clean/CLAUDE.md" \
+          "$task_dir/work-${run}-benchmark-configured/CLAUDE.md")
+        run_json="{\"run\":$run,\"baseline_ms\":$baseline_ms,\"configured_ms\":$configured_ms,\"baseline_quality\":$baseline_q,\"configured_quality\":$configured_q,\"judge\":$judge}"
         ;;
       03-writing-style)
         baseline_style=$(score_writing_style "$task_dir" "$run" "benchmark-clean")

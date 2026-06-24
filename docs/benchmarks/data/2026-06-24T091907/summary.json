@@ -4,7 +4,7 @@
   "model": "claude-haiku-4-5-20251001",
   "runs_per_task": 5,
   "total_duration_ms": 623345,
-  "cost_usd": 0.72,
+  "cost_usd": null,
   "tasks": {
     "01-secret-hook": {
       "baseline": {

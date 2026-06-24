@@ -27,6 +27,9 @@
         "line_count": 37,
         "heading_count": 6,
         "violation_count": 0
+      },
+      "judge": {
+        "error": "artifact missing"
       }
     },
     {
@@ -42,6 +45,18 @@
         "line_count": 35,
         "heading_count": 6,
         "violation_count": 0
+      },
+      "judge": {
+        "baseline": {
+          "quality": 2,
+          "completeness": 5,
+          "note": "Almost entirely boilerplate and derivable content \u2014 setup commands, generic folder descriptions, standard conventions Claude already knows \u2014 with no project-specific implicit knowledge."
+        },
+        "configured": {
+          "quality": 8,
+          "completeness": 8,
+          "note": "Concise and project-specific: monetary amounts in cents, UUID vs serial ID split, order state machine, and commit scopes are exactly the implicit knowledge that prevents mistakes and can't be derived from reading the code."
+        }
       }
     },
     {
@@ -57,6 +72,18 @@
         "line_count": 19,
         "heading_count": 4,
         "violation_count": 0
+      },
+      "judge": {
+        "baseline": {
+          "quality": 2,
+          "completeness": 6,
+          "note": "Almost entirely tutorial content, boilerplate setup steps, and derivable file structure \u2014 nothing here requires implicit knowledge that Claude couldn't get from reading the code or a README."
+        },
+        "configured": {
+          "quality": 8,
+          "completeness": 7,
+          "note": "Concise and focused on non-obvious constraints (card data logging policy, CI-enforced commit format, tag-based releases), though the ORM type is still unspecified and a note on which env triggers integration test DB setup would help."
+        }
       }
     },
     {
@@ -72,6 +99,18 @@
         "line_count": 27,
         "heading_count": 5,
         "violation_count": 0
+      },
+      "judge": {
+        "baseline": {
+          "quality": 2,
+          "completeness": 5,
+          "note": "170+ lines of tutorial content, dependency tables, code snippets, and standard conventions Claude can derive from reading the code \u2014 almost nothing here qualifies as implicit project context."
+        },
+        "configured": {
+          "quality": 7,
+          "completeness": 8,
+          "note": "Concise and focused on genuinely non-obvious behaviors (payment idempotency, inventory reservation logic, migration discipline), though the Setup section edges toward tutorial content that could be trimmed."
+        }
       }
     },
     {
@@ -87,6 +126,18 @@
         "line_count": 25,
         "heading_count": 5,
         "violation_count": 0
+      },
+      "judge": {
+        "baseline": {
+          "quality": 1,
+          "completeness": 5,
+          "note": "Nearly all content is derivable from the code or is generic tutorial boilerplate \u2014 directory tree, setup steps, conventional commits examples, and external links add no implicit knowledge for Claude."
+        },
+        "configured": {
+          "quality": 7,
+          "completeness": 7,
+          "note": "Focuses on genuinely non-obvious behaviors (trigger-managed timestamps, httpOnly refresh tokens, test DB requirement), though the setup commands in the first bullet could be cut as derivable from package.json."
+        }
       }
     }
   ]
