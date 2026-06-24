@@ -1,13 +1,14 @@
 # Claude Code Toolkit
 
-> Research, skills, and templates here are **Claude-generated, human-verified**. A human reviewed the claims and stands behind them, but treat everything as a starting point, not a finished opinion.
+> ***🤖 Claude generated, human verified***
 
 **AI Attribution Scale** — used throughout this repo:
-| Label | Meaning |
+
+| Badge | Meaning |
 |---|---|
-| AI-generated, unreviewed | Published as the AI produced it. No human has read or modified it. |
-| AI-generated, human-checked | A human read it and may have made minor corrections. Claims not deeply verified. |
-| AI-generated, human-verified | A human verified the claims, iterated on the output, and stands behind it. |
+| 🤖 Claude generated, unverified | Published as Claude produced it. No human has read or checked it. |
+| 🤖 Claude generated, human reviewed | A human read it and may have made minor corrections. Claims not deeply verified. |
+| 🤖 Claude generated, human verified | A human verified the claims, iterated on the output, and stands behind it. |
 
 A personal config kit for Claude Code: researched settings, reusable agents and skills, and meta-skills to keep it from going stale.
 

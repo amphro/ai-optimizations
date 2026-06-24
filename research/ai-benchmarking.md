@@ -1,5 +1,7 @@
 # AI/LLM Benchmarking Methodologies
 
+> ***🤖 Claude generated, human reviewed***
+
 ## Established Coding Benchmarks
 
 **HumanEval** (2021): 164 hand-written Python function-completion tasks, scored by unit test pass rate (pass@k). Saturated at the frontier (95%+); contaminated by training data exposure since release.

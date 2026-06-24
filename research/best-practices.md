@@ -1,5 +1,7 @@
 # AI Best Practices & Prompting (June 2026)
 
+> ***🤖 Claude generated, human reviewed***
+
 **Last updated:** 2026-06-18  
 **Primary source:** Anthropic engineering blog, Claude platform docs  
 **Reliability:** High — directly from Anthropic

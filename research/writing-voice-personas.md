@@ -1,5 +1,7 @@
 # Writing Voice & Persona Systems (June 2026)
 
+> ***🤖 Claude generated, human reviewed***
+
 **Last updated:** 2026-06-19
 **Primary sources:** Anthropic Help Center (Claude Styles), the `agent-style` project (community, GitHub), Vale prose linter docs, Nielsen Norman Group, Mailchimp's published voice guide
 **Reliability:** High for what each named source actually ships. Lower for "best" persona set, that part is synthesis, not a standard.

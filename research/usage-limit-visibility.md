@@ -1,5 +1,7 @@
 # Checking Claude Code's Usage Limits Programmatically
 
+> ***🤖 Claude generated, human reviewed***
+
 **Last updated:** 2026-06-19
 **Source:** Official Claude Code docs (statusline, hooks), anthropics/claude-code GitHub issues, community tooling (ccusage and others)
 **Reliability:** Mixed — the statusline field is official and verified directly against the docs; hook/CLI/API access beyond that is either unofficial or doesn't exist yet

@@ -1,5 +1,7 @@
 # Skill Authoring Best Practices
 
+> ***🤖 Claude generated, human reviewed***
+
 **Last updated:** 2026-06-19
 **Source:** Anthropic's official `skill-creator` plugin and `plugin-dev`'s `skill-development` skill (both bundled with Claude Code), cross-checked against this repo's own existing skills
 **Reliability:** High for official mechanics (read directly from the bundled plugin source). The house-style section below is this repo's own convention, not an external standard.
