@@ -309,11 +309,11 @@
         <p style="font-size:12px;color:var(--text-muted);margin-bottom:8px;">Written file: <code>${artFile}</code></p>
         <div style="margin-bottom:12px">
           <div style="font-size:11px;font-weight:600;color:var(--text-muted);margin-bottom:4px">BASELINE</div>
-          <pre class="output-content">${bArt ? esc(bArt) : '<span class="output-loading">Loading…</span>'}</pre>
+          <pre class="output-content">${bArt ? esc(bArt) : '(artifact not captured for this run)'}</pre>
         </div>
         <div>
           <div style="font-size:11px;font-weight:600;color:var(--text-muted);margin-bottom:4px">CONFIGURED</div>
-          <pre class="output-content">${cArt ? esc(cArt) : '<span class="output-loading">Loading…</span>'}</pre>
+          <pre class="output-content">${cArt ? esc(cArt) : '(artifact not captured for this run)'}</pre>
         </div>
       </div>` : '';
 
