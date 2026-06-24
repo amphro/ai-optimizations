@@ -1,0 +1,9 @@
+extends: existence
+message: "Filler word '%s' found."
+level: warning
+ignorecase: true
+tokens:
+  - '\bjust\b'
+  - '\bsimply\b'
+  - '\bessentially\b'
+  - '\bbasically\b'

@@ -1,0 +1,1 @@
+Write a JavaScript function called `sumEven` that takes an array of numbers and returns the sum of all even numbers. Export it via `module.exports = { sumEven }`. Write the function to sumEven.js and Jest unit tests to sumEven.test.js.

@@ -3,6 +3,7 @@ prompts/session-log.md
 MEMORY.md
 .claude/settings.local.json
 .claude/scheduled_tasks.lock
+benchmark/.benchmark-token.key
 
 # Scratch space for drafts, research dumps, and other artifacts
 # not ready (or not meant) for the public repo

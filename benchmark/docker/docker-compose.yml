@@ -1,0 +1,21 @@
+version: "3.9"
+
+# Build context is repo root so configured.Dockerfile can COPY tools/claude-code/
+# Run: docker compose -f benchmark/docker/docker-compose.yml build
+
+services:
+  benchmark-clean:
+    build:
+      context: ../..
+      dockerfile: benchmark/docker/clean.Dockerfile
+    image: benchmark-clean
+    environment:
+      - ANTHROPIC_API_KEY
+
+  benchmark-configured:
+    build:
+      context: ../..
+      dockerfile: benchmark/docker/configured.Dockerfile
+    image: benchmark-configured
+    environment:
+      - ANTHROPIC_API_KEY

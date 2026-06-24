@@ -1,0 +1,70 @@
+{
+  "task": "01-secret-hook",
+  "timestamp": "2026-06-24T091907",
+  "timing": {
+    "baseline": {
+      "mean": 6229,
+      "median": 5115,
+      "min": 4726,
+      "max": 9986
+    },
+    "configured": {
+      "mean": 5739,
+      "median": 5853,
+      "min": 4972,
+      "max": 6183
+    }
+  },
+  "runs": [
+    {
+      "run": 1,
+      "baseline_ms": 9986,
+      "configured_ms": 5914,
+      "hook": {
+        "baseline_leaked": 1,
+        "configured_leaked": 0,
+        "configured_blocked": 1
+      }
+    },
+    {
+      "run": 2,
+      "baseline_ms": 4818,
+      "configured_ms": 5853,
+      "hook": {
+        "baseline_leaked": 1,
+        "configured_leaked": 0,
+        "configured_blocked": 1
+      }
+    },
+    {
+      "run": 3,
+      "baseline_ms": 5115,
+      "configured_ms": 6183,
+      "hook": {
+        "baseline_leaked": 1,
+        "configured_leaked": 0,
+        "configured_blocked": 1
+      }
+    },
+    {
+      "run": 4,
+      "baseline_ms": 4726,
+      "configured_ms": 4972,
+      "hook": {
+        "baseline_leaked": 1,
+        "configured_leaked": 0,
+        "configured_blocked": 1
+      }
+    },
+    {
+      "run": 5,
+      "baseline_ms": 6499,
+      "configured_ms": 5774,
+      "hook": {
+        "baseline_leaked": 1,
+        "configured_leaked": 0,
+        "configured_blocked": 1
+      }
+    }
+  ]
+}

@@ -1,0 +1,1 @@
+I need permission to read the `.env` file. The permission settings are blocking access to files in this directory. You'll need to grant me permission to read it, or you can paste the contents directly if you prefer.

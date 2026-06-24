@@ -1,0 +1,305 @@
+{
+  "task": "03-writing-style",
+  "timestamp": "2026-06-24T091907",
+  "timing": {
+    "baseline": {
+      "mean": 13106,
+      "median": 12608,
+      "min": 11130,
+      "max": 15994
+    },
+    "configured": {
+      "mean": 22765,
+      "median": 18300,
+      "min": 13024,
+      "max": 37265
+    }
+  },
+  "runs": [
+    {
+      "run": 1,
+      "baseline_ms": 12028,
+      "configured_ms": 13024,
+      "baseline_style": {
+        "weighted_score": 16,
+        "raw_violations": 7,
+        "by_category": {
+          "punctuation": {
+            "count": 2,
+            "weight": 3,
+            "weighted": 6
+          },
+          "ai_cliches": {
+            "count": 5,
+            "weight": 2,
+            "weighted": 10
+          },
+          "filler_words": {
+            "count": 0,
+            "weight": 1,
+            "weighted": 0
+          },
+          "transition_spam": {
+            "count": 0,
+            "weight": 2,
+            "weighted": 0
+          }
+        }
+      },
+      "configured_style": {
+        "weighted_score": 12,
+        "raw_violations": 5,
+        "by_category": {
+          "punctuation": {
+            "count": 3,
+            "weight": 3,
+            "weighted": 9
+          },
+          "ai_cliches": {
+            "count": 1,
+            "weight": 2,
+            "weighted": 2
+          },
+          "filler_words": {
+            "count": 1,
+            "weight": 1,
+            "weighted": 1
+          },
+          "transition_spam": {
+            "count": 0,
+            "weight": 2,
+            "weighted": 0
+          }
+        }
+      }
+    },
+    {
+      "run": 2,
+      "baseline_ms": 12608,
+      "configured_ms": 37265,
+      "baseline_style": {
+        "weighted_score": 7,
+        "raw_violations": 3,
+        "by_category": {
+          "punctuation": {
+            "count": 2,
+            "weight": 3,
+            "weighted": 6
+          },
+          "ai_cliches": {
+            "count": 0,
+            "weight": 2,
+            "weighted": 0
+          },
+          "filler_words": {
+            "count": 1,
+            "weight": 1,
+            "weighted": 1
+          },
+          "transition_spam": {
+            "count": 0,
+            "weight": 2,
+            "weighted": 0
+          }
+        }
+      },
+      "configured_style": {
+        "weighted_score": 2,
+        "raw_violations": 1,
+        "by_category": {
+          "punctuation": {
+            "count": 0,
+            "weight": 3,
+            "weighted": 0
+          },
+          "ai_cliches": {
+            "count": 1,
+            "weight": 2,
+            "weighted": 2
+          },
+          "filler_words": {
+            "count": 0,
+            "weight": 1,
+            "weighted": 0
+          },
+          "transition_spam": {
+            "count": 0,
+            "weight": 2,
+            "weighted": 0
+          }
+        }
+      }
+    },
+    {
+      "run": 3,
+      "baseline_ms": 15994,
+      "configured_ms": 13428,
+      "baseline_style": {
+        "weighted_score": 8,
+        "raw_violations": 4,
+        "by_category": {
+          "punctuation": {
+            "count": 0,
+            "weight": 3,
+            "weighted": 0
+          },
+          "ai_cliches": {
+            "count": 4,
+            "weight": 2,
+            "weighted": 8
+          },
+          "filler_words": {
+            "count": 0,
+            "weight": 1,
+            "weighted": 0
+          },
+          "transition_spam": {
+            "count": 0,
+            "weight": 2,
+            "weighted": 0
+          }
+        }
+      },
+      "configured_style": {
+        "weighted_score": 17,
+        "raw_violations": 8,
+        "by_category": {
+          "punctuation": {
+            "count": 3,
+            "weight": 3,
+            "weighted": 9
+          },
+          "ai_cliches": {
+            "count": 3,
+            "weight": 2,
+            "weighted": 6
+          },
+          "filler_words": {
+            "count": 2,
+            "weight": 1,
+            "weighted": 2
+          },
+          "transition_spam": {
+            "count": 0,
+            "weight": 2,
+            "weighted": 0
+          }
+        }
+      }
+    },
+    {
+      "run": 4,
+      "baseline_ms": 11130,
+      "configured_ms": 31807,
+      "baseline_style": {
+        "weighted_score": 12,
+        "raw_violations": 5,
+        "by_category": {
+          "punctuation": {
+            "count": 3,
+            "weight": 3,
+            "weighted": 9
+          },
+          "ai_cliches": {
+            "count": 1,
+            "weight": 2,
+            "weighted": 2
+          },
+          "filler_words": {
+            "count": 1,
+            "weight": 1,
+            "weighted": 1
+          },
+          "transition_spam": {
+            "count": 0,
+            "weight": 2,
+            "weighted": 0
+          }
+        }
+      },
+      "configured_style": {
+        "weighted_score": 5,
+        "raw_violations": 3,
+        "by_category": {
+          "punctuation": {
+            "count": 0,
+            "weight": 3,
+            "weighted": 0
+          },
+          "ai_cliches": {
+            "count": 2,
+            "weight": 2,
+            "weighted": 4
+          },
+          "filler_words": {
+            "count": 1,
+            "weight": 1,
+            "weighted": 1
+          },
+          "transition_spam": {
+            "count": 0,
+            "weight": 2,
+            "weighted": 0
+          }
+        }
+      }
+    },
+    {
+      "run": 5,
+      "baseline_ms": 13770,
+      "configured_ms": 18300,
+      "baseline_style": {
+        "weighted_score": 13,
+        "raw_violations": 5,
+        "by_category": {
+          "punctuation": {
+            "count": 3,
+            "weight": 3,
+            "weighted": 9
+          },
+          "ai_cliches": {
+            "count": 2,
+            "weight": 2,
+            "weighted": 4
+          },
+          "filler_words": {
+            "count": 0,
+            "weight": 1,
+            "weighted": 0
+          },
+          "transition_spam": {
+            "count": 0,
+            "weight": 2,
+            "weighted": 0
+          }
+        }
+      },
+      "configured_style": {
+        "weighted_score": 21,
+        "raw_violations": 8,
+        "by_category": {
+          "punctuation": {
+            "count": 5,
+            "weight": 3,
+            "weighted": 15
+          },
+          "ai_cliches": {
+            "count": 3,
+            "weight": 2,
+            "weighted": 6
+          },
+          "filler_words": {
+            "count": 0,
+            "weight": 1,
+            "weighted": 0
+          },
+          "transition_spam": {
+            "count": 0,
+            "weight": 2,
+            "weighted": 0
+          }
+        }
+      }
+    }
+  ]
+}

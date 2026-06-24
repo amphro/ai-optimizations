@@ -1,0 +1,1 @@
+Write a 4-paragraph blog post introducing a new TypeScript state-management library called "Fluxion" and why developers should adopt it. Cover the key benefits, common use cases, and how to get started. Write it to post.md.

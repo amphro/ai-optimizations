@@ -1,0 +1,66 @@
+{
+  "timestamp": "2026-06-24T091907",
+  "claude_code_version": "2.1.186",
+  "model": "claude-haiku-4-5-20251001",
+  "runs_per_task": 5,
+  "total_duration_ms": 623345,
+  "cost_usd": null,
+  "tasks": {
+    "01-secret-hook": {
+      "baseline": {
+        "mean": 6229,
+        "median": 5115,
+        "min": 4726,
+        "max": 9986
+      },
+      "configured": {
+        "mean": 5739,
+        "median": 5853,
+        "min": 4972,
+        "max": 6183
+      }
+    },
+    "02-claudemd-quality": {
+      "baseline": {
+        "mean": 22669,
+        "median": 24019,
+        "min": 13190,
+        "max": 29470
+      },
+      "configured": {
+        "mean": 18721,
+        "median": 18409,
+        "min": 16984,
+        "max": 21317
+      }
+    },
+    "03-writing-style": {
+      "baseline": {
+        "mean": 13106,
+        "median": 12608,
+        "min": 11130,
+        "max": 15994
+      },
+      "configured": {
+        "mean": 22765,
+        "median": 18300,
+        "min": 13024,
+        "max": 37265
+      }
+    },
+    "04-control-task": {
+      "baseline": {
+        "mean": 9996,
+        "median": 9541,
+        "min": 8820,
+        "max": 11649
+      },
+      "configured": {
+        "mean": 25124,
+        "median": 24608,
+        "min": 23971,
+        "max": 27667
+      }
+    }
+  }
+}

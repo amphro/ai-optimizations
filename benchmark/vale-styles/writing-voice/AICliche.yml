@@ -1,0 +1,12 @@
+extends: existence
+message: "AI-cliché word '%s' found. Use a plainer alternative."
+level: warning
+ignorecase: true
+tokens:
+  - '\bdelve\b'
+  - '\bleverage\b'
+  - '\butilize\b'
+  - '\brobust\b'
+  - '\bseamless(ly)?\b'
+  - '\blandscape\b'
+  - '\btapestry\b'

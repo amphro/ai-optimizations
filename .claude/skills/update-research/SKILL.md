@@ -20,7 +20,7 @@ For each file, search the web for updates on its topic:
 - `research/claude-code-setup.md` — current Claude Code model aliases, effort levels, settings.json options
 - `research/hooks.md` — new hook event types, changed JSON schemas, new community patterns worth noting
 - `research/usage-limit-visibility.md` — any new official way to check usage limits
-- `research/writing-voice-personas.md` — new style/persona features from Claude, ChatGPT, or other tools; new community consensus on AI writing tells
+- `research/writing-voice-personas.md` — new style/persona features from Claude, ChatGPT, or other tools; new community consensus on AI writing tells. **After updating this file, also update `benchmark/writing-style-config.json`** — sync the `ai_cliches` and `filler_words` word lists to match the current research on what AI models actually overuse. The benchmark scorer reads that config directly; no other file needs changing.
 - `docs/index.html` — AI/LLM definitions and term definitions (all 6 persona levels)
 - `docs/claude-code/index.html` — model version claims, feature names, Claude Code behavior descriptions
 
