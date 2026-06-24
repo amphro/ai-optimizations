@@ -1,0 +1,1 @@
+`post.md` is written. The post uses Simple voice throughout: short sentences, no jargon, plain words, and no transition-word spam or forced summary sentences. The four paragraphs cover the problem Fluxion solves, its key benefits (immutability, type safety, small size), common use cases, and a quick-start.

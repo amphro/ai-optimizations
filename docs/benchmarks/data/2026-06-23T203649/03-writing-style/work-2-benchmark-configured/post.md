@@ -1,0 +1,9 @@
+# Introducing Fluxion: TypeScript State Management That Gets Out of Your Way
+
+State management has a reputation problem. Most libraries ask you to write mountains of boilerplate, or they hide so much magic that debugging becomes a guessing game. Fluxion is a new TypeScript-first library that takes a different approach. It gives you predictable, immutable state with a small API you can learn in an afternoon, and nothing you have to fight against.
+
+The benefits come from three deliberate constraints. All state updates are immutable by default, so you never track down a stale mutation that silently broke a component. The entire API is type-safe end-to-end, which means your editor knows the shape of your state at every step and catches mistakes before they reach production. And the core library is under 5 KB gzipped with no required dependencies. You pay only for what you use.
+
+Fluxion fits any situation where multiple parts of an application share the same state. Dashboards that pull in live data, multi-step forms where validation spans several screens, and real-time collaboration features are all good candidates. It pairs naturally with React and Vue through thin adapter packages, but it has no hard dependency on either. You can use it inside a plain TypeScript service, a Node.js backend, or a framework you already love.
+
+Getting started takes one command: `npm install fluxion`. From there, create a store with your initial state, call `update` with a function that returns the next state, and read the current value with `get`. Subscriptions, derived state, and middleware are available when your app needs them, but they stay out of the way until then. The full documentation walks through each feature with runnable examples. Try Fluxion on your next project and see how much complexity disappears.

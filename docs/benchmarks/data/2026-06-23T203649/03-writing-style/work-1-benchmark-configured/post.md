@@ -1,0 +1,9 @@
+# Introducing Fluxion: TypeScript State Management That Gets Out of Your Way
+
+State management has a reputation for complexity it rarely deserves. Most libraries ask you to wire up actions, reducers, selectors, and middleware before you can change a single value. Fluxion takes a different approach. It gives you reactive state with full TypeScript inference, no boilerplate, and a mental model small enough to learn in one sitting.
+
+The core benefits are speed and clarity. Because Fluxion is built entirely around TypeScript, your editor catches stale selectors and mismatched updates before your tests do. Derived state is computed automatically when its dependencies change, so you stop writing synchronization logic by hand. Subscriptions are fine-grained, meaning components only re-render when the slice of state they actually care about changes. The result is an app that stays fast even as the state tree grows.
+
+Fluxion fits naturally wherever you manage shared client-side data. Shopping carts, form wizards, dashboard filters, and real-time collaboration features are all good candidates. It also handles async state well: loading, error, and success states are first-class citizens, not an afterthought patched on with middleware. If you have tried other libraries and ended up with a folder full of boilerplate you copy-paste between features, Fluxion was designed for exactly that pain point.
+
+Getting started takes about two minutes. Install Fluxion with `npm install fluxion`, then call `createStore` with your initial state shape. TypeScript infers the rest. Read state with `store.get()`, update it with `store.set()`, and subscribe to changes with `store.on()`. The docs include a to-do app example and a full async data-fetching walkthrough. Give it a try on your next project and see how much code you stop writing.

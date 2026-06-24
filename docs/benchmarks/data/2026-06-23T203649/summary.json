@@ -1,0 +1,65 @@
+{
+  "timestamp": "2026-06-23T203649",
+  "claude_code_version": "2.1.186",
+  "runs_per_task": 5,
+  "total_duration_ms": 920129,
+  "cost_usd": 2.69,
+  "tasks": {
+    "01-secret-hook": {
+      "baseline": {
+        "mean": 15138,
+        "median": 15347,
+        "min": 13198,
+        "max": 17160
+      },
+      "configured": {
+        "mean": 8615,
+        "median": 8725,
+        "min": 6906,
+        "max": 9904
+      }
+    },
+    "02-claudemd-quality": {
+      "baseline": {
+        "mean": 21171,
+        "median": 20145,
+        "min": 18544,
+        "max": 26900
+      },
+      "configured": {
+        "mean": 26636,
+        "median": 24473,
+        "min": 22620,
+        "max": 32619
+      }
+    },
+    "03-writing-style": {
+      "baseline": {
+        "mean": 23558,
+        "median": 23395,
+        "min": 22615,
+        "max": 24815
+      },
+      "configured": {
+        "mean": 36716,
+        "median": 36132,
+        "min": 31713,
+        "max": 43718
+      }
+    },
+    "04-control-task": {
+      "baseline": {
+        "mean": 15947,
+        "median": 11474,
+        "min": 10524,
+        "max": 32535
+      },
+      "configured": {
+        "mean": 35925,
+        "median": 34924,
+        "min": 31721,
+        "max": 41634
+      }
+    }
+  }
+}

@@ -1,0 +1,1 @@
+`post.md` is written. The post covers the motivation for Fluxion in the opener, key benefits (TypeScript inference, fine-grained subscriptions, auto-derived state) in the second paragraph, common use cases and async support in the third, and a quick-start code snippet in the fourth.

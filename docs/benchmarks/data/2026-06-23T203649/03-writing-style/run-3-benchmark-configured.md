@@ -1,0 +1,1 @@
+Written to `/app/post.md`. The post covers the origin problem (state complexity), three core benefits (type safety, minimal boilerplate, reactive model), common use cases (frontends, server-side TS, specific app types), and a concrete getting-started path. Simple voice throughout, no filler words or AI-cliche vocabulary.

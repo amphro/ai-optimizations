@@ -1,0 +1,1 @@
+`CLAUDE.md` written at 23 lines. Each entry passes the "would removing this cause a mistake?" test — the migration immutability rule, cents-not-floats, the Stripe webhook timing constraint, and the no-staging-gate warning are all project-specific gotchas that Claude would otherwise get wrong.

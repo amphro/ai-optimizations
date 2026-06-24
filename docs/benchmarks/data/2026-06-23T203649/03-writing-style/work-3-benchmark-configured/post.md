@@ -1,0 +1,9 @@
+# Introducing Fluxion: TypeScript State Management Done Right
+
+State management is one of those problems every TypeScript developer runs into eventually. Your app starts small, the logic is easy to follow, and then one day you're tracing a bug through five layers of prop drilling and wondering where it all went wrong. Fluxion is a new TypeScript state-management library built to end that cycle. It gives you predictable, type-safe state without the boilerplate that made earlier tools feel like a second job.
+
+Fluxion's design centers on three things: type safety by default, minimal ceremony, and a reactive model that fits how TypeScript developers already think. Every piece of state is fully typed from the moment you define it, so your editor catches mismatches before they reach the browser. Updates happen through typed actions, which keeps the data flow readable as the codebase grows. There is no need to write reducers, action creators, and action types separately. You define your state shape once, and Fluxion handles the rest.
+
+The library fits a wide range of projects. For component-heavy frontends, Fluxion connects cleanly to React or Vue without adapter packages. For server-side TypeScript, it works well as a lightweight in-memory store for request state or caching layers. Teams building multi-step forms, real-time dashboards, or checkout flows have found that Fluxion keeps the state logic centralized without turning it into its own application layer.
+
+Getting started takes about five minutes. Install with `npm install fluxion`, define a store with your initial state and the actions that modify it, and bind it to your components. The API is small enough to fit on one screen, and the TypeScript types guide you through every step. The documentation includes a quick-start guide, several example projects, and a migration path for teams moving off Redux or Zustand. Give it a try on your next feature branch.

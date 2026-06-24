@@ -1,0 +1,1 @@
+`CLAUDE.md` written at 27 lines. Every line encodes something non-derivable from reading the code: the `--runInBand` requirement and why, the repository-layer convention, money-as-cents, the order state machine location, and deploy branch mapping. Standard Node/Postgres/conventional-commit knowledge was left out.

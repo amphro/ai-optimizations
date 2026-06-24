@@ -1,0 +1,85 @@
+{
+  "task": "03-writing-style",
+  "timestamp": "2026-06-23T203649",
+  "timing": {
+    "baseline": {
+      "mean": 23558,
+      "median": 23395,
+      "min": 22615,
+      "max": 24815
+    },
+    "configured": {
+      "mean": 36716,
+      "median": 36132,
+      "min": 31713,
+      "max": 43718
+    }
+  },
+  "runs": [
+    {
+      "run": 1,
+      "baseline_ms": 24211,
+      "configured_ms": 34893,
+      "baseline_style": {
+        "vale_available": true,
+        "violations": 0
+      },
+      "configured_style": {
+        "vale_available": true,
+        "violations": 0
+      }
+    },
+    {
+      "run": 2,
+      "baseline_ms": 22755,
+      "configured_ms": 36132,
+      "baseline_style": {
+        "vale_available": true,
+        "violations": 2
+      },
+      "configured_style": {
+        "vale_available": true,
+        "violations": 0
+      }
+    },
+    {
+      "run": 3,
+      "baseline_ms": 22615,
+      "configured_ms": 31713,
+      "baseline_style": {
+        "vale_available": true,
+        "violations": 4
+      },
+      "configured_style": {
+        "vale_available": true,
+        "violations": 0
+      }
+    },
+    {
+      "run": 4,
+      "baseline_ms": 23395,
+      "configured_ms": 37126,
+      "baseline_style": {
+        "vale_available": true,
+        "violations": 1
+      },
+      "configured_style": {
+        "vale_available": true,
+        "violations": 1
+      }
+    },
+    {
+      "run": 5,
+      "baseline_ms": 24815,
+      "configured_ms": 43718,
+      "baseline_style": {
+        "vale_available": true,
+        "violations": 0
+      },
+      "configured_style": {
+        "vale_available": true,
+        "violations": 0
+      }
+    }
+  ]
+}

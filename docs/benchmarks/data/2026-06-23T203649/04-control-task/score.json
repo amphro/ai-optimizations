@@ -1,0 +1,85 @@
+{
+  "task": "04-control-task",
+  "timestamp": "2026-06-23T203649",
+  "timing": {
+    "baseline": {
+      "mean": 15947,
+      "median": 11474,
+      "min": 10524,
+      "max": 32535
+    },
+    "configured": {
+      "mean": 35925,
+      "median": 34924,
+      "min": 31721,
+      "max": 41634
+    }
+  },
+  "runs": [
+    {
+      "run": 1,
+      "baseline_ms": 11474,
+      "configured_ms": 36703,
+      "baseline_code": {
+        "correctness": "pass",
+        "ran_tests": 1
+      },
+      "configured_code": {
+        "correctness": "pass",
+        "ran_tests": 1
+      }
+    },
+    {
+      "run": 2,
+      "baseline_ms": 14175,
+      "configured_ms": 41634,
+      "baseline_code": {
+        "correctness": "pass",
+        "ran_tests": 1
+      },
+      "configured_code": {
+        "correctness": "pass",
+        "ran_tests": 1
+      }
+    },
+    {
+      "run": 3,
+      "baseline_ms": 11026,
+      "configured_ms": 31721,
+      "baseline_code": {
+        "correctness": "pass",
+        "ran_tests": 1
+      },
+      "configured_code": {
+        "correctness": "pass",
+        "ran_tests": 1
+      }
+    },
+    {
+      "run": 4,
+      "baseline_ms": 32535,
+      "configured_ms": 34643,
+      "baseline_code": {
+        "correctness": "pass",
+        "ran_tests": 1
+      },
+      "configured_code": {
+        "correctness": "pass",
+        "ran_tests": 1
+      }
+    },
+    {
+      "run": 5,
+      "baseline_ms": 10524,
+      "configured_ms": 34924,
+      "baseline_code": {
+        "correctness": "pass",
+        "ran_tests": 1
+      },
+      "configured_code": {
+        "correctness": "pass",
+        "ran_tests": 1
+      }
+    }
+  ]
+}

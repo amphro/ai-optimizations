@@ -1,0 +1,1 @@
+`post.md` is written. The post covers the problem Fluxion solves, its three core benefits (simplicity, type inference, fine-grained re-render skipping), common use cases (SPAs, forms, dashboards, real-time UIs), and a concrete getting-started path with the install command and framework adapters.
