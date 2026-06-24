@@ -87,33 +87,41 @@ score_writing_style() {
   local dir="$1" run="$2" image="$3"
   local work_dir="$dir/work-${run}-${image}"
   local file="$work_dir/post.md"
+  local config="$BENCHMARK_DIR/writing-style-config.json"
 
   if [[ ! -f "$file" ]]; then
-    echo '{"vale_available":false,"violations":null,"error":"artifact missing"}'
+    echo '{"error":"artifact missing","weighted_score":null,"raw_violations":null,"by_category":{}}'
     return
   fi
 
-  if ! command -v vale &>/dev/null; then
-    echo '{"vale_available":false,"violations":null}'
-    return
+  local result
+  result=$(python3 - "$config" "$file" <<'PYEOF'
+import json, re, sys
+config = json.loads(open(sys.argv[1]).read())
+text = open(sys.argv[2]).read()
+lines = text.splitlines()
+result = {'weighted_score': 0, 'raw_violations': 0, 'by_category': {}}
+for cat, settings in config['categories'].items():
+    count = 0
+    weight = settings['weight']
+    for pattern in settings.get('patterns', []):
+        count += len(re.findall(pattern, text))
+    for word in settings.get('words', []):
+        count += len(re.findall(r'(?i)\b' + re.escape(word) + r'\b', text))
+    for starter in settings.get('line_starters', []):
+        count += sum(1 for line in lines if line.strip().startswith(starter))
+    result['by_category'][cat] = {'count': count, 'weight': weight, 'weighted': count * weight}
+    result['raw_violations'] += count
+    result['weighted_score'] += count * weight
+print(json.dumps(result))
+PYEOF
+  ) || true
+
+  if [[ -n "$result" ]]; then
+    echo "$result"
+  else
+    echo '{"error":"scorer failed","weighted_score":null,"raw_violations":null,"by_category":{}}'
   fi
-
-  local vale_json violations
-  # Capture output without letting vale's non-zero exit (violations found) abort the script
-  vale_json=$(vale --config="$BENCHMARK_DIR/.vale.ini" --output=JSON "$file" 2>/dev/null) || true
-
-  if [[ -z "$vale_json" ]]; then
-    echo '{"vale_available":true,"violations":null}'
-    return
-  fi
-
-  violations=$(printf '%s' "$vale_json" | python3 -c "
-import sys, json
-d = json.load(sys.stdin)
-print(sum(len(v) for v in d.values()))
-" 2>/dev/null) || violations="null"
-
-  echo "{\"vale_available\":true,\"violations\":$violations}"
 }
 
 score_code_task() {
@@ -132,9 +140,10 @@ score_code_task() {
     fi
   fi
 
+  # Detect test execution by artifact: if jest ran, node_modules/ is present in the work dir.
+  # Grepping Claude's prose is unreliable — "npx jest" appears as advice text in both envs.
   local ran_tests=0
-  grep -qiE "(PASS|Tests:|npx jest|jest.*pass|all [0-9]+ tests)" "$stdout_file" 2>/dev/null \
-    && ran_tests=1 || true
+  [[ -d "$work_dir/node_modules" ]] && ran_tests=1
 
   echo "{\"correctness\":\"$correctness\",\"ran_tests\":$ran_tests}"
 }
@@ -211,14 +220,16 @@ claude_version=$(docker run --rm benchmark-clean claude --version 2>/dev/null \
   | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' | head -1 || echo "unknown")
 
 total_duration_ms="null"
+model_used="unknown"
 if [[ -f "$RUN_DIR/run-meta.txt" ]]; then
-  read -r start_ms end_ms < "$RUN_DIR/run-meta.txt"
+  read -r start_ms end_ms model_used < "$RUN_DIR/run-meta.txt"
   total_duration_ms=$(( end_ms - start_ms ))
+  model_used="${model_used:-unknown}"
 fi
 
-python3 - "$RUN_DIR" "$TIMESTAMP" "$claude_version" "$RUNS" "$total_duration_ms" <<'PYEOF'
+python3 - "$RUN_DIR" "$TIMESTAMP" "$claude_version" "$RUNS" "$total_duration_ms" "$model_used" <<'PYEOF'
 import json, os, sys
-run_dir, timestamp, claude_version, runs_per_task, total_dur = sys.argv[1:]
+run_dir, timestamp, claude_version, runs_per_task, total_dur, model = sys.argv[1:]
 total_ms = None if total_dur == 'null' else int(total_dur)
 tasks = ['01-secret-hook', '02-claudemd-quality', '03-writing-style', '04-control-task']
 tasks_data = {}
@@ -231,6 +242,7 @@ for task in tasks:
 summary = {
     'timestamp': timestamp,
     'claude_code_version': claude_version,
+    'model': model,
     'runs_per_task': int(runs_per_task),
     'total_duration_ms': total_ms,
     'cost_usd': None,

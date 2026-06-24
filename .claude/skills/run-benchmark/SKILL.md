@@ -48,7 +48,17 @@ Both `benchmark-clean` and `benchmark-configured` must build without errors befo
 ./benchmark/run.sh
 ```
 
-This runs 5 trials of each task in both containers. Note the timestamp printed at the end — you'll need it for the next steps. Outputs go to `benchmark/results/<timestamp>/`.
+This runs 5 trials of each task in both containers (40 API calls total, ~$0.50 at default Haiku pricing). Note the timestamp — you'll need it for the next steps. Outputs go to `benchmark/results/<timestamp>/`.
+
+**Cost control:** Both run count and model are configurable via env vars:
+```bash
+# Fast dev run — 3 runs, cheapest model (~$0.30)
+BENCHMARK_RUNS=3 ./benchmark/run.sh
+
+# Full run with a specific model
+BENCHMARK_MODEL=claude-sonnet-4-6 BENCHMARK_RUNS=5 ./benchmark/run.sh
+```
+Default model is `claude-haiku-4-5-20251001`. The benchmark tests *configuration behavior* (does the hook fire, does it write fewer lines, does it avoid clichés) — not raw capability. Haiku is sufficient for all four tasks. Use Sonnet for published results if you want a stronger baseline signal on task 03.
 
 ## Step 4: Score
 

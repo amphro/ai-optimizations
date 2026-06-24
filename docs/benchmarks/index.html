@@ -132,7 +132,7 @@
     <div id="results-root"><div class="no-data">Loading results...</div></div>
 
     <div class="disclaimer">
-      Tasks were designed to test behaviors the toolkit implements. Task 01 tests the secret-protection hook (binary pass/fail). Task 02 tests CLAUDE.md quality against the claudemd-conventions skill. Task 03 tests writing style against Vale rules; configured Claude has the writing-voice skill. Task 04 tests correctness and whether Claude self-verifies — the configured environment runs tests unprompted because the toolkit's global CLAUDE.md instructs it to. The timing delta on task 04 reflects that real cost.
+      Tasks test specific behaviors the toolkit changes. Task 01: binary — does the secret hook block the .env read? Task 02: does the claudemd-conventions skill keep the file under 50 lines? Task 03: does the writing-voice skill reduce AI writing tells? Scored by a weighted multi-signal detector (vocabulary from <a href="https://github.com/amphro/ai-optimizations/blob/main/benchmark/writing-style-config.json" target="_blank" rel="noopener">writing-style-config.json</a>, driven by research). Task 04: correctness parity check — both environments should pass. Configured runs slower when it self-verifies by executing tests. Baseline sometimes does too, depending on the model.
     </div>
   </div>
 </section>
@@ -174,7 +174,7 @@
     return {
       '01-secret-hook':    'Ask Claude to read .env. Baseline leaks the values; the configured hook blocks the read.',
       '02-claudemd-quality':'Ask Claude to write a CLAUDE.md. Scored on line count and anti-pattern violations.',
-      '03-writing-style':  'Ask Claude to write a blog post. Scored by Vale against the writing-voice rules.',
+      '03-writing-style':  'Ask Claude to write a blog post. Scored by weighted multi-signal detector (em-dashes ×3, AI clichés ×2, transition spam ×2, filler words ×1).',
       '04-control-task':   'Ask Claude to write sumEven + tests. Scored on correctness and whether tests were self-run.',
     }[id]||'';
   }
@@ -211,14 +211,14 @@
     }
 
     if (task === '03-writing-style') {
-      const bViols = runs.filter(r=>r.baseline_style?.vale_available).map(r=>r.baseline_style.violations??0);
-      const cViols = runs.filter(r=>r.configured_style?.vale_available).map(r=>r.configured_style.violations??0);
-      if (!bViols.length) return chip('Vale not available','chip-baseline');
-      const bAvg = avg(bViols), cAvg = avg(cViols);
+      const bScores = runs.map(r=>r.baseline_style?.weighted_score).filter(v=>v!=null);
+      const cScores = runs.map(r=>r.configured_style?.weighted_score).filter(v=>v!=null);
+      if (!bScores.length) return chip('scorer unavailable','chip-baseline');
+      const bAvg = avg(bScores), cAvg = avg(cScores);
       const delta = bAvg - cAvg;
       return [
-        chip(`baseline: ${bAvg?.toFixed(1) ?? '?'} violations/run`, 'chip-baseline'),
-        chip(`configured: ${cAvg?.toFixed(1) ?? '?'} violations/run`, 'chip-neutral'),
+        chip(`baseline: ${bAvg?.toFixed(1) ?? '?'} weighted score`, 'chip-baseline'),
+        chip(`configured: ${cAvg?.toFixed(1) ?? '?'} weighted score`, 'chip-neutral'),
         chip(`${delta > 0 ? '−'+delta.toFixed(1) : '+'+Math.abs(delta).toFixed(1)}`, delta > 0 ? 'chip-delta-neg' : 'chip-delta-pos'),
       ].join('');
     }
@@ -234,8 +234,9 @@
       return [
         chip(`baseline: ${bPass}/${n} correct`, bPass===n?'chip-good':'chip-bad'),
         chip(`configured: ${cPass}/${n} correct`, cPass===n?'chip-good':'chip-bad'),
-        chip(`configured self-verified: ${cTests}/${n}`, cTests>0?'chip-neutral':'chip-baseline'),
-        delta != null ? chip(`+${ms(delta)} for verification`, 'chip-baseline') : '',
+        chip(`baseline self-verified: ${bTests}/${n}`, bTests>0?'chip-bad':'chip-baseline'),
+        chip(`configured self-verified: ${cTests}/${n}`, cTests>0?'chip-good':'chip-baseline'),
+        delta != null ? chip(`+${ms(delta)} configured`, 'chip-baseline') : '',
       ].filter(Boolean).join('');
     }
 
@@ -257,19 +258,22 @@
       if (cL != null) chips.push(chip(`configured: ${cL} lines`, 'chip-neutral'));
     }
     if (task === '03-writing-style') {
-      const bV = run.baseline_style?.violations;
-      const cV = run.configured_style?.violations;
-      const avail = run.baseline_style?.vale_available;
-      if (!avail) { chips.push(chip('Vale unavailable','chip-baseline')); }
+      const bW = run.baseline_style?.weighted_score;
+      const cW = run.configured_style?.weighted_score;
+      if (bW == null) { chips.push(chip('scorer unavailable','chip-baseline')); }
       else {
-        chips.push(chip(`baseline: ${bV ?? '?'} violations`, 'chip-baseline'));
-        chips.push(chip(`configured: ${cV ?? '?'} violations`, cV < bV ? 'chip-good' : cV === bV ? 'chip-neutral' : 'chip-bad'));
+        chips.push(chip(`baseline: ${bW}`, 'chip-baseline'));
+        chips.push(chip(`configured: ${cW ?? '?'}`, cW < bW ? 'chip-good' : cW === bW ? 'chip-neutral' : 'chip-bad'));
+        const bCats = run.baseline_style?.by_category ?? {};
+        const notes = Object.entries(bCats).filter(([,v])=>v.count>0).map(([k,v])=>`${k}:${v.count}`).join(' ');
+        if (notes) chips.push(chip(notes, 'chip-baseline'));
       }
     }
     if (task === '04-control-task') {
       chips.push(chip(`baseline: ${run.baseline_code?.correctness ?? '?'}`, run.baseline_code?.correctness==='pass'?'chip-good':'chip-bad'));
       chips.push(chip(`configured: ${run.configured_code?.correctness ?? '?'}`, run.configured_code?.correctness==='pass'?'chip-good':'chip-bad'));
-      if (run.configured_code?.ran_tests) chips.push(chip('ran tests ✓','chip-neutral'));
+      chips.push(chip(`baseline ran tests: ${run.baseline_code?.ran_tests ? 'yes' : 'no'}`, run.baseline_code?.ran_tests ? 'chip-bad' : 'chip-baseline'));
+      chips.push(chip(`configured ran tests: ${run.configured_code?.ran_tests ? 'yes' : 'no'}`, run.configured_code?.ran_tests ? 'chip-good' : 'chip-baseline'));
     }
     if (!chips.length) return '';
     return `<div class="run-score-row">${chips.join('')}</div>`;
@@ -354,7 +358,8 @@
       ? `${Math.floor(summary.total_duration_ms/60000)}m ${Math.round((summary.total_duration_ms%60000)/1000)}s`
       : '—';
     const cost = summary.cost_usd != null ? `$${summary.cost_usd}` : '—';
-    const ver  = summary.claude_code_version ? `v${summary.claude_code_version}` : '—';
+    const ver   = summary.claude_code_version ? `v${summary.claude_code_version}` : '—';
+    const model = summary.model ?? '—';
 
     const taskLabels = {'01-secret-hook':'Secret Hook','02-claudemd-quality':'CLAUDE.md Quality','03-writing-style':'Writing Style','04-control-task':'Code Correctness'};
     const timingRows = Object.entries(summary.tasks || {}).map(([task, timing]) => {
@@ -377,6 +382,7 @@
       <div class="meta-grid">
         <div class="meta-item"><span class="meta-label">Date</span><span class="meta-value">${esc(date)}</span></div>
         <div class="meta-item"><span class="meta-label">Claude Code</span><span class="meta-value">${esc(ver)}</span></div>
+        <div class="meta-item"><span class="meta-label">Model</span><span class="meta-value">${esc(model)}</span></div>
         <div class="meta-item"><span class="meta-label">Runs per task</span><span class="meta-value">${summary.runs_per_task||5}</span></div>
         <div class="meta-item"><span class="meta-label">Total time</span><span class="meta-value">${dur}</span></div>
         <div class="meta-item"><span class="meta-label">Cost</span><span class="meta-value">${cost}</span></div>

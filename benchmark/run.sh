@@ -9,7 +9,8 @@ REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 BENCHMARK_DIR="$REPO_ROOT/benchmark"
 TASKS_DIR="$BENCHMARK_DIR/tasks"
 RESULTS_BASE="$BENCHMARK_DIR/results"
-RUNS=5
+RUNS="${BENCHMARK_RUNS:-5}"
+MODEL="${BENCHMARK_MODEL:-claude-haiku-4-5-20251001}"
 
 TOKEN_FILE="$BENCHMARK_DIR/.benchmark-token.key"
 trap 'rm -f "$TOKEN_FILE"' EXIT
@@ -35,7 +36,7 @@ mkdir -p "$RUN_DIR"
 
 RUN_START_MS=$(now_ms)
 
-echo "Run: $TIMESTAMP"
+echo "Run: $TIMESTAMP  Model: $MODEL  Runs: $RUNS"
 echo "Results: $RUN_DIR"
 echo ""
 
@@ -77,7 +78,7 @@ run_task() {
     -e ANTHROPIC_API_KEY="$ANTHROPIC_API_KEY" \
     -v "$work_host:/app" \
     "$image" \
-    claude -p --dangerously-skip-permissions "$prompt" \
+    claude -p --dangerously-skip-permissions --model "$MODEL" "$prompt" \
     > "$output_file" \
     2> "$stderr_file" \
     || echo "[run exited non-zero — see stderr log]" >> "$output_file"
@@ -109,7 +110,7 @@ for task in "${TASKS[@]}"; do
 done
 
 RUN_END_MS=$(now_ms)
-echo "$RUN_START_MS $RUN_END_MS" > "$RUN_DIR/run-meta.txt"
+echo "$RUN_START_MS $RUN_END_MS $MODEL" > "$RUN_DIR/run-meta.txt"
 
 echo "Done. Next steps:"
 echo "  ./benchmark/score.sh $TIMESTAMP"

@@ -1,0 +1,39 @@
+{
+  "_source": "research/writing-voice-personas.md",
+  "_note": "Update vocabulary here when research/writing-voice-personas.md is updated. score.sh reads this directly — no other file to sync.",
+  "categories": {
+    "punctuation": {
+      "weight": 3,
+      "description": "Em/en-dash as casual punctuation — strongest structural AI tell (research: >3 per 500 words is a tell)",
+      "patterns": ["[—–]"]
+    },
+    "ai_cliches": {
+      "weight": 2,
+      "description": "AI-era buzzwords rarely used by human writers. Refresh this list from the 'recurring AI tells' section of the source research.",
+      "words": [
+        "delve", "leverage", "utilize",
+        "robust", "seamless", "seamlessly",
+        "landscape", "tapestry", "crucial",
+        "intuitive", "straightforward", "granular",
+        "ergonomic", "streamline", "streamlined"
+      ]
+    },
+    "filler_words": {
+      "weight": 1,
+      "description": "Hedge words and unnecessary qualifiers",
+      "words": ["just", "simply", "essentially", "basically", "actually"]
+    },
+    "transition_spam": {
+      "weight": 2,
+      "description": "Mechanical paragraph openers that AI uses to signal structure artificially (research: 'transition-word spam')",
+      "line_starters": [
+        "Additionally,",
+        "Furthermore,",
+        "Moreover,",
+        "In conclusion,",
+        "It is worth noting",
+        "It is important to note"
+      ]
+    }
+  }
+}
