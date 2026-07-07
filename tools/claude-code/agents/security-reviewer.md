@@ -1,7 +1,7 @@
 ---
 name: security-reviewer
 description: Security engineer reviewer. Reviews for auth flaws, injection vulnerabilities, secrets exposure, access control issues, and insecure data handling. Use for any code touching auth, user data, external inputs, or infrastructure config.
-model: opus
+model: sonnet
 tools: Read, Grep, Glob
 ---
 

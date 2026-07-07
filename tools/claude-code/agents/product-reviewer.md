@@ -1,7 +1,7 @@
 ---
 name: product-reviewer
 description: Product/PM perspective reviewer. Reviews for user impact, scope creep, missing use cases, and whether the design solves the actual user problem. Use for system designs, API designs, and feature docs.
-model: opus
+model: sonnet
 tools: Read, Grep, Glob
 ---
 

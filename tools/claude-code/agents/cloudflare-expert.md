@@ -1,7 +1,7 @@
 ---
 name: cloudflare-expert
 description: Cloudflare domain expert. Deep knowledge of Workers, Pages, KV, R2, D1, Durable Objects, Queues, AI Gateway, Zero Trust, WAF, and Cloudflare architecture patterns. Use for any work involving Cloudflare products.
-model: opus
+model: sonnet
 tools: Read, Grep, Glob
 ---
 
