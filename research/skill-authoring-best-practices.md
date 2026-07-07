@@ -2,7 +2,7 @@
 
 > ***🤖 Claude generated, human reviewed***
 
-**Last updated:** 2026-06-19
+**Last updated:** 2026-07-07
 **Source:** Anthropic's official `skill-creator` plugin and `plugin-dev`'s `skill-development` skill (both bundled with Claude Code), cross-checked against this repo's own existing skills
 **Reliability:** High for official mechanics (read directly from the bundled plugin source). The house-style section below is this repo's own convention, not an external standard.
 
@@ -41,6 +41,8 @@ A couple of things easy to under-weight:
 ## Log of practices learned from real sessions
 
 Newest first. `mine-session-skills` appends here when a session surfaces something genuinely new about skill authoring, not every session adds a line.
+
+**2026-07-07:** SEO/GEO skills need to be authored retrieval-first. Bot names, which structured-data types get rich results, character-limit guidance, and Search Console/Bing UI flows all rot within months. The fix is to encode the durable procedure (what to check, in what order, how to judge competitive winnability) in SKILL.md and references, and delegate current facts to a live web search step each run instead of hard-coding them. See `seo-audit` for the pattern, including the "re-verify before acting" framing at the top of each reference file.
 
 **2026-06-19:** Not every skill is a workflow. `writing-voice` and `claudemd-conventions` are rules Claude applies while doing something else, not a procedure Claude runs, so they use topic sections instead of numbered Steps and have no Report step. Forcing a Report step onto a reference skill produces a section nobody reads. See the house-style note above for the two-shape split.
 
