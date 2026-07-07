@@ -17,9 +17,22 @@ If no clear question exists, ask: "What decision or idea should the council eval
 
 If the question references project work, read relevant files (CLAUDE.md, memory files, relevant code or docs) before spawning advisors. Personas with domain context give specific answers; without it they give generic ones.
 
-## Step 3: Spawn the five advisors in parallel
+## Step 3: Choose the model
 
-Use the Agent tool to spawn all five simultaneously. Each advisor runs in isolated context — no persona sees another's answer before responding. This isolation is intentional: it prevents anchoring and herding.
+Default every spawned agent (all five advisors and the Chairman) to `sonnet` by passing `model: sonnet` on the Agent call. Sonnet is the floor: capable enough for almost every decision, at a fraction of Opus cost. Only deviate when the decision itself clearly warrants it:
+
+| Decision complexity | Model | When |
+|---|---|---|
+| Normal (default) | `sonnet` | Most decisions, plans, and ideas |
+| High-stakes / complex | `opus` | Irreversible or costly-to-reverse calls, deep strategy, heavy ambiguity, anything expensive to get wrong |
+
+(No haiku tier here: if a decision is worth convening the council, it is past haiku territory.)
+
+Pick one model for the whole run unless the Chairman synthesis is clearly harder than the advisor passes (then keep advisors on sonnet and raise only the Chairman). State which model you chose and why in one line before spawning.
+
+## Step 4: Spawn the five advisors in parallel
+
+Use the Agent tool to spawn all five simultaneously, each with the model from Step 3. Each advisor runs in isolated context — no persona sees another's answer before responding. This isolation is intentional: it prevents anchoring and herding.
 
 Brief each agent with:
 - The question
@@ -39,9 +52,9 @@ Brief each agent with:
 
 **Executor** — "Convert everything to action. Ignore strategy. What happens Monday morning? Give week-one tasks only — specific, concrete, completable."
 
-## Step 4: Chairman synthesis
+## Step 5: Chairman synthesis
 
-After all five advisors report, spawn the Chairman as a **separate Agent call with fresh context**. The Chairman receives all five advisor responses labeled by persona name, plus this mandate:
+After all five advisors report, spawn the Chairman as a **separate Agent call with fresh context** (same model choice from Step 3). The Chairman receives all five advisor responses labeled by persona name, plus this mandate:
 
 "You are the Chairman. Five advisors have given their analysis. Your job is to synthesize — not average, not diplomacize.
 
@@ -53,7 +66,7 @@ Deliver exactly four things:
 
 'It depends' is a failure. Diplomatic non-answers are a failure. A position with a clear rationale, even if wrong, is better than a hedge."
 
-## Step 5: Present results
+## Step 6: Present results
 
 Format the output as:
 
@@ -80,10 +93,47 @@ Format the output as:
 
 ---
 
+## Step 7: Store the decision
+
+Save the run so cost and quality can be analysed over time. Resolve where to write it, in this order:
+
+1. If the project's CLAUDE.md (or AGENTS.md) names a place for decisions, use that.
+2. Else if a conventional decisions folder already exists — `decisions/` or `docs/decisions/` (ADR-style) — write there.
+3. Else ask the user where to store it: a checked-in folder (offer to create `decisions/`) or gitignored `.claude-logs/council/`. If you cannot ask, default to `.claude-logs/council/`.
+
+Name the file `YYYY-MM-DD-HHMM-<slug>.md` (`<slug>` is a short kebab-case tag from the question) and use this shape:
+
+```markdown
+---
+type: council
+date: 2026-07-07T14:32-04:00   # actual local timestamp
+task: <one-line question the council evaluated>
+models:                         # the model each spawned agent actually ran on
+  - agent: contrarian
+    model: sonnet
+  - agent: first-principles
+    model: sonnet
+  - agent: expansionist
+    model: sonnet
+  - agent: outsider
+    model: sonnet
+  - agent: executor
+    model: sonnet
+  - agent: chairman
+    model: sonnet
+agent_count: 6
+cost_usd: null   # not knowable at runtime; fill later from `ccusage` or the API console, keyed by the date above
+---
+
+<the full Council Report and Chairman's Verdict from Step 6>
+```
+
+Do not invent a token or dollar figure. A spawned agent cannot read its own usage, so `cost_usd` stays `null` and real cost is reconciled later from `ccusage`/the console using the timestamp.
+
 ## Notes
 
 - **Reserve for complex decisions.** The council is overkill for factual lookups, simple tasks, or anything with an obvious answer.
 - **The council doesn't decide — you do.** Treat this as structured input to your judgment, not an oracle.
-- **Cost:** 6 subagent spawns (5 advisors + 1 chairman). Meaningful token cost. Worth it for high-stakes choices; not for casual questions.
+- **Cost:** 6 subagent spawns (5 advisors + 1 chairman), on sonnet by default (see Step 3). Still a meaningful token cost. Worth it for high-stakes choices; not for casual questions. Every run is logged (see Step 7) for later cost/quality analysis.
 - **For code, docs, or implementation review**, use `smart-review` instead — it selects the right domain experts for technical work. Council is for ideas, strategy, and decisions.
 - **Inspired by** Andrej Karpathy's `llm-council` project and community research. See `research/ai-council.md` for full background.

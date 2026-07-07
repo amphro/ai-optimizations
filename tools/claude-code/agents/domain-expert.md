@@ -1,7 +1,7 @@
 ---
 name: domain-expert
 description: Generic domain expert reviewer. Infers the tech domain from context (e.g. auth, Postgres, Redis, TypeScript, React, etc.) and reviews as a deep specialist in that area. Use when you need domain-specific review that isn't covered by a dedicated agent.
-model: opus
+model: sonnet
 tools: Read, Grep, Glob
 ---
 

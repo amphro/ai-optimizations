@@ -1,7 +1,7 @@
 ---
 name: staff-engineer
 description: Staff/principal engineer reviewer. Reviews for architectural soundness, scalability, maintainability, and engineering best practices. Use for code, design docs, and system designs.
-model: opus
+model: sonnet
 tools: Read, Grep, Glob
 ---
 
