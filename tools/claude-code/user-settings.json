@@ -6,7 +6,7 @@
   "autoMemoryEnabled": true,
   "autoDreamEnabled": true,
   "fileCheckpointingEnabled": true,
-  "advisorModel": "claude-opus-4-8",
+  "advisorModel": "opus",
   "statusLine": {
     "type": "command",
     "command": "~/.claude/statusline.sh"

@@ -12,7 +12,8 @@ When creating or updating ANY CLAUDE.md file:
 - Always enter plan mode before touching multiple files or writing arch docs.
 - Write plans to PLAN.md so they can be reviewed before execution.
 - After any significant implementation, use the `smart-review` skill to get the right reviewers for the context.
-- Use subagents for codebase exploration. Don't fill main context reading files.
+- Delegate exploration, search, and parallelizable research to subagents so the main context stays lean; keep planning and synthesis in the main session. The context isolation is the main win. Pass a cheaper model (Sonnet or Haiku) on the spawn for grunt work as a bonus. Spot-check what a subagent reports before building on it.
+- Skip delegation for trivial or tightly coupled sequential work, where a direct pass is faster and cheaper. For hard mid-task decisions, use the advisor, not a subagent.
 
 ## Verification
 - Always run the available test/lint/build command after making changes.
