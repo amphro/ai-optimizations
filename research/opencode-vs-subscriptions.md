@@ -1,33 +1,18 @@
----
-type: deep-research
-date: 2026-08-06T08:46-0700
-task: How does OpenCode with pay-as-you-go API access compare to Anthropic's subscription plans for a solo dev on the $100 Claude Code plan?
-models:   # descriptive labels, not lookup keys. Reconcile by the date above.
-  - agent: research-opencode-auth
-    model: sonnet
-  - agent: research-token-economics
-    model: sonnet
-  - agent: research-models
-    model: sonnet
-  - agent: research-competing-subscriptions
-    model: sonnet
-agent_count: 4
-cost_usd: null   # fill later from ccusage or the console, keyed by the date above
----
-
 # OpenCode vs. Claude Subscriptions (August 2026)
 
-> ***🤖 Claude generated, unverified***
+> ***🤖 Claude generated, human reviewed***
 
 **Last updated:** 2026-08-06
 **Key question:** How does OpenCode with pay-as-you-go stack up against the $100 Claude Max plan, against Claude Pro, and against the other providers' subscriptions? Where is the break-even?
-**Short answer:** The break-even is at about 3% of your current usage, so it is nowhere near you. Your measured usage would cost about $3,200 a month on metered API billing, roughly 32 times what you pay now. Even routing every token to the cheapest model still costs 7 times the plan. Keep the plan. OpenCode is worth knowing, but for model choice, not for cost.
+**Short answer:** For a heavy user, the break-even sits near 3% of their volume, so it is nowhere close. That usage costs about $3,200 a month on metered API billing, roughly 32 times the plan price. Even routing every token to the cheapest model still costs 7 times the plan. Keep the subscription. OpenCode is worth knowing, but for model choice, not for cost.
 
 ---
 
-## Your actual numbers
+## The usage profile
 
-This settles the question. The numbers come from your own transcripts in `~/.claude/projects`, not from estimates. That is 1,246 session files and 37,501 assistant messages.
+The numbers below come from one real Claude Code account rather than estimates. They were pulled from local transcripts in `~/.claude/projects`, covering 1,246 session files and 37,501 assistant messages.
+
+**Profile:** a heavy solo developer on the $100 Max 5x plan, working most days and regularly approaching the weekly limits.
 
 **Window:** 2026-06-18 to 2026-08-06. That is 50 calendar days, 43 of them active.
 
@@ -39,9 +24,13 @@ This settles the question. The numbers come from your own transcripts in `~/.cla
 | Uncached input | 3,886,882 |
 | **Total** | **8.03 billion** |
 
-Cache reads are 97.3% of your token volume. That one fact drives everything below.
+Cache reads are 97.3% of the token volume. That one fact drives everything below.
 
-These are the rates used throughout, from Anthropic's published pricing. Cache writes cost 1.25x the input rate at the default 5-minute TTL. Cache reads cost 0.10x the input rate. The 1-hour TTL doubles the write multiplier to 2x, which would move the total a little. Cache writes are only 2.4% of your volume, so the effect on the headline is small.
+If your own usage is lighter, scale the results down using the sensitivity table further on. The shape of the answer holds across a wide range.
+
+## What that costs on the API
+
+These are the rates used throughout, from Anthropic's published pricing. Cache writes cost 1.25x the input rate at the default 5-minute TTL. Cache reads cost 0.10x the input rate. The 1-hour TTL doubles the write multiplier to 2x, which would move the total a little. Cache writes are only 2.4% of volume here, so the effect on the headline is small.
 
 | Model | Input per MTok | Output per MTok |
 |---|---|---|
@@ -52,7 +41,7 @@ These are the rates used throughout, from Anthropic's published pricing. Cache w
 | Sonnet 4.6 | $3.00 | $15.00 |
 | Haiku 4.5 | $1.00 | $5.00 |
 
-Applying those rates to your usage:
+Applying those rates:
 
 | Model | API-equivalent cost | Share |
 |---|---|---|
@@ -66,15 +55,15 @@ Applying those rates to your usage:
 
 That works out to $105.62 per calendar day, or about $3,169 per 30-day month.
 
-Against $100 a month, the Max plan gives you roughly 32 times its price in metered value. The $200 tier would still be about 16 times.
+Against $100 a month, the Max plan returns roughly 32 times its price in metered value. The $200 tier would still be about 16 times.
 
-One caveat worth stating. This measures what your current habits would cost on a meter. It is not what you would actually spend if you paid by the token. Paying per token changes how you work. You batch more, you interrupt more, you reach for Opus less. Read this as "here is how much value the plan delivers today," not "here is my future bill."
+One caveat worth stating. This measures what existing habits would cost on a meter. It is not what someone would actually spend if they paid by the token. Paying per token changes how people work. You batch more, you interrupt more, you reach for Opus less. Read this as "here is how much value the plan delivers," not "here is the bill."
 
-That caveat weakens the 32x number, so the recommendation does not rest on it. The claim that survives is the floor: even if you changed every habit and sent all 8 billion tokens to Haiku 4.5, the cheapest model available, you would still pay about 7 times the plan price. That holds no matter how your behavior shifts under metering.
+That caveat weakens the 32x number, so the conclusion does not rest on it. The claim that survives is the floor: even with every habit changed and all 8 billion tokens sent to Haiku 4.5, the cheapest model available, the cost is still about 7 times the plan price. That holds no matter how behavior shifts under metering.
 
 ### Same work on a single model
 
-Hold your token volume constant and price it all on one model.
+Hold token volume constant and price it all on one model.
 
 | Everything on | Per month |
 |---|---|
@@ -83,50 +72,48 @@ Hold your token volume constant and price it all on one model.
 | Sonnet 5 intro rate ($2 / $10, through Aug 31) | $1,371 |
 | Haiku 4.5 ($1 / $5) | $686 |
 
-Treat these as directional floors, not exact quotes. Different models tokenize differently and vary in how much they write, so your real token counts would shift. The gaps here are far too wide for that to matter.
+Treat these as directional floors, not exact quotes. Different models tokenize differently and vary in how much they write, so real token counts would shift. The gaps here are far too wide for that to matter.
 
-Even sending everything to Haiku costs about 7 times the Max plan. And you would not want Haiku writing your architecture. No model mix makes metered Anthropic billing competitive at your volume.
+Even sending everything to Haiku costs about 7 times the Max plan, and Haiku is not the model you want writing architecture. No model mix makes metered Anthropic billing competitive at this volume.
 
-For comparison, Anthropic publishes $150 to $250 per developer per month as typical, with 90% of users under $30 per active day. You run at about $123 per active day. That puts you in the top tier of Claude Code usage.
+For comparison, Anthropic publishes $150 to $250 per developer per month as typical, with 90% of users under $30 per active day. This profile runs at about $123 per active day, which puts it in the top tier of Claude Code usage.
 
-### What about dropping to Claude Pro at $20?
+### What about Claude Pro at $20?
 
-Worth asking, since it is the obvious way to spend less. The answer is no, and the reason is your usage level.
+Worth asking, since it is the obvious way to spend less. For a heavy user the answer is no.
 
-Anthropic defines the tiers as multipliers of Pro. Max 5x (your plan, $100) gives five times Pro's usage budget. Max 20x ($200) gives twenty times. Dropping to Pro would leave you with one fifth of the budget you use today.
+Anthropic defines the tiers as multipliers of Pro. Max 5x ($100) gives five times Pro's usage budget. Max 20x ($200) gives twenty times. Dropping to Pro means one fifth of the budget.
 
-You are already at roughly $123 per active day of metered-equivalent usage, which is above Anthropic's stated 90th percentile of $30 per active day. Cutting your budget to a fifth would mean hitting the 5-hour window limit constantly. Pro is a reasonable plan for someone doing a few hours of coding a day. It does not fit how you work.
-
-Downgrading only makes sense if your usage drops a lot. See the sensitivity table below for where that line sits.
+At roughly $123 per active day of metered-equivalent usage, well above Anthropic's stated 90th percentile of $30, cutting the budget to a fifth would mean hitting the 5-hour window limit constantly. Pro is a reasonable plan for someone coding a few hours a day. It does not fit sustained heavy use.
 
 ### At what usage would this change?
 
-The recommendation depends on your current volume, so here is where each option starts to win. These use your actual model mix, scaled down.
+The conclusion depends on volume, so here is where each option starts to win. These scale the profile's actual model mix down.
 
-| Your usage vs. today | Metered equivalent per month | Cheapest sensible option |
+| Usage vs. profile | Metered equivalent per month | Cheapest sensible option |
 |---|---|---|
-| 100% (today) | ~$3,169 | Max 5x at $100 |
+| 100% | ~$3,169 | Max 5x at $100 |
 | 50% | ~$1,585 | Max 5x at $100 |
 | 25% | ~$792 | Max 5x at $100 |
 | 10% | ~$317 | Max 5x at $100 |
 | 3% | ~$95 | Pay-as-you-go or Pro at $20 |
 | 1% | ~$32 | Pay-as-you-go |
 
-Pay-as-you-go only wins below roughly 3% of your current volume, which is roughly 150 million tokens a month. That is a different person's workload, not a bad month. The plan stays correct through any realistic dip in your activity.
+Pay-as-you-go only wins below roughly 3% of this volume, which is around 150 million tokens a month. That is a light user, not a heavy user having a slow month. The subscription stays correct through any realistic dip in activity.
 
 ---
 
-## Why you cannot use your subscription with OpenCode
+## Why a subscription cannot drive OpenCode
 
 This is settled, and it is a policy decision rather than a missing feature.
 
-Anthropic's Consumer Terms section 3.7 has barred unauthorized automated access since February 2024. In February 2026 Anthropic said so directly. Using OAuth tokens from Claude Free, Pro, or Max accounts "in any other product, tool, or service, including the Agent SDK, is not permitted." Enforcement ramped up through early 2026, moving from detection to outright rejection of clients that were not genuine Claude Code. Reports put the technical block in early April 2026, though I could not confirm the exact date against a primary Anthropic source. The policy itself is not in doubt.
+Anthropic's Consumer Terms section 3.7 has barred unauthorized automated access since February 2024. In February 2026 Anthropic said so directly. Using OAuth tokens from Claude Free, Pro, or Max accounts "in any other product, tool, or service, including the Agent SDK, is not permitted." Enforcement ramped up through early 2026, moving from detection to outright rejection of clients that were not genuine Claude Code. Reports put the technical block in early April 2026, though the exact date is not confirmed against a primary Anthropic source. The policy itself is not in doubt.
 
-OpenCode complied. It removed its bundled Claude OAuth plugins in v1.3.0, and its docs now say plainly that Anthropic prohibits this. Community plugins that scrape Claude Code's tokens still exist on GitHub. They break Anthropic's terms and put your account at risk.
+OpenCode complied. It removed its bundled Claude OAuth plugins in v1.3.0, and its docs now say plainly that Anthropic prohibits this. Community plugins that scrape Claude Code's tokens still exist on GitHub. They break Anthropic's terms and put the account at risk.
 
 Anthropic's stated reason is telemetry. Third party tools produce traffic they cannot attribute, which makes abuse and rate limit debugging harder.
 
-So your Max subscription buys Claude Code and claude.ai. It is not a portable credential. Using Anthropic models in OpenCode means an API key at the prices above.
+So a Max subscription buys Claude Code and claude.ai. It is not a portable credential. Using Anthropic models in OpenCode means an API key at the prices above.
 
 ### Who else allows it
 
@@ -141,18 +128,18 @@ Anthropic is the outlier here.
 
 ### How the subscriptions compare on price
 
-You asked how the other providers stack up, so here they are side by side. All prices are per month.
+All prices are per month.
 
 | Provider | Entry | Mid | Top |
 |---|---|---|---|
-| Anthropic | Pro $20 | **Max 5x $100 (yours)** | Max 20x $200 |
+| Anthropic | Pro $20 | Max 5x $100 | Max 20x $200 |
 | OpenAI | Plus $20 | Pro $100 (5x Plus) | Pro $200 (20x Plus) |
 | Google | AI Pro $19.99 | AI Ultra $99.99 | AI Ultra $200 |
 | GitHub Copilot | Pro $10 | Pro+ $39 | Max $100 |
 
 The tiers line up almost exactly across Anthropic, OpenAI, and Google. That is not a coincidence. The $20 / $100 / $200 ladder is the industry pattern now, and each vendor sells roughly 1x, 5x, and 20x of its own base quota.
 
-What this means for you: switching vendors at the same price buys you a different model family, not more usage. If you moved to ChatGPT Pro at $100 you would get a comparable budget on GPT models instead of Claude. That is a bet on which models you prefer, not a saving. The only real price drop on the board is GitHub Copilot Pro at $10, and that tier is much smaller than what you use.
+The practical consequence: switching vendors at the same price buys a different model family, not more usage. Moving from Claude Max to ChatGPT Pro at $100 gets a comparable budget on GPT models instead of Claude. That is a bet on which models you prefer, not a saving. The only real price drop on the board is GitHub Copilot Pro at $10, and that tier is much smaller than heavy use requires.
 
 ---
 
@@ -171,15 +158,15 @@ Where Claude Code wins:
 
 - A mature plugin ecosystem with an official marketplace.
 - First party integration, so new model behavior lands there first.
-- Prompt cache handling tuned for the exact usage pattern you have.
+- Prompt cache handling tuned for long agentic sessions.
 
 Both support MCP, hooks, skills, custom tools, and subagents. Feature parity is closer than the gap in ecosystem size suggests.
 
 ### Does OpenCode break prompt caching? No.
 
-A widely shared blog post claims OpenCode's session pruning rebuilds the prompt each turn and defeats Anthropic prompt caching. This mattered a lot, because 97.3% of your tokens are cache reads. If the claim were true, those tokens would reprice from 0.10x to 1.0x. The cache read component is $3,608 of the $5,281 window total, so repricing it takes the month from $3,169 to about $22,700, or 7.1 times higher. That would rule out OpenCode with an Anthropic key at any volume.
+A widely shared blog post claims OpenCode's session pruning rebuilds the prompt each turn and defeats Anthropic prompt caching. This matters a lot when 97.3% of tokens are cache reads. If the claim were true, those tokens would reprice from 0.10x to 1.0x. The cache read component is $3,608 of the $5,281 window total, so repricing it takes the month from $3,169 to about $22,700, or 7.1 times higher. That would rule out OpenCode with an Anthropic key at any volume.
 
-I checked the repository and issue tracker instead of the commentary. The claim does not hold up.
+Checking the repository and issue tracker instead of the commentary, the claim does not hold up.
 
 - OpenCode does set `cache_control: {"type": "ephemeral"}` on Anthropic requests. Its `applyCaching` function branches on `providerID === "anthropic"` to inject the blocks. Issue #14642 confirms this. That issue is a bug report about the detection logic, so the feature's existence is its starting premise.
 - Cache reads are received and billed correctly. Issue #28494 says the tokens come back from the API, get stored, and are billed correctly by Anthropic. The real bug is that OpenCode's own cost display leaves out the cache read line. That is a reporting problem, not a caching problem.
@@ -187,9 +174,9 @@ I checked the repository and issue tracker instead of the commentary. The claim 
 - The one real cache bug (#17910, `cache_control` plus OAuth returning HTTP 400) only affects the subscription OAuth path. Anthropic has since banned that path and OpenCode no longer ships it.
 - Issue #5416 ("Anthropic caching improvement") closed through merged PRs. The caching code is maintained, not abandoned.
 
-One thing stays open. I could not confirm whether compaction prunes from the prefix or only from the tail. No primary source answers it. The closest issue (#4416) is a token double counting bug that triggers compaction too early, which says nothing about where the cut lands. TTL support (`"ttl": "1h"`) looks configurable per issue #5416, but the default is unconfirmed.
+One thing stays open. It is not confirmed whether compaction prunes from the prefix or only from the tail. No primary source answers it. The closest issue (#4416) is a token double counting bug that triggers compaction too early, which says nothing about where the cut lands. TTL support (`"ttl": "1h"`) looks configurable per issue #5416, but the default is unconfirmed.
 
-So $3,169 a month is the better supported number. The recommendation below rests on the price gap alone.
+So $3,169 a month is the better supported number, and the conclusion rests on the price gap alone.
 
 ---
 
@@ -207,9 +194,9 @@ The cheap tier is real, and it is the actual argument for OpenCode.
 | DeepSeek V3.2 | $0.21 / $0.32 | Cheapest credible coder |
 | Grok 4.1 Fast | $0.20 / $0.50 | 2M context, unproven on hard agentic work |
 
-Treat SWE-bench Verified as saturated and mostly self reported. Only about 1 in 100 recent submissions was independently verified. The community has moved to SWE-bench Pro and Terminal-Bench Hard. On those harder tests the top slots are still closed frontier models, and no open weight model comes close. The gap has narrowed but it has not closed. It is widest on exactly the work you do, which is long, ambiguous, multi step sessions.
+Treat SWE-bench Verified as saturated and mostly self reported. Only about 1 in 100 recent submissions was independently verified. The community has moved to SWE-bench Pro and Terminal-Bench Hard. On those harder tests the top slots are still closed frontier models, and no open weight model comes close. The gap has narrowed but it has not closed. It is widest on long, ambiguous, multi step sessions, which is exactly the heavy agentic use case.
 
-On data residency: DeepSeek, Kimi (Moonshot), GLM (Zhipu), and Qwen (Alibaba) are all based in China. DeepSeek's privacy policy states that data goes to servers in China, and independent reporting has tied its login infrastructure to state owned China Mobile. For a solo dev on personal projects with no compliance requirements this is a judgment call, not a blocker. It is still a real difference.
+On data residency: DeepSeek, Kimi (Moonshot), GLM (Zhipu), and Qwen (Alibaba) are all based in China. DeepSeek's privacy policy states that data goes to servers in China, and independent reporting has tied its login infrastructure to state owned China Mobile. For personal projects with no compliance requirements this is a judgment call, not a blocker. It is still a real difference.
 
 ### Cheap coding subscriptions
 
@@ -221,44 +208,44 @@ On data residency: DeepSeek, Kimi (Moonshot), GLM (Zhipu), and Qwen (Alibaba) ar
 | GitHub Copilot Pro+ | $39 | Roughly $70 of monthly AI credits. Works in OpenCode. |
 | Cerebras Code Pro | $50 | 24M tokens a day at about 2,000 tokens per second |
 
-The "$3 a month GLM plan" you may have seen was a launch promo. Z.ai discontinued it in February 2026. Entry price is now $18. Treat any cached figure in the $3 to $5 range as stale.
+The "$3 a month GLM plan" that circulated widely was a launch promo. Z.ai discontinued it in February 2026. Entry price is now $18. Treat any cached figure in the $3 to $5 range as stale.
 
 ---
 
-## Recommendation
+## Conclusion
 
-Keep the $100 Max plan. At 32 times value delivered it is not a close call, and nothing in pay-as-you-go competes at your volume.
+Keep the Max plan. At 32 times value delivered it is not a close call, and nothing in pay-as-you-go competes at heavy volume.
 
 OpenCode is worth a place as a second tool, not a replacement.
 
-1. **To try OpenCode, add GitHub Copilot Pro at $10 a month.** It is the only major subscription that is both cheap and an officially supported OpenCode backend. Run `/connect` and use the device login. Pro, Pro+, Business, and Enterprise all qualify with no extra AI license. Total cost becomes $110 a month.
+1. **To try OpenCode, GitHub Copilot Pro at $10 a month is the cheapest legitimate route.** It is the only major subscription that is both cheap and an officially supported OpenCode backend. Run `/connect` and use the device login. Pro, Pro+, Business, and Enterprise all qualify with no extra AI license.
 
    Do not expect to reach Claude models this way. GitHub's changelog never claims Claude access. A long list of unresolved OpenCode issues (#6628, #11009, #11781, #15068, #19027, #20544, #21481, #24221, spanning many versions across 2026) reports Claude models unavailable, mismapped, or failing with "model not supported" or "Not Found" through the Copilot provider. That is a chronic gap, not a one off bug. Use Copilot in OpenCode for GPT class models, not as a back door to Claude.
 
-2. **If you hit Max plan limits, that is the real signal to add capacity.** The cheapest relief is a second subscription such as Copilot, Kimi, or GLM. It is not metered Anthropic tokens.
+2. **Hitting plan limits is the real signal to add capacity.** The cheapest relief is a second subscription such as Copilot, Kimi, or GLM. It is not metered Anthropic tokens.
 
-3. **Do not install community plugins that reuse your Claude Code OAuth token.** They break Anthropic's terms, they are detected, and they put the subscription you rely on at risk.
+3. **Do not install community plugins that reuse a Claude Code OAuth token.** They break Anthropic's terms, they are detected, and they put the subscription at risk.
 
-The thing worth revisiting is not the plan. It is your model mix. Opus 4.8 accounts for 67% of your metered equivalent spend. On a subscription that costs you nothing extra. It is the first place to look if you ever do start paying per token.
+The thing worth revisiting is not the plan. It is the model mix. Opus 4.8 accounts for 67% of metered equivalent spend in this profile, on a subscription where it costs nothing extra. That is the first place to look if you ever do start paying per token.
 
 ### Reasons to use OpenCode anyway
 
 Cost is not the only reason to pick a tool, and the cost answer here is lopsided enough that the other reasons matter more. Any of these justify running OpenCode alongside Claude Code:
 
-- **Model variety.** You cannot run Kimi, DeepSeek, GLM, or a local model in Claude Code. If you want to know how they actually handle your work, OpenCode is how you find out.
-- **Avoiding lock-in.** Your whole workflow currently depends on one vendor's client, one vendor's models, and one vendor's terms. Anthropic's 2026 OAuth crackdown is a reminder that those terms can change under you. Knowing a second tool is cheap insurance.
+- **Model variety.** Kimi, DeepSeek, GLM, and local models do not run in Claude Code. OpenCode is how you find out whether they handle your work.
+- **Avoiding lock-in.** A workflow that depends on one vendor's client, models, and terms is exposed when those terms change. Anthropic's 2026 OAuth crackdown is the reminder. Knowing a second tool is cheap insurance.
 - **Local and offline models.** OpenCode can point at a local model. Claude Code cannot. That matters for work you would rather not send anywhere.
 - **LSP integration.** A real advantage on typed languages, independent of which model is behind it.
 
-None of these are cost arguments. Treat OpenCode as a second tool you keep sharp, not as a way to shrink the bill.
+None of these are cost arguments. Treat OpenCode as a second tool worth keeping sharp, not as a way to shrink the bill.
 
 ---
 
 ## Open questions
 
 - **Exact Max plan limits are unpublished.** Anthropic describes Pro and Max only as relative multipliers (5x, 20x) enforced through a 5-hour rolling window plus a weekly cap. Third party estimates exist but are back calculated, not confirmed. So "am I close to the ceiling?" cannot be answered directly. You only find out by hitting it.
-- **Whether your usage pattern survives a switch of tools.** Your 97.3% cache read rate comes from how Claude Code manages sessions. Another tool will have a different cache profile, and that changes metered cost far more than the sticker price per token.
-- **Where OpenCode's compaction cuts.** It caches, that much is confirmed. Whether pruning ever changes bytes before the cache breakpoint is not. Answering it needs a real test, and a careful one. Watching `cache_read_input_tokens` stay above zero is not enough, because a plain 5-minute TTL expiry looks the same. The real signature of prefix invalidation is a `cache_creation_input_tokens` spike paired with a cache read collapse. So compare a compaction event against an idle gap of the same length with no compaction. Read those numbers from the raw API responses or the Anthropic console, not from OpenCode's own cost display, which issue #28494 says omits the cache read line. Worth doing only if you actually adopt OpenCode on a metered key.
+- **Whether the usage pattern survives a switch of tools.** A 97.3% cache read rate comes from how Claude Code manages sessions. Another tool will have a different cache profile, and that changes metered cost far more than the sticker price per token.
+- **Where OpenCode's compaction cuts.** It caches, that much is confirmed. Whether pruning ever changes bytes before the cache breakpoint is not. Answering it needs a real test, and a careful one. Watching `cache_read_input_tokens` stay above zero is not enough, because a plain 5-minute TTL expiry looks the same. The real signature of prefix invalidation is a `cache_creation_input_tokens` spike paired with a cache read collapse. So compare a compaction event against an idle gap of the same length with no compaction. Read those numbers from the raw API responses or the Anthropic console, not from OpenCode's own cost display, which issue #28494 says omits the cache read line.
 - **Whether Claude through Copilot in OpenCode gets fixed.** Those issues are open and long running. If that path stabilized it would change the math on cheap Claude access.
 
 ---
@@ -291,3 +278,17 @@ None of these are cost arguments. Treat OpenCode as a second tool you keep sharp
 - [GitHub changelog: Copilot now supports OpenCode](https://github.blog/changelog/2026-01-16-github-copilot-now-supports-opencode/)
 - [OpenAI Codex pricing](https://learn.chatgpt.com/docs/pricing) and [opencode-openai-codex-auth](https://github.com/numman-ali/opencode-openai-codex-auth)
 - [Antigravity plan changes](https://antigravity.google/blog/changes-to-antigravity-plans) and [WinBuzzer: Google bans AI subscribers](https://winbuzzer.com/2026/02/23/google-bans-ai-subscribers-openclaw-no-refunds-xcxwbn/)
+
+---
+
+## How this doc was generated
+
+| Field | Value |
+|---|---|
+| **What this is** | Run metadata for the deep-research process that produced this doc. Kept so cost and quality can be reviewed later. |
+| Type | deep-research |
+| Date | 2026-08-06T08:46-0700 |
+| Question | How does OpenCode with pay-as-you-go API access compare to Anthropic's subscription plans for a heavy solo dev on the $100 Claude Code plan? |
+| Agents | 4, all on Sonnet: opencode-auth, token-economics, models, competing-subscriptions |
+| Cost | Not recorded. Reconcile from `ccusage` or the API console using the date above. |
+| Review | See `reviews/2026-08-06-0859-opencode-vs-subscriptions.md` |
