@@ -108,11 +108,29 @@ Use the strongest layer that covers the surface. Keep the skill for judgment cal
 
 ### Where Vale cannot help
 
-Vale is markup-aware and skips code blocks and inline code by design. That is correct for prose linting and fatal for this use case: it structurally cannot catch a banned character inside a code comment. A PreToolUse hook inspects raw content before the write and has no such blind spot.
+Vale is markup-aware and skips code blocks and inline code by design. That is correct for prose linting and fatal for this use case: it structurally cannot catch a banned character inside a code comment. A PreToolUse hook inspects raw content before the write and does catch those.
+
+The hook has its own blind spot, deliberately. It only inspects Bash commands containing `git commit`, so a heredoc (`cat > file <<'EOF'`) writes whatever it likes. Scanning every Bash command produces false positives on greps and cleanup scripts, which is a worse trade. `protect-secrets.sh` does tokenize whole commands, because a leaked secret is worth the noise and a stray dash is not. Know which tradeoff you picked.
 
 ### PreToolUse beats PostToolUse here
 
-PreToolUse blocks the bad write instead of correcting it afterward, and its payload contains only the new content (`content` for Write, `new_string` for Edit, `edits[].new_string` for MultiEdit). Editing a legacy file full of banned characters does not trip the hook, so no allowlist of grandfathered files is needed.
+PreToolUse blocks the bad write instead of correcting it afterward. It also sees the content before it lands, which is what makes "only block newly introduced violations" possible.
+
+The payloads are not symmetric, and this matters:
+
+| Tool | Payload | Implication |
+|---|---|---|
+| `Edit` | `new_string` only | Legacy content is invisible, nothing to filter |
+| `MultiEdit` | `edits[].new_string` | Same |
+| `Write` | the **entire file body** | A full-file rewrite of a legacy file carries every pre-existing violation |
+
+Get this wrong and rewriting any legacy file becomes impossible. The fix is to diff against what is already on disk: for `Write` on an existing file, drop every offending line that already exists verbatim in the file, and block only on what is genuinely new. Do that filtering in a single `awk` pass. A `grep` per offending line costs seconds on a large file, which is unacceptable for a hook that runs on every write (measured: 4.8s versus 0.04s on a 2000-line case).
+
+### The escape hatch has to be reachable
+
+An env-var override is the standard pattern, but it must be documented accurately. Hooks are spawned from the Claude Code process environment, so `export VAR=1` inside a Bash tool call does **not** reach them. Shell state does not persist between tool calls. Telling the model to "export VAR=1 for the session" produces an instruction it cannot follow, which is worse than having no hatch at all: the model gets blocked, tries the documented fix, fails, and routes around the hook some other way.
+
+The reachable forms are an `env` entry in `settings.json` or a launch-time `VAR=1 claude`. Both require the user, so the block message should say to ask the user rather than implying self-service.
 
 Implementation notes from `tools/claude-code/hooks/no-dashes.sh`:
 
