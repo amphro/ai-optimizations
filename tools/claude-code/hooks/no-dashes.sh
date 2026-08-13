@@ -101,10 +101,18 @@ block() {
       echo "Other base-rule violations found in this content:"
       echo "  $hits"
     fi
+    echo ""
     if [ -n "$rules" ]; then
-      echo ""
       echo "Apply every one of these rules to the content, then retry the same tool call:"
       echo "$rules"
+    elif [ -f "$SKILL_PATH" ]; then
+      # Extraction keys off the exact "## The base" heading. Renaming it would
+      # otherwise empty this section silently while the hook still blocked.
+      echo "Could not extract the base rules from $SKILL_PATH."
+      echo "Check that the '## The base' heading still exists. Invoke the writing-voice"
+      echo "skill directly and apply it to this content, then retry."
+    else
+      echo "Invoke the writing-voice skill and apply it to this content, then retry."
     fi
     echo ""
     echo "The scan above only catches word choice. Also check what it cannot see:"
