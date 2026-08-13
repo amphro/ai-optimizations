@@ -30,6 +30,8 @@ For each candidate, check `~/.claude/skills/*/SKILL.md` for overlap with an exis
 
 For each finding, show the line(s) in question, which pass flagged it, and the proposed fix: delete, move to a doc, move to a hook, fold into skill X, or create new skill Y. Don't edit anything yet.
 
+Invoke the `writing-voice` skill and apply it to anything you write here: a new SKILL.md, an appended research entry, or replacement CLAUDE.md lines. For the CLAUDE.md lines, `claudemd-conventions` governs what earns a place and `writing-voice` governs how it reads.
+
 If the user approves a fix, apply exactly that one. A new skill goes directly under `~/.claude/skills/` unless the project being audited has its own `.claude/skills/` convention and the content is specific to that project.
 
 If you know where the `ai-optimizations` repo (the source of this skill) is checked out and the finding is a genuinely new skill-authoring pattern, append it to that repo's `research/skill-authoring-best-practices.md` log section. Otherwise just note the finding in the report; don't go looking for that repo.

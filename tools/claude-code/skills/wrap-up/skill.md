@@ -77,6 +77,8 @@ For each item found:
 
 Both steps are required. A file with no index entry won't be surfaced next session.
 
+Invoke the `writing-voice` skill and apply it to the memory entries before writing them. Memory files are read back into context in later sessions, so whatever style they carry gets copied forward.
+
 ## Step 5: Persist skill candidates
 
 Invoke `mine-session-skills` to scan the session for anything worth turning into a skill. Let it propose candidates, and don't build anything without the user approving.

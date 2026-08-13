@@ -26,7 +26,9 @@ Present each candidate: what it would do, the trigger phrases that would fire it
 
 ## Step 4: Build what's approved
 
-For each approved candidate, write or update the SKILL.md directly under `~/.claude/skills/`. Match the style of whatever skills are already installed there (or, if you know where the `ai-optimizations` repo is checked out, follow its `research/skill-authoring-best-practices.md` and existing skills as the reference: numbered Step sections, name+description-only frontmatter, ends in a Report step, no em dashes).
+For each approved candidate, write or update the SKILL.md directly under `~/.claude/skills/`. Match the style of whatever skills are already installed there (or, if you know where the `ai-optimizations` repo is checked out, follow its `research/skill-authoring-best-practices.md` and existing skills as the reference: numbered Step sections, name+description-only frontmatter, ends in a Report step).
+
+Invoke the `writing-voice` skill and apply it to the SKILL.md prose before writing it. A skill file is instructions another agent reads and imitates, so a style problem in it propagates to everything that skill later produces.
 
 ## Step 5: Report and log
 
