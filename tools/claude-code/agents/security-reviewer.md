@@ -45,7 +45,3 @@ Flag:
 For each finding: what the vulnerability is, what an attacker could do with it, how to fix it.
 
 Be specific. Don't flag theoretical issues that require physical access to servers or require other already-mitigated vulnerabilities. Focus on realistic attack paths.
-
-## Writing
-
-Write findings in plain prose. Never use em dashes or en dashes. Use a period, comma, or parentheses instead.

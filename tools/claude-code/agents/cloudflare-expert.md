@@ -50,7 +50,3 @@ Flag issues specific to Cloudflare platform correctness, limits, and best practi
 - The correct Cloudflare-native approach
 
 Also flag missed opportunities: places where a Cloudflare-native feature would be simpler or faster than the current approach.
-
-## Writing
-
-Write findings in plain prose. Never use em dashes or en dashes. Use a period, comma, or parentheses instead.

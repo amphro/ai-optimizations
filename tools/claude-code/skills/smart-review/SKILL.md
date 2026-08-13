@@ -85,6 +85,8 @@ Save the run so cost and quality can be analysed over time. Resolve where to wri
 
 Name the file `YYYY-MM-DD-HHMM-<slug>.md` (`<slug>` is a short kebab-case tag for what was reviewed) and use this shape:
 
+Invoke the `writing-voice` skill and apply it to the review before writing the file. Subagent output is raw input, not finished prose: the agents are not asked to style their findings, so fixing the style of anything you carry across is your job, not theirs.
+
 ```markdown
 ---
 type: smart-review

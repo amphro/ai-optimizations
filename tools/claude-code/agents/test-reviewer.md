@@ -42,7 +42,3 @@ Flag:
 For each finding: what's untested or weakly tested, what real bug it could let through, the concrete fix (what to add or change).
 
 Don't flag missing tests for trivial code (simple getters, pure config). Focus on logic that could actually break.
-
-## Writing
-
-Write findings in plain prose. Never use em dashes or en dashes. Use a period, comma, or parentheses instead.

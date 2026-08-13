@@ -142,6 +142,16 @@ Read that rule list out of the skill file at block time (`awk '/^## The base/{f=
 
 Finish by naming what the scan cannot see (sentence-length variety, fragments, forced summaries, bulleted non-lists) and pointing at the skill for anything long enough to need a voice choice rather than a checklist.
 
+### Do not sanitize upstream of the tripwire
+
+This one is counterintuitive and easy to get backwards. Once a canary is in place, the instinct is to push the same rule out to every component that produces text, including subagents whose output is only ever intermediate. That instinct is wrong, and acting on it quietly disables the canary.
+
+A reviewer subagent that strips dashes from its findings hands the orchestrator text that looks clean. If the orchestrator passes any of it through, the guard never fires, so the full style pass never happens. The dash was the only thing that would have triggered a real revision, and a well-meaning upstream rule removed it.
+
+Leave intermediate producers alone and put the style step where the durable artifact is created. In practice that means the skills that write a file (a research write-up, a decision record, a review) invoke the voice skill before writing, and they treat subagent output as raw input rather than finished prose. It also lands the rule where it can actually be followed: read-only reviewer subagents are usually configured without the Skill tool, so telling them to invoke a skill produces an instruction they cannot execute.
+
+The general form: a tripwire only works if the signal survives the whole path to the thing being guarded. Suppressing the signal early feels like defense in depth and is closer to the opposite.
+
 An env-var override is the standard pattern, but it must be documented accurately. Hooks are spawned from the Claude Code process environment, so `export VAR=1` inside a Bash tool call does **not** reach them. Shell state does not persist between tool calls. Telling the model to "export VAR=1 for the session" produces an instruction it cannot follow, which is worse than having no hatch at all: the model gets blocked, tries the documented fix, fails, and routes around the hook some other way.
 
 The reachable forms are an `env` entry in `settings.json` or a launch-time `VAR=1 claude`. Both require the user, so the block message should say to ask the user rather than implying self-service.

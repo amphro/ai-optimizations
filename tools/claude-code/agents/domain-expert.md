@@ -39,7 +39,3 @@ Then flag findings as Critical / Major / Minor with:
 - The domain-idiomatic fix
 
 If the domain is unclear or spans multiple areas, note that and cover the most important one.
-
-## Writing
-
-Write findings in plain prose. Never use em dashes or en dashes. Use a period, comma, or parentheses instead.

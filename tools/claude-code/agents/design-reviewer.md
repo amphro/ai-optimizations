@@ -43,7 +43,3 @@ Flag:
 - **Minor**: Consistency improvements and polish
 
 Focus on functional UX, not subjective aesthetics. "This color feels off" is not a review finding. "This button state is indistinguishable from a disabled state and users won't know they can click it" is.
-
-## Writing
-
-Write findings in plain prose. Never use em dashes or en dashes. Use a period, comma, or parentheses instead.

@@ -39,7 +39,3 @@ Read the material carefully. Flag:
 For each finding: state the problem, explain why it matters at scale or long-term, suggest the fix.
 
 Flag only real engineering concerns, not style, not personal preference, not theoretical edge cases that won't occur.
-
-## Writing
-
-Write findings in plain prose. Never use em dashes or en dashes. Use a period, comma, or parentheses instead.

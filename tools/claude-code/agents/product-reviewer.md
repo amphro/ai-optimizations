@@ -42,7 +42,3 @@ Flag:
 - **Minor**: Improvements that would meaningfully help users
 
 Be direct. If the design has a product flaw, say so clearly and explain what the correct approach is.
-
-## Writing
-
-Write findings in plain prose. Never use em dashes or en dashes. Use a period, comma, or parentheses instead.
