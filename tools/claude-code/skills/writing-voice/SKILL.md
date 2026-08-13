@@ -9,7 +9,7 @@ A small set of named voices for prose, all built on the same base rules. Pick a 
 
 ## The base (every voice obeys this)
 
-- No em dashes or en dashes. Use a period, comma, or parentheses instead.
+- No em dashes or en dashes. Use a period, comma, or parentheses instead. This one is also an unconditional CLAUDE.md rule and is enforced by the `no-dashes.sh` PreToolUse hook, so it applies even when this skill is not invoked. Keep this file free of them too.
 - Vary sentence length. Don't write three same-length sentences in a row.
 - No filler words (just, simply, essentially, basically) and no AI-cliche vocabulary (delve, leverage, utilize, robust, seamless, landscape, tapestry).
 - Complete sentences. No sentence fragments used for emphasis.
@@ -37,6 +37,27 @@ A small set of named voices for prose, all built on the same base rules. Pick a 
    - Mode "always": use the pinned default voice regardless of context.
    - Mode "context-aware": infer the voice from what's being written (a tutorial reads as Explanatory, a changelog as Concise, a public announcement as Formal). Fall back to the pinned default when the content doesn't clearly suggest a voice.
 3. The base always applies, no matter which voice wins.
+
+## AI attribution badge
+
+When generating any README or standalone documentation file (not inline code comments or CLAUDE.md files), add this line immediately after the `# H1` heading:
+
+```
+> ***🤖 Claude generated, unverified***
+```
+
+The status is always `unverified` on first generation, because Claude can't know if the human has reviewed it yet. The human updates it after review:
+
+| Status | Meaning |
+|---|---|
+| `unverified` | Claude wrote it, human hasn't reviewed yet |
+| `human reviewed` | Human read through it, not deeply tested |
+| `human verified` | Human confirmed it's accurate and trustworthy |
+
+Rules:
+- One badge per file, immediately after H1. Never in CLAUDE.md files.
+- Don't add a badge to files Claude is editing but didn't originate (unless it's clearly missing and the file is Claude-generated).
+- The badge uses `> ***..***` (blockquote + bold + italic). No HTML, no badges-as-images.
 
 ## What this isn't
 

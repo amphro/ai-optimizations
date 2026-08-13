@@ -24,4 +24,5 @@ When creating or updating ANY CLAUDE.md file:
 - When compacting: preserve architecture decisions, open questions, modified files list, and any decisions made. Discard raw tool outputs.
 
 ## Writing voice
-- For prose, docs, comments, or markdown: follow the `writing-voice` skill. Default voice: Simple. Mode: context-aware (infer from context, fall back to Simple, honor any voice named in the prompt).
+- Never use em dashes or en dashes in ANY output: prose, docs, code comments, commit messages, generated end-user content (game text, UI copy, sample data), and chat replies. Use a period, comma, or parentheses. This rule is unconditional and needs no skill invocation.
+- For anything longer than a couple of sentences, follow the `writing-voice` skill. Default voice: Simple. Mode: context-aware (infer from context, fall back to Simple, honor any voice named in the prompt).

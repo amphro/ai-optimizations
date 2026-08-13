@@ -16,7 +16,7 @@ git status --short
 git log @{u}.. --oneline 2>/dev/null || echo "(no upstream tracking)"
 ```
 
-Record the current branch name — you will return to it at the end.
+Record the current branch name. You will return to it at the end.
 
 If there is uncommitted or unstaged work:
 - **Stop here.** Do not proceed to Step 2 until the tree is clean.
@@ -62,7 +62,7 @@ Report:
 - Any PRs open and awaiting review
 - Whether any PRs have branches that were never pushed (cross-check against Step 1's unpushed check)
 
-Do not take action — just surface what's open so nothing gets forgotten.
+Do not take action. Only surface what's open so nothing gets forgotten.
 
 ## Step 4: Scan for memory-worthy items
 
@@ -75,15 +75,15 @@ For each item found:
 1. Write a new file under `~/.claude/projects/*/memory/` (match the naming convention of existing files there)
 2. Add a one-line entry to `MEMORY.md` in that same directory pointing to the new file
 
-Both steps are required — a file with no index entry won't be surfaced next session.
+Both steps are required. A file with no index entry won't be surfaced next session.
 
 ## Step 5: Persist skill candidates
 
-Invoke `mine-session-skills` to scan the session for anything worth turning into a skill. Let it propose candidates — don't build anything without the user approving.
+Invoke `mine-session-skills` to scan the session for anything worth turning into a skill. Let it propose candidates, and don't build anything without the user approving.
 
 Once candidates are proposed, write a brief memory note listing them (file name: `skill-candidates-<date>.md`, one entry in MEMORY.md). This survives `/clear` and gives the next session a starting point. Without this, any proposals are lost the moment the user clears context.
 
-Note to mine-session-skills: memory items already saved in Step 4 are settled — don't re-propose them as skill candidates.
+Note to mine-session-skills: memory items already saved in Step 4 are settled, so don't re-propose them as skill candidates.
 
 ## Step 6: Report
 
@@ -96,4 +96,4 @@ Summarize what was found and what was done:
 - **Memory saved**: list items written, or none
 - **Skill candidates**: list proposed, or none
 
-Keep it short. The user is closing out — do not introduce new work.
+Keep it short. The user is closing out, so do not introduce new work.

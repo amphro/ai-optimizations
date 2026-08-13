@@ -14,7 +14,7 @@ Read the current file(s), diff, or document being reviewed. Identify:
 - **Tech domains**: Cloudflare (Workers/Pages/KV/R2/D1/DO/Zero Trust), auth, storage, infrastructure, frontend, backend, database, security, performance
 - **Scope**: new feature, refactor, migration, greenfield design, review of existing
 
-## Step 2: Select reviewers (max 3 — keep cost manageable)
+## Step 2: Select reviewers (max 3, keep cost manageable)
 
 Use this decision table:
 
@@ -36,7 +36,7 @@ Always include `staff-engineer` unless domain coverage makes it redundant.
 
 ## Step 3: Choose the model
 
-The reviewer agents carry their own default model, but pass an explicit `model` on each Agent call to control cost — a per-spawn `model` overrides the agent's frontmatter default. Default to `sonnet`; only deviate when the material clearly warrants it:
+The reviewer agents carry their own default model, but pass an explicit `model` on each Agent call to control cost. A per-spawn `model` overrides the agent's frontmatter default. Default to `sonnet`; only deviate when the material clearly warrants it:
 
 | Review complexity | Model | When |
 |---|---|---|
@@ -51,7 +51,7 @@ Judge complexity from the material, not the persona. Pick one model for the run 
 Tell each subagent:
 - What they are reviewing (the file path or pasted content)
 - Their specific reviewer persona and focus
-- To flag only issues that affect correctness, completeness, or safety — not style preferences
+- To flag only issues that affect correctness, completeness, or safety, not style preferences
 - To produce specific, actionable findings with line references where possible
 
 Spawn all selected reviewers simultaneously using the Agent tool, each with the model from Step 3.
@@ -61,26 +61,26 @@ Spawn all selected reviewers simultaneously using the Agent tool, each with the 
 After all reviewers report back, produce a unified review:
 
 ### Critical Issues
-(Any reviewer flagged these — must address before shipping)
+(Any reviewer flagged these, must address before shipping)
 
 ### Agreement Across Reviewers
-(Multiple reviewers raised the same concern — highest confidence)
+(Multiple reviewers raised the same concern, highest confidence)
 
 ### Divergent Perspectives
-(Reviewers disagreed — explain the tradeoff and recommend)
+(Reviewers disagreed, explain the tradeoff and recommend)
 
 ### Prioritized Action List
 Numbered, most important first. Each item: what to fix, why it matters, which reviewer(s) raised it.
 
 ### What Looks Good
-Brief note on strengths — helps the author know what to keep.
+Brief note on strengths, which helps the author know what to keep.
 
 ## Step 6: Store the review
 
 Save the run so cost and quality can be analysed over time. Resolve where to write it, in this order:
 
 1. If the project's CLAUDE.md (or AGENTS.md) names a place for reviews, use that.
-2. Else if a conventional reviews folder already exists — `reviews/` or `docs/reviews/` — write there.
+2. Else if a conventional reviews folder already exists (`reviews/` or `docs/reviews/`), write there.
 3. Else ask the user where to store it: a checked-in folder (offer to create `reviews/`) or gitignored `.claude-logs/reviews/`. If you cannot ask, default to `.claude-logs/reviews/`.
 
 Name the file `YYYY-MM-DD-HHMM-<slug>.md` (`<slug>` is a short kebab-case tag for what was reviewed) and use this shape:

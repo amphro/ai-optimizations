@@ -103,7 +103,7 @@ async function main() {
     page.on('requestfailed', (req) => {
       const f = req.failure();
       if (!f || !f.errorText) return;
-      const line = `${req.method()} ${req.url()} — ${f.errorText}`;
+      const line = `${req.method()} ${req.url()}: ${f.errorText}`;
       // ERR_ABORTED is often an intentional cancel, but can also be a CSP or
       // mixed-content block, so surface it separately instead of dropping it.
       if (/ERR_ABORTED/.test(f.errorText)) abortedRequests.push(line);
@@ -203,7 +203,7 @@ async function main() {
     dedupe(failedRequests).length === 0 && dedupe(ownBadResponses).length === 0 &&
     !waitError;
   out.push('');
-  out.push(`RESULT: ${clean ? 'CLEAN — no own-origin errors detected' : navFailed ? 'PAGE FAILED TO LOAD (see NAV ERROR)' : 'ISSUES FOUND (see above)'}`);
+  out.push(`RESULT: ${clean ? 'CLEAN: no own-origin errors detected' : navFailed ? 'PAGE FAILED TO LOAD (see NAV ERROR)' : 'ISSUES FOUND (see above)'}`);
 
   // exitCode + return (not process.exit) so a large report fully flushes to a pipe.
   console.log(out.join('\n'));
