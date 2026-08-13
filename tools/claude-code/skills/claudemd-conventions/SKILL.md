@@ -23,7 +23,7 @@ Only include things Claude cannot correctly infer from reading the code:
 - Anything derivable by reading the code or project structure
 - Long explanations, tutorials, or rationale (write a doc instead)
 - File-by-file descriptions of the codebase
-- Things that must always happen — use hooks instead (hooks are deterministic, CLAUDE.md is ~80% adherence)
+- Things that must always happen, use hooks instead (hooks are deterministic, CLAUDE.md is ~80% adherence)
 - Information that changes frequently
 
 ## Format
@@ -33,7 +33,7 @@ Only include things Claude cannot correctly infer from reading the code:
 - Each rule should be one line if possible
 
 ## The test
-Before adding any line, ask: "Would removing this cause Claude to make a mistake on this project specifically?" If no — cut it. If the answer is "maybe" — it's probably already a standard convention. Cut it.
+Before adding any line, ask: "Would removing this cause Claude to make a mistake on this project specifically?" If no, cut it. If the answer is "maybe", it's probably already a standard convention. Cut it.
 
 ## After writing
 Count the lines. If over 40 lines for a project CLAUDE.md, review every line with the test above and prune.

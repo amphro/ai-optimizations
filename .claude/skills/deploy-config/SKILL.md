@@ -47,6 +47,12 @@ Apply missing additions, the merges from step 2, and whatever the user decided i
 
 Show a summary table: created / merged / skipped (identical) / skipped (user chose to keep local) per file. Then show the final contents of `~/.claude/settings.json` and `~/.claude/CLAUDE.md` so the user can verify at a glance.
 
+## Opt-in hooks are a permanent, expected conflict
+
+Some hooks ship as files but are deliberately not registered in `user-settings.json`, because they are opinionated rather than protective. `writing-voice-guard.sh` is the current example.
+
+If the user has opted in locally, the `hooks` key exists in both the template and `~/.claude/settings.json` with different values, so step 2 classifies it as conflicting on every single run. That is correct behavior, not a merge bug. Surface it, let the user keep their local version, and do not try to make it stop recurring by copying their registration back into the template. The template stays minimal on purpose.
+
 ## Idempotency
 
 Running this skill twice in a row with no template changes in between should report everything as "identical, skipped" the second time and write nothing. If it doesn't, something in the merge logic is wrong.

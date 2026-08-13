@@ -57,6 +57,8 @@ If Step 1 flagged prior-domain history, expect this report to include legacy URL
 
 **Owner-facing content-proposal doc:** a table with one row per proposed change, columns `element / current / proposed / why / target query`. Write it for a non-technical owner who needs to approve copy changes, not for another engineer. Keep the "why" column concrete and tied back to Step 3's keyword map or a specific technical finding, not generic SEO advice.
 
+Invoke the `writing-voice` skill and apply it to both deliverables before writing them. The owner-facing doc goes to someone outside engineering, so the Simple voice fits unless the user names another.
+
 ## Step 7: Report
 
 Summarize: what's already fixed vs what's outstanding, the index-state finding from Step 5 (including any legacy-domain cleanup needed), the crawler-bot policy decided in Step 4 and where it needs to be applied (repo file vs CDN toggle), and where the two deliverables from Step 6 live. Call out anything that needs the site owner's decision (copy changes, a bot-policy toggle only they can flip, budget for a paid keyword tool) rather than treating it as done.

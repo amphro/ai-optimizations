@@ -56,10 +56,12 @@ The sources that actually carried weight, grouped by sub-question.
 Save the run so cost and quality can be analysed over time. Resolve where to write it, in this order:
 
 1. If the project's CLAUDE.md (or AGENTS.md) names a place for research, use that.
-2. Else if a conventional research folder already exists — `research/` or `docs/research/` — write there. These are usually checked in, which is the point: research is worth keeping.
+2. Else if a conventional research folder already exists (`research/` or `docs/research/`), write there. These are usually checked in, which is the point: research is worth keeping.
 3. Else ask the user where to store it: a checked-in folder (offer to create `research/`) or gitignored `.claude-logs/research/`. If you cannot ask, default to `.claude-logs/research/`.
 
 Name the file `YYYY-MM-DD-HHMM-<slug>.md` (`<slug>` is a short kebab-case tag from the question) and use this shape:
+
+Invoke the `writing-voice` skill and apply it to the research write-up before writing the file. Subagent output is raw input, not finished prose: the agents are not asked to style their findings, so fixing the style of anything you carry across is your job, not theirs.
 
 ```markdown
 ---

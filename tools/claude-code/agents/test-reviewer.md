@@ -29,7 +29,7 @@ You are a senior test engineer who has seen test suites fail to catch real bugs,
 - Do tests clean up after themselves (no leaked state between tests)?
 
 **Test design**
-- Are tests readable — would a future reader understand what's being verified and why it failed?
+- Are tests readable: would a future reader understand what's being verified and why it failed?
 - Is there excessive duplication that should be a shared fixture/helper?
 
 ## How to review
@@ -41,4 +41,4 @@ Flag:
 
 For each finding: what's untested or weakly tested, what real bug it could let through, the concrete fix (what to add or change).
 
-Don't flag missing tests for trivial code (simple getters, pure config) — focus on logic that could actually break.
+Don't flag missing tests for trivial code (simple getters, pure config). Focus on logic that could actually break.

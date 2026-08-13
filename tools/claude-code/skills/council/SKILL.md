@@ -1,6 +1,6 @@
 ---
 name: council
-description: Run the AI Council on an idea, decision, or plan. Five adversarial personas evaluate in parallel, then a Chairman synthesizes to one concrete verdict. Use for high-stakes decisions, strategy, or pressure-testing ideas — not for code review (use smart-review for that).
+description: Run the AI Council on an idea, decision, or plan. Five adversarial personas evaluate in parallel, then a Chairman synthesizes to one concrete verdict. Use for high-stakes decisions, strategy, or pressure-testing ideas, not for code review (use smart-review for that).
 ---
 
 # AI Council
@@ -32,7 +32,7 @@ Pick one model for the whole run unless the Chairman synthesis is clearly harder
 
 ## Step 4: Spawn the five advisors in parallel
 
-Use the Agent tool to spawn all five simultaneously, each with the model from Step 3. Each advisor runs in isolated context — no persona sees another's answer before responding. This isolation is intentional: it prevents anchoring and herding.
+Use the Agent tool to spawn all five simultaneously, each with the model from Step 3. Each advisor runs in isolated context, so no persona sees another's answer before responding. This isolation is intentional: it prevents anchoring and herding.
 
 Brief each agent with:
 - The question
@@ -42,27 +42,27 @@ Brief each agent with:
 
 ### Persona mandates
 
-**Contrarian** — "Your only job is to find where this breaks. List every reason this decision fails. Do not offer solutions — only failures. Identify at minimum 3 failure modes."
+**Contrarian**: "Your only job is to find where this breaks. List every reason this decision fails. Do not offer solutions, only failures. Identify at minimum 3 failure modes."
 
-**First Principles Thinker** — "Question whether we are solving the right problem. Strip every assumption. Rebuild from zero. What is the actual underlying problem, and is this the right solution to it?"
+**First Principles Thinker**: "Question whether we are solving the right problem. Strip every assumption. Rebuild from zero. What is the actual underlying problem, and is this the right solution to it?"
 
-**Expansionist** — "Find the hidden upside. What asymmetric outcome is possible if this succeeds beyond expectations? What are we underestimating? What adjacent opportunities does this open up?"
+**Expansionist**: "Find the hidden upside. What asymmetric outcome is possible if this succeeds beyond expectations? What are we underestimating? What adjacent opportunities does this open up?"
 
-**Outsider** — "You have no domain expertise. Ask the naive questions insiders stopped asking. What is obviously strange about this that an expert would rationalize away? What does everyone assume that might be wrong?"
+**Outsider**: "You have no domain expertise. Ask the naive questions insiders stopped asking. What is obviously strange about this that an expert would rationalize away? What does everyone assume that might be wrong?"
 
-**Executor** — "Convert everything to action. Ignore strategy. What happens Monday morning? Give week-one tasks only — specific, concrete, completable."
+**Executor**: "Convert everything to action. Ignore strategy. What happens Monday morning? Give week-one tasks only: specific, concrete, completable."
 
 ## Step 5: Chairman synthesis
 
 After all five advisors report, spawn the Chairman as a **separate Agent call with fresh context** (same model choice from Step 3). The Chairman receives all five advisor responses labeled by persona name, plus this mandate:
 
-"You are the Chairman. Five advisors have given their analysis. Your job is to synthesize — not average, not diplomacize.
+"You are the Chairman. Five advisors have given their analysis. Your job is to synthesize, not average, not diplomacize.
 
 Deliver exactly four things:
-1. **The Decision** — one concrete position on what to do (or not do). No 'it depends.' No 'consider both options.' Make a call.
-2. **The Biggest Risk** — the single thing most likely to cause failure across all advisor input.
-3. **The First Step** — what happens this week. One specific action, not a direction.
-4. **Where Advisors Disagreed** — note any genuine split and which position had stronger reasoning. If a lone dissent had a strong point, say so.
+1. **The Decision**: one concrete position on what to do (or not do). No 'it depends.' No 'consider both options.' Make a call.
+2. **The Biggest Risk**: the single thing most likely to cause failure across all advisor input.
+3. **The First Step**: what happens this week. One specific action, not a direction.
+4. **Where Advisors Disagreed**: note any genuine split and which position had stronger reasoning. If a lone dissent had a strong point, say so.
 
 'It depends' is a failure. Diplomatic non-answers are a failure. A position with a clear rationale, even if wrong, is better than a hedge."
 
@@ -98,10 +98,12 @@ Format the output as:
 Save the run so cost and quality can be analysed over time. Resolve where to write it, in this order:
 
 1. If the project's CLAUDE.md (or AGENTS.md) names a place for decisions, use that.
-2. Else if a conventional decisions folder already exists — `decisions/` or `docs/decisions/` (ADR-style) — write there.
+2. Else if a conventional decisions folder already exists (`decisions/` or `docs/decisions/`, ADR-style), write there.
 3. Else ask the user where to store it: a checked-in folder (offer to create `decisions/`) or gitignored `.claude-logs/council/`. If you cannot ask, default to `.claude-logs/council/`.
 
 Name the file `YYYY-MM-DD-HHMM-<slug>.md` (`<slug>` is a short kebab-case tag from the question) and use this shape:
+
+Invoke the `writing-voice` skill and apply it to the decision record before writing the file. Subagent output is raw input, not finished prose: the agents are not asked to style their findings, so fixing the style of anything you carry across is your job, not theirs.
 
 ```markdown
 ---
@@ -133,7 +135,7 @@ Do not invent a token or dollar figure. A spawned agent cannot read its own usag
 ## Notes
 
 - **Reserve for complex decisions.** The council is overkill for factual lookups, simple tasks, or anything with an obvious answer.
-- **The council doesn't decide — you do.** Treat this as structured input to your judgment, not an oracle.
+- **The council doesn't decide. You do.** Treat this as structured input to your judgment, not an oracle.
 - **Cost:** 6 subagent spawns (5 advisors + 1 chairman), on sonnet by default (see Step 3). Still a meaningful token cost. Worth it for high-stakes choices; not for casual questions. Every run is logged (see Step 7) for later cost/quality analysis.
-- **For code, docs, or implementation review**, use `smart-review` instead — it selects the right domain experts for technical work. Council is for ideas, strategy, and decisions.
+- **For code, docs, or implementation review**, use `smart-review` instead, since it selects the right domain experts for technical work. Council is for ideas, strategy, and decisions.
 - **Inspired by** Andrej Karpathy's `llm-council` project and community research. See `research/ai-council.md` for full background.
