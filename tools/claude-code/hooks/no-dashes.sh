@@ -61,17 +61,60 @@ new_dash_lines() {
   ' "$path" -
 }
 
+SKILL_PATH="$HOME/.claude/skills/writing-voice/SKILL.md"
+
+# Prints the skill's base rules verbatim. Read live rather than duplicated here,
+# so editing the skill changes what this hook teaches and the two cannot drift.
+base_rules() {
+  [ -f "$SKILL_PATH" ] || return
+  awk '/^## The base/ { f=1; next } /^## / { f=0 } f' "$SKILL_PATH" | sed '/^[[:space:]]*$/d'
+}
+
+# Secondary scan, reported but never the trigger. Word choice is the only part
+# of the base rules a regex can see, so a clean result here proves nothing.
+# Blocking on these directly would fire on legitimate code and technical prose.
+# "landscape" is in the skill's list but omitted here: it is too often literal
+# (competitive landscape, model landscape) to report without annoying noise.
+FLUFF='just|simply|essentially|basically|delve|delves|delving|leverage|leverages|leveraging|utilize|utilizes|utilizing|robust|seamless|tapestry|commence|demonstrate|additionally|furthermore|moreover|in short|overall'
+
+style_hits() {
+  # paste -sd ', ' would cycle the two delimiters and mangle the list, so join
+  # on a comma alone and add the spaces afterward.
+  echo "$1" | LC_ALL=C grep -oiwE "$FLUFF" 2>/dev/null | sort -uf | paste -sd, - | sed 's/,/, /g'
+}
+
 block() {
-  local offenders="$1" path="$2"
+  local offenders="$1" path="$2" content="$3" hits rules
+  hits=$(style_hits "$content")
+  rules=$(base_rules)
   {
-    echo "Blocked: this write introduces a banned character, $(name_dash "$offenders"). CLAUDE.md bans it in all output."
+    echo "Blocked: this write introduces a banned character, $(name_dash "$offenders")."
     echo ""
-    echo "Newly introduced line(s)${path:+ in $path}:"
+    echo "Treat the dash as a symptom, not the defect. It reliably means the writing-voice"
+    echo "base rules were not applied to this content. Revise the whole passage, not only"
+    echo "the flagged lines."
+    echo ""
+    echo "Newly introduced dash line(s)${path:+ in $path}:"
     echo "$offenders" | head -5
+    if [ -n "$hits" ]; then
+      echo ""
+      echo "Other base-rule violations found in this content:"
+      echo "  $hits"
+    fi
+    if [ -n "$rules" ]; then
+      echo ""
+      echo "Apply every one of these rules to the content, then retry the same tool call:"
+      echo "$rules"
+    fi
     echo ""
-    echo "Rewrite those lines using a period, comma, colon, or parentheses, then retry the same tool call."
+    echo "The scan above only catches word choice. Also check what it cannot see:"
+    echo "sentence-length variety, fragments used for emphasis, forced closing summaries,"
+    echo "and prose broken into bullets that is not really a list."
+    echo "For anything longer than a few paragraphs, invoke the writing-voice skill instead"
+    echo "of working from this list, since it also selects the right voice for the content."
+    echo ""
     echo "Do not substitute a hyphen where the sentence needs real punctuation."
-    echo "Pre-existing dashes already in the file are ignored, so only the lines above need changing."
+    echo "Pre-existing dashes already in the file are ignored."
     echo ""
     echo "If the dash is genuinely required (quoting a source, fixed data, a script that rewrites dashes),"
     echo "it cannot be waived mid-session. Ask the user to add \"CLAUDE_ALLOW_DASHES\": \"1\" to the env block"
@@ -110,6 +153,6 @@ esac
 [ -z "$CONTENT" ] && exit 0
 
 OFFENDERS=$(new_dash_lines "$CONTENT" "$FILE_PATH")
-[ -n "$OFFENDERS" ] && block "$OFFENDERS" "$FILE_PATH"
+[ -n "$OFFENDERS" ] && block "$OFFENDERS" "$FILE_PATH" "$CONTENT"
 
 exit 0

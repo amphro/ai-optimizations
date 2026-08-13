@@ -126,7 +126,21 @@ The payloads are not symmetric, and this matters:
 
 Get this wrong and rewriting any legacy file becomes impossible. The fix is to diff against what is already on disk: for `Write` on an existing file, drop every offending line that already exists verbatim in the file, and block only on what is genuinely new. Do that filtering in a single `awk` pass. A `grep` per offending line costs seconds on a large file, which is unacceptable for a hook that runs on every write (measured: 4.8s versus 0.04s on a 2000-line case).
 
-### The escape hatch has to be reachable
+### Treat the detectable violation as a canary
+
+The trap in mechanical enforcement is that it teaches the narrowest possible lesson. Block on a banned character and print "remove the character," and you get back content with that character removed and every other style problem intact. Filler words, AI cliche vocabulary, transition spam, and forced closing summaries all survive, because nothing asked about them.
+
+One character is a poor goal but an excellent signal. If a banned character appears, the style rules were almost certainly not applied at all. So the block message should ask for a full revision of the passage, not a character swap.
+
+What makes this affordable is that the message only renders on failure. Three things belong in it:
+
+1. The specific violation, with line numbers, so the mechanical part is unambiguous.
+2. A regex scan for the rest of the detectable rules, reported but never used as a trigger. Word choice is the only part a regex can see. Blocking on filler words directly would fire constantly on legitimate code and technical prose, so report and let the model judge.
+3. The full rule list, printed verbatim.
+
+Read that rule list out of the skill file at block time (`awk '/^## The base/{f=1;next} /^## /{f=0} f'`) rather than duplicating it in the hook. The skill stays the single source of truth, and editing it changes what the hook teaches. A hook with its own hardcoded copy of the rules drifts from the skill within a few edits, and then the two disagree about the style.
+
+Finish by naming what the scan cannot see (sentence-length variety, fragments, forced summaries, bulleted non-lists) and pointing at the skill for anything long enough to need a voice choice rather than a checklist.
 
 An env-var override is the standard pattern, but it must be documented accurately. Hooks are spawned from the Claude Code process environment, so `export VAR=1` inside a Bash tool call does **not** reach them. Shell state does not persist between tool calls. Telling the model to "export VAR=1 for the session" produces an instruction it cannot follow, which is worse than having no hatch at all: the model gets blocked, tries the documented fix, fails, and routes around the hook some other way.
 

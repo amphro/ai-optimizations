@@ -9,7 +9,7 @@ A small set of named voices for prose, all built on the same base rules. Pick a 
 
 ## The base (every voice obeys this)
 
-- No em dashes or en dashes. Use a period, comma, or parentheses instead. This one is also an unconditional CLAUDE.md rule and is enforced by the `no-dashes.sh` PreToolUse hook, so it applies even when this skill is not invoked. Keep this file free of them too.
+- No em dashes or en dashes. Use a period, comma, or parentheses instead.
 - Vary sentence length. Don't write three same-length sentences in a row.
 - No filler words (just, simply, essentially, basically) and no AI-cliche vocabulary (delve, leverage, utilize, robust, seamless, landscape, tapestry).
 - Complete sentences. No sentence fragments used for emphasis.
@@ -19,6 +19,8 @@ A small set of named voices for prose, all built on the same base rules. Pick a 
 - Plain words over Latinate ones: use not utilize, start not commence, show not demonstrate.
 - Code comments only where the code can't explain itself. Keep them short.
 - READMEs and docs: small, organized, human-readable. Break up long paragraphs.
+
+The dash rule is also an unconditional CLAUDE.md rule, enforced by the `no-dashes.sh` PreToolUse hook, so it holds even when this skill is never invoked. When that hook fires it prints the base list above, read live from this file. Edit the list and the hook teaches the new version, so keep the rules here short and imperative.
 
 ## The voices
 
