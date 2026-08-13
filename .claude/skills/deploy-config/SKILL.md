@@ -49,7 +49,7 @@ Show a summary table: created / merged / skipped (identical) / skipped (user cho
 
 ## Opt-in hooks are a permanent, expected conflict
 
-Some hooks ship as files but are deliberately not registered in `user-settings.json`, because they are opinionated rather than protective. `no-dashes.sh` is the current example.
+Some hooks ship as files but are deliberately not registered in `user-settings.json`, because they are opinionated rather than protective. `writing-voice-guard.sh` is the current example.
 
 If the user has opted in locally, the `hooks` key exists in both the template and `~/.claude/settings.json` with different values, so step 2 classifies it as conflicting on every single run. That is correct behavior, not a merge bug. Surface it, let the user keep their local version, and do not try to make it stop recurring by copying their registration back into the template. The template stays minimal on purpose.
 

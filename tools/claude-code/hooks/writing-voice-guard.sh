@@ -1,7 +1,18 @@
 #!/bin/bash
-# PreToolUse hook: blocks writes that introduce an em dash, en dash, figure
-# dash, or horizontal bar. Enforces the unconditional no-dash rule in CLAUDE.md
-# without relying on the writing-voice skill being invoked.
+# PreToolUse hook: guards the writing-voice base style without depending on the
+# writing-voice skill being invoked, which it often is not when writing is a
+# byproduct of another task (game text, code comments, incidental docs).
+#
+# The trigger is narrow and the response is broad, on purpose. It blocks on a
+# dash character (em, en, figure, or horizontal bar) because that is one of the
+# few base rules a regex can detect with no false positives. A dash is a poor
+# goal but a reliable signal: if one appears, the style was almost certainly not
+# applied at all. So the block message asks for a full revision of the passage
+# and prints the base rules, read live from the skill file.
+#
+# It is therefore a tripwire, not a detector. Prose full of filler and cliche
+# vocabulary passes cleanly if it contains no dash. Do not read a pass as proof
+# the style was applied.
 #
 # Only NEWLY introduced dashes are blocked:
 #   Edit/MultiEdit  payload carries just new_string, so legacy content is unseen.
@@ -10,13 +21,13 @@
 # Without that filter, rewriting any legacy file would be impossible.
 #
 # To allow dashes on purpose, either add to the "env" block of settings.json:
-#   "CLAUDE_ALLOW_DASHES": "1"
+#   "WRITING_VOICE_GUARD_OFF": "1"
 # or start Claude Code with it set:
-#   CLAUDE_ALLOW_DASHES=1 claude
+#   WRITING_VOICE_GUARD_OFF=1 claude
 # An `export` inside a Bash tool call does NOT reach this hook. Hooks are
 # spawned from Claude Code's own environment, which that export never mutates.
 
-if [ "$CLAUDE_ALLOW_DASHES" = "1" ]; then
+if [ "$WRITING_VOICE_GUARD_OFF" = "1" ]; then
   exit 0
 fi
 
@@ -125,8 +136,8 @@ block() {
     echo "Pre-existing dashes already in the file are ignored."
     echo ""
     echo "If the dash is genuinely required (quoting a source, fixed data, a script that rewrites dashes),"
-    echo "it cannot be waived mid-session. Ask the user to add \"CLAUDE_ALLOW_DASHES\": \"1\" to the env block"
-    echo "of ~/.claude/settings.json, or to relaunch with: CLAUDE_ALLOW_DASHES=1 claude"
+    echo "it cannot be waived mid-session. Ask the user to add \"WRITING_VOICE_GUARD_OFF\": \"1\" to the env block"
+    echo "of ~/.claude/settings.json, or to relaunch with: WRITING_VOICE_GUARD_OFF=1 claude"
   } >&2
   exit 2
 }

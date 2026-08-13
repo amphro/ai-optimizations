@@ -146,7 +146,7 @@ An env-var override is the standard pattern, but it must be documented accuratel
 
 The reachable forms are an `env` entry in `settings.json` or a launch-time `VAR=1 claude`. Both require the user, so the block message should say to ask the user rather than implying self-service.
 
-Implementation notes from `tools/claude-code/hooks/no-dashes.sh`:
+Implementation notes from `tools/claude-code/hooks/writing-voice-guard.sh`:
 
 - macOS ships bash 3.2, which has no `$'\uXXXX'` escape. Build the pattern with `printf '\xe2\x80[\x92-\x95]'` and match under `LC_ALL=C` so the range is byte-wise.
 - That single range covers U+2012 figure dash through U+2015 horizontal bar, which includes both en dash and em dash.

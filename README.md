@@ -38,9 +38,9 @@ Figuring out the best Claude Code setup takes real research, and that research h
 |---|---|
 | `protect-secrets.sh` | Blocks reads and writes of `.env`, SSH keys, AWS credentials, and `.pem` files, including via Bash |
 | `session-start-context.sh` | Injects current git branch and status at session start |
-| `no-dashes.sh` | **Opt-in, not registered by default.** Blocks writes that introduce an em or en dash, and uses that as the trigger to make Claude re-apply the whole `writing-voice` base style |
+| `writing-voice-guard.sh` | **Opt-in, not registered by default.** Blocks writes that introduce an em or en dash, and uses that as the trigger to make Claude re-apply the whole `writing-voice` base style |
 
-The first two are registered in `user-settings.json` because nearly everyone wants them. `no-dashes.sh` is not, because it blocks writes over a style opinion rather than a safety issue. It also only ever blocks *newly introduced* dashes, so editing a legacy file full of them is fine.
+The first two are registered in `user-settings.json` because nearly everyone wants them. `writing-voice-guard.sh` is not, because it blocks writes over a style opinion rather than a safety issue. It also only ever blocks *newly introduced* dashes, so editing a legacy file full of them is fine.
 
 To turn it on, add this to the `PreToolUse` array in your `~/.claude/settings.json`:
 
@@ -48,12 +48,12 @@ To turn it on, add this to the `PreToolUse` array in your `~/.claude/settings.js
 {
   "matcher": "Edit|Write|MultiEdit|Bash",
   "hooks": [
-    { "type": "command", "command": "~/.claude/hooks/no-dashes.sh" }
+    { "type": "command", "command": "~/.claude/hooks/writing-voice-guard.sh" }
   ]
 }
 ```
 
-To turn it off again without unregistering it, set `"CLAUDE_ALLOW_DASHES": "1"` in the `env` block of the same file. Note that an `export` inside a session does not reach it, since hooks are spawned from Claude Code's own environment.
+To turn it off again without unregistering it, set `"WRITING_VOICE_GUARD_OFF": "1"` in the `env` block of the same file. Note that an `export` inside a session does not reach it, since hooks are spawned from Claude Code's own environment.
 
 The banned characters are hardcoded, but the pattern generalizes. Any rule you can detect mechanically can work the same way: block on the detectable violation, then use the block message to ask for a full style pass rather than a one-character fix. `research/prose-linting.md` covers the reasoning and the tradeoffs.
 

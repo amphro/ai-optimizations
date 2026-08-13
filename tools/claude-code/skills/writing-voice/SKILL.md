@@ -20,7 +20,7 @@ A small set of named voices for prose, all built on the same base rules. Pick a 
 - Code comments only where the code can't explain itself. Keep them short.
 - READMEs and docs: small, organized, human-readable. Break up long paragraphs.
 
-The dash rule is also an unconditional CLAUDE.md rule, enforced by the `no-dashes.sh` PreToolUse hook, so it holds even when this skill is never invoked. When that hook fires it prints the base list above, read live from this file. Edit the list and the hook teaches the new version, so keep the rules here short and imperative.
+The dash rule is also an unconditional CLAUDE.md rule, enforced by the `writing-voice-guard.sh` PreToolUse hook, so it holds even when this skill is never invoked. When that hook fires it prints the base list above, read live from this file. Edit the list and the hook teaches the new version, so keep the rules here short and imperative.
 
 ## The voices
 
