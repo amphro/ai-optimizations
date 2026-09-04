@@ -55,6 +55,8 @@ To turn it on, add this to the `PreToolUse` array in your `~/.claude/settings.js
 
 To turn it off again without unregistering it, set `"WRITING_VOICE_GUARD_OFF": "1"` in the `env` block of the same file. Note that an `export` inside a session does not reach it, since hooks are spawned from Claude Code's own environment.
 
+To allow dashes only under specific paths, such as a raw cache of externally sourced content that must stay byte-for-byte faithful, set `"WRITING_VOICE_GUARD_ALLOW_PATHS"` to a colon-separated list of glob patterns instead, in a project's own `.claude/settings.json` so the exemption stays scoped to that project (e.g. `"*/pulled/raw/*"`).
+
 The banned characters are hardcoded, but the pattern generalizes. Any rule you can detect mechanically can work the same way: block on the detectable violation, then use the block message to ask for a full style pass rather than a one-character fix. `research/prose-linting.md` covers the reasoning and the tradeoffs.
 
 **Subagents:** staff engineer, security, product, design, test quality, Cloudflare specialist, generic domain expert.

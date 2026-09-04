@@ -20,12 +20,18 @@
 #                   exist verbatim in the file on disk are filtered out first.
 # Without that filter, rewriting any legacy file would be impossible.
 #
-# To allow dashes on purpose, either add to the "env" block of settings.json:
+# To allow dashes everywhere, either add to the "env" block of settings.json:
 #   "WRITING_VOICE_GUARD_OFF": "1"
 # or start Claude Code with it set:
 #   WRITING_VOICE_GUARD_OFF=1 claude
 # An `export` inside a Bash tool call does NOT reach this hook. Hooks are
 # spawned from Claude Code's own environment, which that export never mutates.
+#
+# To allow dashes only under specific paths (e.g. a raw cache of externally
+# sourced content that must stay byte-for-byte faithful), set, in a project's
+# own .claude/settings.json so the exemption stays scoped to that project:
+#   "WRITING_VOICE_GUARD_ALLOW_PATHS": "*/pulled/raw/*:*/some/other/dir/*"
+# Colon-separated shell glob patterns, matched against the full file path.
 
 if [ "$WRITING_VOICE_GUARD_OFF" = "1" ]; then
   exit 0
@@ -143,6 +149,15 @@ block() {
 }
 
 FILE_PATH=$(echo "$input" | jq -r '.tool_input.file_path // empty')
+
+if [ -n "$FILE_PATH" ] && [ -n "$WRITING_VOICE_GUARD_ALLOW_PATHS" ]; then
+  IFS=':' read -ra ALLOW_PATTERNS <<< "$WRITING_VOICE_GUARD_ALLOW_PATHS"
+  for pattern in "${ALLOW_PATTERNS[@]}"; do
+    case "$FILE_PATH" in
+      $pattern) exit 0 ;;
+    esac
+  done
+fi
 
 case "$TOOL" in
   Write)
